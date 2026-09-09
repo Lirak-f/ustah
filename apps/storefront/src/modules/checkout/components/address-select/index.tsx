@@ -38,7 +38,7 @@ const AddressSelect = ({
     <Listbox onChange={handleSelect} value={selectedAddress?.id}>
       <div className="relative">
         <Listbox.Button
-          className="relative w-full flex justify-between items-center px-4 py-[10px] text-left bg-white cursor-default focus:outline-hidden border rounded-rounded focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-gray-300 focus-visible:ring-offset-2 focus-visible:border-gray-300 text-base-regular"
+          className="relative flex w-full cursor-default items-center justify-between rounded-rounded border bg-white px-4 py-[10px] text-left text-base-regular focus:outline-hidden focus-visible:border-gray-300 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-300"
           data-testid="shipping-address-select"
         >
           {({ open }) => (
@@ -63,7 +63,7 @@ const AddressSelect = ({
           leaveTo="opacity-0"
         >
           <Listbox.Options
-            className="absolute z-20 w-full overflow-auto text-small-regular bg-white border border-top-0 max-h-60 focus:outline-hidden sm:text-sm"
+            className="absolute z-20 max-h-60 w-full overflow-auto border border-t-0 bg-white text-small-regular focus:outline-hidden sm:text-sm"
             data-testid="shipping-address-options"
           >
             {addresses.map((address) => {
@@ -71,10 +71,10 @@ const AddressSelect = ({
                 <Listbox.Option
                   key={address.id}
                   value={address.id}
-                  className="cursor-default select-none relative pl-6 pr-10 hover:bg-gray-50 py-4"
+                  className="relative cursor-default py-4 pr-10 pl-6 select-none hover:bg-gray-50"
                   data-testid="shipping-address-option"
                 >
-                  <div className="flex gap-x-4 items-start">
+                  <div className="flex items-start gap-x-4">
                     <Radio
                       checked={selectedAddress?.id === address.id}
                       data-testid="shipping-address-radio"
@@ -88,7 +88,7 @@ const AddressSelect = ({
                           {address.company}
                         </span>
                       )}
-                      <div className="flex flex-col text-left text-base-regular mt-2">
+                      <div className="mt-2 flex flex-col text-left text-base-regular">
                         <span>
                           {address.address_1}
                           {address.address_2 && (

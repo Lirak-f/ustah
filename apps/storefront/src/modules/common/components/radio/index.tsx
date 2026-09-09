@@ -1,3 +1,20 @@
+/**
+ * Radio indicator for the checkout option lists (address, delivery, payment).
+ *
+ * Presentational only — the surrounding label or button owns the click, which
+ * is why this renders a `role="radio"` element that is not itself focusable
+ * beyond its parent's focus ring.
+ *
+ * The previous implementation leaned on Medusa preset utilities
+ * (`shadow-borders-strong-with-shadow`, `shadow-borders-interactive`,
+ * `shadow-details-contrast-on-bg-interactive`, `group-radix-state-checked:*`)
+ * that the v4 build does not generate — verified with a PostCSS probe. The
+ * checked state therefore produced no CSS at all and the control never looked
+ * selected. These are plain borders and token colours instead.
+ *
+ * A radio is the one place the zero-radius rule does not apply: a square
+ * "radio" reads as a checkbox, and the distinction carries the semantics.
+ */
 const Radio = ({
   checked,
   "data-testid": dataTestId,
@@ -6,27 +23,25 @@ const Radio = ({
   "data-testid"?: string
 }) => {
   return (
-    <>
-      <button
-        type="button"
-        role="radio"
-        aria-checked={checked}
-        data-state={checked ? "checked" : "unchecked"}
-        className="group relative flex h-5 w-5 items-center justify-center outline-hidden"
-        data-testid={dataTestId || "radio-button"}
+    <button
+      type="button"
+      role="radio"
+      aria-checked={checked}
+      data-state={checked ? "checked" : "unchecked"}
+      tabIndex={-1}
+      className="group relative flex size-5 items-center justify-center outline-hidden"
+      data-testid={dataTestId || "radio-button"}
+    >
+      <div
+        className={`flex size-[14px] items-center justify-center rounded-full border transition-colors ${
+          checked
+            ? "border-accent bg-accent"
+            : "border-border-strong bg-bg group-hover:border-accent"
+        }`}
       >
-        <div className="shadow-borders-base group-hover:shadow-borders-strong-with-shadow bg-ui-bg-base group-radix-state-checked:bg-ui-bg-interactive group-data-[state=checked]:shadow-borders-interactive group-focus:shadow-borders-interactive-with-focus! group-disabled:bg-ui-bg-disabled! group-disabled:shadow-borders-base! flex h-[14px] w-[14px] items-center justify-center rounded-full transition-all">
-          {checked && (
-            <span
-              data-state={checked ? "checked" : "unchecked"}
-              className="group flex items-center justify-center"
-            >
-              <div className="bg-ui-bg-base shadow-details-contrast-on-bg-interactive group-disabled:bg-ui-fg-disabled rounded-full group-disabled:shadow-none h-1.5 w-1.5"></div>
-            </span>
-          )}
-        </div>
-      </button>
-    </>
+        {checked && <div className="size-1.5 rounded-full bg-bg" />}
+      </div>
+    </button>
   )
 }
 
