@@ -17,9 +17,9 @@ const CheckboxWithLabel: React.FC<CheckboxProps> = ({
   "data-testid": dataTestId,
 }) => {
   return (
-    <div className="flex items-center space-x-2 ">
+    <div className="flex items-center space-x-2">
       <Checkbox
-        className="text-base-regular flex items-center gap-x-2"
+        className="flex items-center gap-x-2 text-small"
         id="checkbox"
         role="checkbox"
         checked={checked}
@@ -29,7 +29,7 @@ const CheckboxWithLabel: React.FC<CheckboxProps> = ({
         name={name}
         data-testid={dataTestId}
       />
-      <Label htmlFor="checkbox" className="transform-none! txt-medium!">
+      <Label htmlFor="checkbox" className="transform-none! text-small!">
         {label}
       </Label>
     </div>

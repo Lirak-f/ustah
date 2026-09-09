@@ -18,12 +18,13 @@ const nextConfig = {
       fullUrl: true,
     },
   },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
+  /*
+   * `eslint.ignoreDuringBuilds` and `typescript.ignoreBuildErrors` are
+   * deliberately NOT set. They were both on, which is how a React version
+   * mismatch reached production as an opaque minified error rather than a
+   * failed typecheck, and how a dozen classes that generate no CSS survived.
+   * Both gates are clean; keep them that way by leaving this out.
+   */
   images: {
     unoptimized: true,
     remotePatterns: [

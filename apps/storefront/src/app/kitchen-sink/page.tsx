@@ -24,11 +24,11 @@ function Section({
 }) {
   return (
     <section className="mb-9">
-      <h2 className="font-heading text-section-label uppercase text-muted mb-3">
+      <h2 className="mb-3 font-heading text-section-label text-muted uppercase">
         {title}
       </h2>
-      {note && <p className="text-xs text-muted mb-3 max-w-[70ch]">{note}</p>}
-      <div className="bg-bg border border-divider p-5">{children}</div>
+      {note && <p className="mb-3 max-w-[70ch] text-xs text-muted">{note}</p>}
+      <div className="border border-divider bg-bg p-5">{children}</div>
     </section>
   )
 }
@@ -40,8 +40,8 @@ function Swatch({ name, value }: { name: string; value: string }) {
         className="h-14 border border-divider"
         style={{ background: value }}
       />
-      <span className="text-xs mt-1 font-mono">{name}</span>
-      <span className="text-xs text-muted font-mono">{value}</span>
+      <span className="mt-1 font-mono text-xs">{name}</span>
+      <span className="font-mono text-xs text-muted">{value}</span>
     </div>
   )
 }
@@ -57,14 +57,14 @@ export default function KitchenSink() {
   const lek = price * commerce.lekPerEur
 
   return (
-    <div className="bg-page min-h-screen">
+    <div className="min-h-screen bg-page">
       <div className="mx-auto max-w-[1440px] p-7">
         <header className="mb-9">
           <div className="flex items-end gap-1">
             <span className="font-heading text-logo text-accent">USTAH</span>
-            <span className="block h-2.5 w-2.5 bg-yellow mb-[3px]" />
+            <span className="mb-[3px] block size-2.5 bg-yellow" />
           </div>
-          <p className="text-muted text-small mt-2">
+          <p className="mt-2 text-small text-muted">
             Kitchen sink — çdo element vizual nga design reference.
           </p>
         </header>
@@ -95,17 +95,17 @@ export default function KitchenSink() {
         >
           <div className="flex flex-col gap-4">
             <div>
-              <span className="text-xs text-muted font-mono">text-logo</span>
+              <span className="font-mono text-xs text-muted">text-logo</span>
               <div className="font-heading text-logo">
                 USTAH · Vegla elektrike
               </div>
             </div>
             <div>
-              <span className="text-xs text-muted font-mono">text-price</span>
+              <span className="font-mono text-xs text-muted">text-price</span>
               <div className="font-heading text-price">{eur(price)}</div>
             </div>
             <div>
-              <span className="text-xs text-muted font-mono">
+              <span className="font-mono text-xs text-muted">
                 text-card-title
               </span>
               <div className="font-heading text-card-title">
@@ -113,7 +113,7 @@ export default function KitchenSink() {
               </div>
             </div>
             <div>
-              <span className="text-xs text-muted font-mono">
+              <span className="font-mono text-xs text-muted">
                 text-nav (uppercase)
               </span>
               <div className="font-heading text-nav uppercase">
@@ -121,14 +121,14 @@ export default function KitchenSink() {
               </div>
             </div>
             <div>
-              <span className="text-xs text-muted font-mono">text-body</span>
-              <p className="text-body max-w-[70ch]">
+              <span className="font-mono text-xs text-muted">text-body</span>
+              <p className="max-w-[70ch] text-body">
                 Pagesa në dorëzim (cash) — pa pagesë online. Çmimet me TVSH 18%.
                 Faturë me TVSH për biznese me kërkesë. Dërgesa falas mbi 120 €.
               </p>
             </div>
             <div>
-              <span className="text-xs text-muted font-mono">
+              <span className="font-mono text-xs text-muted">
                 font-mono (SKU)
               </span>
               <div className="font-mono text-sku text-muted">
@@ -136,7 +136,7 @@ export default function KitchenSink() {
               </div>
             </div>
             <div className="border-t border-divider pt-3">
-              <span className="text-xs text-muted font-mono">
+              <span className="font-mono text-xs text-muted">
                 Albanian diacritics, all weights
               </span>
               <div className="font-heading" style={{ fontWeight: 400 }}>
@@ -157,17 +157,17 @@ export default function KitchenSink() {
           note="Zero border-radius everywhere — square corners are the brand identity, not an oversight."
         >
           <div className="flex flex-wrap items-center gap-3">
-            <button className="bg-accent text-bg font-heading text-sm uppercase tracking-wide px-5 h-[38px] hover:bg-accent-600">
+            <button className="h-[38px] bg-accent px-5 font-heading text-sm tracking-wide text-bg uppercase hover:bg-accent-600">
               Shto në shportë
             </button>
-            <button className="bg-yellow text-text font-heading font-bold text-base uppercase tracking-wide px-6 h-[46px] hover:bg-yellow-600">
+            <button className="h-[46px] bg-yellow px-6 font-heading text-base font-bold tracking-wide text-text uppercase hover:bg-yellow-600">
               Kërko
             </button>
-            <button className="border border-border-strong text-text font-heading text-sm uppercase px-5 h-[38px] hover:bg-surface">
+            <button className="h-[38px] border border-border-strong px-5 font-heading text-sm text-text uppercase hover:bg-surface">
               Krahaso
             </button>
             <button
-              className="border border-divider bg-surface text-faint font-heading text-sm uppercase px-5 h-[38px] cursor-not-allowed"
+              className="h-[38px] cursor-not-allowed border border-divider bg-surface px-5 font-heading text-sm text-faint uppercase"
               disabled
             >
               Jashtë stoku
@@ -182,7 +182,7 @@ export default function KitchenSink() {
           <div className="flex gap-9">
             <div>
               <div className="font-heading text-price">{eur(price)}</div>
-              <div className="text-xs text-muted-deep mt-0.5">
+              <div className="mt-0.5 text-xs text-muted-deep">
                 ≈ {lek.toLocaleString("de-DE")} L · pa TVSH {eur(exVat)}
               </div>
             </div>
@@ -190,7 +190,7 @@ export default function KitchenSink() {
               <div className="inline-block bg-yellow px-1.5 py-0.5">
                 <span className="font-heading text-price">{eur(219)}</span>
               </div>
-              <div className="text-xs text-muted-deep mt-0.5">
+              <div className="mt-0.5 text-xs text-muted-deep">
                 <s>{eur(269)}</s> · ≈ 21.900 L
               </div>
             </div>
@@ -203,15 +203,15 @@ export default function KitchenSink() {
         >
           <div className="flex flex-col gap-2 text-small">
             <span className="flex items-center gap-1.5">
-              <i className="block h-2 w-2 bg-accent" />
+              <i className="block size-2 bg-accent" />
               Në stok · 40+ copë
             </span>
             <span className="flex items-center gap-1.5">
-              <i className="block h-2 w-2 bg-danger" />
+              <i className="block size-2 bg-danger" />
               Vetëm 3 copë në stok
             </span>
             <span className="flex items-center gap-1.5">
-              <i className="block h-2 w-2 bg-muted" />
+              <i className="block size-2 bg-muted" />
               Me porosi · 5–7 ditë
             </span>
           </div>
@@ -221,7 +221,7 @@ export default function KitchenSink() {
           title="Tabela e specifikimeve / Spec table"
           note="Key left in muted, value right in semibold. This is the pattern the card reuses at 4 rows — see the plan's note about products that have fewer."
         >
-          <table className="w-full text-small max-w-[520px]">
+          <table className="w-full max-w-[520px] text-small">
             <tbody>
               {[
                 ["Voltazhi", "18 V"],
@@ -232,8 +232,8 @@ export default function KitchenSink() {
                 ["Garancia", "3 vjet (profesionale)"],
               ].map(([k, v], i) => (
                 <tr key={k} className={i % 2 ? "bg-surface" : undefined}>
-                  <td className="py-1.5 px-2 text-muted">{k}</td>
-                  <td className="py-1.5 px-2 text-right font-semibold">{v}</td>
+                  <td className="px-2 py-1.5 text-muted">{k}</td>
+                  <td className="px-2 py-1.5 text-right font-semibold">{v}</td>
                 </tr>
               ))}
             </tbody>
@@ -244,27 +244,21 @@ export default function KitchenSink() {
           title="Rrjeta e produkteve / Grid treatment"
           note="Cards are white islands on a divider-coloured ground with 1px gaps — the rules between cards are the background showing through, not borders. This is what gives the catalog its dense industrial look."
         >
-          <div className="grid grid-cols-4 gap-px bg-divider border border-divider">
+          <div className="grid grid-cols-4 gap-px border border-divider bg-divider">
             {[1, 2, 3, 4].map((i) => (
               <div key={i} className="bg-bg p-3">
-                <div
-                  className="h-[170px] grid place-items-center mb-2"
-                  style={{
-                    backgroundImage:
-                      "repeating-linear-gradient(135deg,#F4F5F7 0 7px,#fff 7px 14px)",
-                  }}
-                >
+                <div className="mb-2 grid h-[170px] place-items-center bg-hatch">
                   <span className="font-mono text-[10px] text-faint">
                     foto produkti
                   </span>
                 </div>
-                <div className="font-mono text-sku text-muted mb-1">
+                <div className="mb-1 font-mono text-sku text-muted">
                   KRAFTBAU · KB-18X
                 </div>
-                <div className="font-heading text-card-title line-clamp-2">
+                <div className="line-clamp-2 font-heading text-card-title">
                   Trapan me bateri 18 V, 2 bateri 4,0 Ah
                 </div>
-                <div className="font-heading text-price mt-2">{eur(price)}</div>
+                <div className="mt-2 font-heading text-price">{eur(price)}</div>
               </div>
             ))}
           </div>
@@ -274,25 +268,25 @@ export default function KitchenSink() {
           title="Filtrat / Filter sidebar"
           note="Facet counts are deliberately absent — deferred per the plan. The groups themselves come from attribute definitions, never hardcoded."
         >
-          <aside className="w-[264px] bg-surface border border-divider">
-            <div className="flex items-center gap-2 p-3 border-b border-divider font-heading text-[15px] uppercase tracking-wide">
+          <aside className="w-[264px] border border-divider bg-surface">
+            <div className="flex items-center gap-2 border-b border-divider p-3 font-heading text-[15px] tracking-wide uppercase">
               Filtra
-              <span className="ml-auto bg-accent text-bg font-bold text-[10px] leading-4 px-1.5">
+              <span className="ml-auto bg-accent px-1.5 text-[10px] leading-4 font-bold text-bg">
                 3
               </span>
             </div>
-            <div className="p-3 flex gap-1.5 flex-wrap border-b border-divider">
+            <div className="flex flex-wrap gap-1.5 border-b border-divider p-3">
               {["18 V", "Kraftbau", "Në stok"].map((t) => (
                 <span
                   key={t}
-                  className="text-[11px] border border-border-strong bg-bg px-2 py-0.5 flex gap-1"
+                  className="flex gap-1 border border-border-strong bg-bg px-2 py-0.5 text-[11px]"
                 >
                   {t} <span className="text-muted">×</span>
                 </span>
               ))}
             </div>
-            <div className="p-3 border-b border-divider">
-              <div className="font-heading text-section-label uppercase mb-2">
+            <div className="border-b border-divider p-3">
+              <div className="mb-2 font-heading text-section-label uppercase">
                 Voltazhi
               </div>
               <div className="flex flex-col gap-1.5 text-small">
@@ -305,17 +299,17 @@ export default function KitchenSink() {
               </div>
             </div>
             <div className="p-3">
-              <div className="font-heading text-section-label uppercase mb-2">
+              <div className="mb-2 font-heading text-section-label uppercase">
                 Momenti rrotullues (Nm)
               </div>
               <div className="flex items-center gap-1.5">
                 <input
-                  className="w-full h-8 text-center bg-bg border border-divider"
+                  className="h-8 w-full border border-divider bg-bg text-center"
                   defaultValue="40"
                 />
                 <span className="text-xs text-muted">deri</span>
                 <input
-                  className="w-full h-8 text-center bg-bg border border-divider"
+                  className="h-8 w-full border border-divider bg-bg text-center"
                   defaultValue="180"
                 />
               </div>

@@ -89,7 +89,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
             <ImageGallery images={images} />
           ) : (
             <div
-              className="grid aspect-square place-items-center bg-[repeating-linear-gradient(135deg,var(--color-surface)_0_7px,var(--color-bg)_7px_14px)]"
+              className="grid aspect-square place-items-center bg-hatch"
               aria-hidden
             >
               <span className="font-mono text-[11px] text-faint">

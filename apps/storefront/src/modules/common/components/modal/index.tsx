@@ -3,7 +3,7 @@ import { clx } from "@modules/common/components/ui"
 import React, { Fragment } from "react"
 
 import { ModalProvider, useModal } from "@lib/context/modal-context"
-import X from "@modules/common/icons/x"
+import { IconX } from "@modules/common/icons"
 
 type ModalProps = {
   isOpen: boolean
@@ -34,7 +34,7 @@ const Modal = ({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-opacity-75 backdrop-blur-md  h-screen" />
+          <div className="fixed inset-0 h-screen bg-gray-700/75 backdrop-blur-md" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-hidden">
@@ -65,7 +65,7 @@ const Modal = ({
                     "max-w-xl": size === "medium",
                     "max-w-3xl": size === "large",
                     "bg-transparent shadow-none": search,
-                    "bg-white shadow-xl border rounded-rounded": !search,
+                    "bg-white shadow-xl border ": !search,
                   },
                 )}
               >
@@ -84,10 +84,10 @@ const Title: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
   return (
     <Dialog.Title className="flex items-center justify-between">
-      <div className="text-large-semi">{children}</div>
+      <div className="text-body font-semibold">{children}</div>
       <div>
         <button onClick={close} data-testid="close-modal-button">
-          <X size={20} />
+          <IconX size={20} />
         </button>
       </div>
     </Dialog.Title>
@@ -96,7 +96,7 @@ const Title: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
 const Description: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <Dialog.Description className="flex text-small-regular text-ui-fg-base items-center justify-center pt-2 pb-4 h-full">
+    <Dialog.Description className="flex h-full items-center justify-center pt-2 pb-4 text-xs text-text">
       {children}
     </Dialog.Description>
   )

@@ -1,4 +1,4 @@
-import { CreditCard } from "../modules/common/icons/medusa-compat"
+import { IconCreditCard } from "@modules/common/icons"
 import React from "react"
 
 /* Map of payment provider_id to their title and icon. Add in any payment providers you want to use. */
@@ -8,7 +8,7 @@ export const paymentInfoMap: Record<
 > = {
   pp_system_default: {
     title: "Cash on delivery",
-    icon: <CreditCard />,
+    icon: <IconCreditCard />,
   },
   // Add more payment providers here
 }

@@ -55,14 +55,14 @@ export default async function Footer() {
     <footer className="mx-auto max-w-[1440px] border-x border-b border-border-strong bg-bg">
       {/* Brand strip */}
       <div className="px-7 pb-7">
-        <h2 className="mb-3 text-[18px] uppercase tracking-[0.04em] text-muted">
+        <h2 className="mb-3 text-[18px] tracking-[0.04em] text-muted uppercase">
           Markat
         </h2>
         <div className="grid grid-cols-3 gap-px border border-divider bg-divider sm:grid-cols-6">
           {brands.map((brand) => (
             <div
               key={brand}
-              className="grid h-[64px] place-items-center bg-bg font-heading text-[16px] font-semibold uppercase tracking-[0.06em]"
+              className="grid h-[64px] place-items-center bg-bg font-heading text-[16px] font-semibold tracking-[0.06em] uppercase"
             >
               {brand}
             </div>
@@ -74,10 +74,10 @@ export default async function Footer() {
         <div className="grid grid-cols-1 gap-9 md:grid-cols-[1.5fr_1fr_1fr_1fr]">
           <div>
             <LocalizedClientLink href="/" className="flex items-end gap-1">
-              <span className="font-heading text-[34px] font-bold leading-[0.85] tracking-[0.05em] text-accent">
+              <span className="font-heading text-[34px] leading-[0.85] font-bold tracking-wider text-accent">
                 USTAH
               </span>
-              <span className="mb-1 block size-[9px] bg-yellow" aria-hidden />
+              <span className="mb-1 block size-4 bg-yellow" aria-hidden />
             </LocalizedClientLink>
             <p className="mt-5 max-w-[38ch] text-[13px] text-muted-deep">
               Hardware dhe material ndërtimi për tregtarë dhe shtëpi. Depot:
@@ -93,7 +93,7 @@ export default async function Footer() {
 
           {columns.map((column) => (
             <nav key={column.title} aria-label={column.title}>
-              <h3 className="mb-4 font-heading text-[13px] font-semibold uppercase tracking-[0.06em] text-muted">
+              <h3 className="mb-4 font-heading text-[13px] font-semibold tracking-[0.06em] text-muted uppercase">
                 {column.title}
               </h3>
               <ul className="flex flex-col gap-3">

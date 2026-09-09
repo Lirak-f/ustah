@@ -1,4 +1,4 @@
-import { ChevronUpDown } from "../../icons/medusa-compat"
+import { IconChevronUpDown } from "@modules/common/icons"
 import { clx } from "@modules/common/components/ui"
 import {
   SelectHTMLAttributes,
@@ -42,10 +42,10 @@ const NativeSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
           onFocus={() => innerRef.current?.focus()}
           onBlur={() => innerRef.current?.blur()}
           className={clx(
-            "relative flex items-center text-base-regular border border-ui-border-base bg-ui-bg-subtle rounded-md hover:bg-ui-bg-field-hover",
+            "relative flex items-center text-small border border-divider bg-surface  hover:bg-surface-alt",
             className,
             {
-              "text-ui-fg-muted": isPlaceholder,
+              "text-faint": isPlaceholder,
             },
           )}
         >
@@ -53,15 +53,15 @@ const NativeSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
             ref={innerRef}
             defaultValue={defaultValue}
             {...props}
-            className="appearance-none flex-1 bg-transparent border-none px-4 py-2.5 transition-colors duration-150 outline-hidden "
+            className="flex-1 appearance-none border-none bg-transparent px-4 py-2.5 outline-hidden transition-colors duration-150"
           >
             <option disabled value="">
               {placeholder}
             </option>
             {children}
           </select>
-          <span className="absolute right-4 inset-y-0 flex items-center pointer-events-none ">
-            <ChevronUpDown />
+          <span className="pointer-events-none absolute inset-y-0 right-4 flex items-center">
+            <IconChevronUpDown />
           </span>
         </div>
       </div>

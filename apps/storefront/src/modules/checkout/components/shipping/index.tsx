@@ -3,7 +3,7 @@ import { Radio, RadioGroup } from "@headlessui/react"
 import { setShippingMethod } from "@lib/data/cart"
 import { calculatePriceForShippingOption } from "@lib/data/fulfillment"
 import { convertToLocale } from "@lib/util/money"
-import { CheckCircleSolid, Loader } from "../../../common/icons/medusa-compat"
+import { IconCheckCircle, IconSpinner } from "@modules/common/icons"
 import { HttpTypes } from "@medusajs/types"
 import ErrorMessage from "@modules/checkout/components/error-message"
 import Divider from "@modules/common/components/divider"
@@ -100,34 +100,51 @@ const Shipping: React.FC<ShippingProps> = ({
   const hasPickupOptions = !!_pickupMethods?.length
 
   useEffect(() => {
-    setIsLoadingPrices(true)
+    // Guards a stale response from overwriting a newer one: when the methods
+    // change while a request is in flight, the older allSettled can resolve
+    // last and clobber the fresh prices.
+    let ignore = false
 
-    if (_shippingMethods?.length) {
-      const promises = _shippingMethods
-        .filter((sm) => sm.price_type === "calculated")
-        .map((sm) => calculatePriceForShippingOption(sm.id, cart.id))
+    const calculated =
+      _shippingMethods?.filter((sm) => sm.price_type === "calculated") ?? []
 
-      if (promises.length) {
-        Promise.allSettled(promises).then((res) => {
-          const pricesMap: Record<string, number> = {}
-          res
-            .filter((r) => r.status === "fulfilled")
-            .forEach((p) => {
-              if (p.value?.id) {
-                pricesMap[p.value.id] = p.value.amount ?? 0
-              }
-            })
+    // A region whose options are all flat-rate has nothing to calculate. The
+    // spinner used to be switched on unconditionally and only ever switched
+    // off inside this branch, so those regions showed it forever.
+    if (!calculated.length) {
+      setIsLoadingPrices(false)
+    } else {
+      setIsLoadingPrices(true)
 
-          setCalculatedPricesMap(pricesMap)
-          setIsLoadingPrices(false)
-        })
-      }
+      Promise.allSettled(
+        calculated.map((sm) => calculatePriceForShippingOption(sm.id, cart.id)),
+      ).then((res) => {
+        if (ignore) {
+          return
+        }
+
+        const pricesMap: Record<string, number> = {}
+        res
+          .filter((r) => r.status === "fulfilled")
+          .forEach((p) => {
+            if (p.value?.id) {
+              pricesMap[p.value.id] = p.value.amount ?? 0
+            }
+          })
+
+        setCalculatedPricesMap(pricesMap)
+        setIsLoadingPrices(false)
+      })
     }
 
     if (_pickupMethods?.find((m) => m.id === shippingMethodId)) {
       setShowPickupOptions(PICKUP_OPTION_ON)
     }
-  }, [availableShippingMethods])
+
+    return () => {
+      ignore = true
+    }
+  }, [_shippingMethods, _pickupMethods, cart.id, shippingMethodId])
 
   const handleEdit = () => {
     router.push(pathname + "?step=delivery", { scroll: false })
@@ -173,11 +190,11 @@ const Shipping: React.FC<ShippingProps> = ({
 
   return (
     <div className="bg-white">
-      <div className="flex flex-row items-center justify-between mb-6">
+      <div className="mb-6 flex flex-row items-center justify-between">
         <Heading
           level="h2"
           className={clx(
-            "flex flex-row text-3xl-regular gap-x-2 items-baseline",
+            "flex flex-row text-page-title gap-x-2 items-baseline",
             {
               "opacity-50 pointer-events-none select-none":
                 !isOpen && cart.shipping_methods?.length === 0,
@@ -186,7 +203,7 @@ const Shipping: React.FC<ShippingProps> = ({
         >
           Delivery
           {!isOpen && (cart.shipping_methods?.length ?? 0) > 0 && (
-            <CheckCircleSolid />
+            <IconCheckCircle />
           )}
         </Heading>
         {!isOpen &&
@@ -196,7 +213,7 @@ const Shipping: React.FC<ShippingProps> = ({
             <Text>
               <button
                 onClick={handleEdit}
-                className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
+                className="text-accent hover:text-accent-600"
                 data-testid="edit-delivery-button"
               >
                 Edit
@@ -208,15 +225,15 @@ const Shipping: React.FC<ShippingProps> = ({
         <>
           <div className="grid">
             <div className="flex flex-col">
-              <span className="font-medium txt-medium text-ui-fg-base">
+              <span className="font-heading text-card-title font-semibold text-text">
                 Shipping method
               </span>
-              <span className="mb-4 text-ui-fg-muted txt-medium">
+              <span className="mb-4 text-small text-faint">
                 How would you like you order delivered
               </span>
             </div>
             <div data-testid="delivery-options-container">
-              <div className="pb-8 md:pt-0 pt-2">
+              <div className="pt-2 pb-8 md:pt-0">
                 {hasPickupOptions && (
                   <RadioGroup
                     value={showPickupOptions}
@@ -234,9 +251,9 @@ const Shipping: React.FC<ShippingProps> = ({
                       value={PICKUP_OPTION_ON}
                       data-testid="delivery-option-radio"
                       className={clx(
-                        "flex items-center justify-between text-small-regular cursor-pointer py-4 border rounded-rounded px-8 mb-2 hover:shadow-borders-interactive-with-active",
+                        "flex items-center justify-between text-xs cursor-pointer py-4 border  px-8 mb-2 hover:shadow-borders-interactive-with-active",
                         {
-                          "border-ui-border-interactive":
+                          "border-accent":
                             showPickupOptions === PICKUP_OPTION_ON,
                         },
                       )}
@@ -245,13 +262,9 @@ const Shipping: React.FC<ShippingProps> = ({
                         <MedusaRadio
                           checked={showPickupOptions === PICKUP_OPTION_ON}
                         />
-                        <span className="text-base-regular">
-                          Pick up your order
-                        </span>
+                        <span className="text-small">Pick up your order</span>
                       </div>
-                      <span className="justify-self-end text-ui-fg-base">
-                        -
-                      </span>
+                      <span className="justify-self-end text-text">-</span>
                     </Radio>
                   </RadioGroup>
                 )}
@@ -276,10 +289,9 @@ const Shipping: React.FC<ShippingProps> = ({
                         data-testid="delivery-option-radio"
                         disabled={isDisabled}
                         className={clx(
-                          "flex items-center justify-between text-small-regular cursor-pointer py-4 border rounded-rounded px-8 mb-2 hover:shadow-borders-interactive-with-active",
+                          "flex items-center justify-between text-xs cursor-pointer py-4 border  px-8 mb-2 hover:shadow-borders-interactive-with-active",
                           {
-                            "border-ui-border-interactive":
-                              option.id === shippingMethodId,
+                            "border-accent": option.id === shippingMethodId,
                             "hover:shadow-brders-none cursor-not-allowed":
                               isDisabled,
                           },
@@ -289,11 +301,9 @@ const Shipping: React.FC<ShippingProps> = ({
                           <MedusaRadio
                             checked={option.id === shippingMethodId}
                           />
-                          <span className="text-base-regular">
-                            {option.name}
-                          </span>
+                          <span className="text-small">{option.name}</span>
                         </div>
-                        <span className="justify-self-end text-ui-fg-base">
+                        <span className="justify-self-end text-text">
                           {option.price_type === "flat" ? (
                             convertToLocale({
                               amount: option.amount!,
@@ -305,7 +315,7 @@ const Shipping: React.FC<ShippingProps> = ({
                               currency_code: cart?.currency_code,
                             })
                           ) : isLoadingPrices ? (
-                            <Loader />
+                            <IconSpinner />
                           ) : (
                             "-"
                           )}
@@ -321,15 +331,15 @@ const Shipping: React.FC<ShippingProps> = ({
           {showPickupOptions === PICKUP_OPTION_ON && (
             <div className="grid">
               <div className="flex flex-col">
-                <span className="font-medium txt-medium text-ui-fg-base">
+                <span className="font-heading text-card-title font-semibold text-text">
                   Store
                 </span>
-                <span className="mb-4 text-ui-fg-muted txt-medium">
+                <span className="mb-4 text-small text-faint">
                   Choose a store near you
                 </span>
               </div>
               <div data-testid="delivery-options-container">
-                <div className="pb-8 md:pt-0 pt-2">
+                <div className="pt-2 pb-8 md:pt-0">
                   <RadioGroup
                     value={shippingMethodId}
                     onChange={(v) => {
@@ -346,10 +356,9 @@ const Shipping: React.FC<ShippingProps> = ({
                           disabled={option.insufficient_inventory}
                           data-testid="delivery-option-radio"
                           className={clx(
-                            "flex items-center justify-between text-small-regular cursor-pointer py-4 border rounded-rounded px-8 mb-2 hover:shadow-borders-interactive-with-active",
+                            "flex items-center justify-between text-xs cursor-pointer py-4 border  px-8 mb-2 hover:shadow-borders-interactive-with-active",
                             {
-                              "border-ui-border-interactive":
-                                option.id === shippingMethodId,
+                              "border-accent": option.id === shippingMethodId,
                               "hover:shadow-brders-none cursor-not-allowed":
                                 option.insufficient_inventory,
                             },
@@ -360,10 +369,8 @@ const Shipping: React.FC<ShippingProps> = ({
                               checked={option.id === shippingMethodId}
                             />
                             <div className="flex flex-col">
-                              <span className="text-base-regular">
-                                {option.name}
-                              </span>
-                              <span className="text-base-regular text-ui-fg-muted">
+                              <span className="text-small">{option.name}</span>
+                              <span className="text-small text-faint">
                                 {formatAddress(
                                   (
                                     option as unknown as {
@@ -381,7 +388,7 @@ const Shipping: React.FC<ShippingProps> = ({
                               </span>
                             </div>
                           </div>
-                          <span className="justify-self-end text-ui-fg-base">
+                          <span className="justify-self-end text-text">
                             {convertToLocale({
                               amount: option.amount!,
                               currency_code: cart?.currency_code,
@@ -403,7 +410,6 @@ const Shipping: React.FC<ShippingProps> = ({
             />
             <Button
               size="large"
-              className="mt"
               onClick={handleSubmit}
               isLoading={isLoading}
               disabled={!cart.shipping_methods?.[0]}
@@ -415,13 +421,13 @@ const Shipping: React.FC<ShippingProps> = ({
         </>
       ) : (
         <div>
-          <div className="text-small-regular">
+          <div className="text-xs">
             {cart && (cart.shipping_methods?.length ?? 0) > 0 && (
-              <div className="flex flex-col w-1/3">
-                <Text className="txt-medium-plus text-ui-fg-base mb-1">
+              <div className="flex w-1/3 flex-col">
+                <Text className="mb-1 text-small font-semibold text-text">
                   Method
                 </Text>
-                <Text className="txt-medium text-ui-fg-subtle">
+                <Text className="text-small text-muted">
                   {cart.shipping_methods!.at(-1)!.name}{" "}
                   {convertToLocale({
                     amount: cart.shipping_methods!.at(-1)!.amount!,

@@ -11,7 +11,7 @@
 import { writeFileSync, readFileSync, readdirSync } from "node:fs"
 import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
-import { colors, fonts, space, layout, type } from "./tokens"
+import { colors, fonts, space, layout, screens, type } from "./tokens"
 
 const here = dirname(fileURLToPath(import.meta.url))
 const fontDir = join(here, "../../../design/extracted/fonts")
@@ -92,6 +92,13 @@ function themeBlock(): string {
     .map(([k, v]) => `  --layout-${kebab(k)}: ${v};`)
     .join("\n")
 
+  // Tailwind v4 derives the responsive variants (`small:`, `xsmall:`) from
+  // --breakpoint-*. These were previously supplied by the v3 config that
+  // @config bridged in; ~40 components are written against those names.
+  const breakpointVars = Object.entries(screens)
+    .map(([k, v]) => `  --breakpoint-${k}: ${v};`)
+    .join("\n")
+
   // Each type role becomes a --text-* size plus companion weight/tracking/leading
   // vars, so `text-price` in a component carries all four properties.
   const typeVars = Object.entries(type)
@@ -119,6 +126,9 @@ ${spacing}
 
   /* ── Layout ─────────────────────────────────────────────────────── */
 ${layoutVars}
+
+  /* ── Breakpoints ────────────────────────────────────────────────── */
+${breakpointVars}
 
   /* ── Radii ──────────────────────────────────────────────────────── */
   /* Square is the identity. There is no rounded variant on purpose. */

@@ -339,7 +339,9 @@ export async function setAddresses(currentState: unknown, formData: FormData) {
     if (!formData) {
       throw new Error("No form data found when setting addresses")
     }
-    const cartId = getCartId()
+    // Without the await this is a Promise, which is always truthy, so the
+    // guard below never fired and a missing cart surfaced further downstream.
+    const cartId = await getCartId()
     if (!cartId) {
       throw new Error("No existing cart found when setting addresses")
     }

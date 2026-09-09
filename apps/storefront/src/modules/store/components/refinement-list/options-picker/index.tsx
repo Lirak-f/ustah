@@ -3,7 +3,7 @@
 import * as Accordion from "@radix-ui/react-accordion"
 import { useEffect, useState } from "react"
 
-import { ChevronDownMini } from "../../../../common/icons/medusa-compat"
+import { IconChevronDown } from "@modules/common/icons"
 import { sdk } from "@lib/config"
 import { HttpTypes } from "@medusajs/types"
 import clsx from "clsx"
@@ -57,7 +57,7 @@ const OptionsPicker = ({
   return (
     <div className="flex flex-col gap-y-4">
       <div className="flex items-center justify-between px-1">
-        <span className="txt-compact-small-plus text-ui-fg-subtle">
+        <span className="text-section-label font-semibold text-muted">
           Options
         </span>
       </div>
@@ -106,26 +106,26 @@ const OptionsPicker = ({
               <Accordion.Header>
                 <Accordion.Trigger className="flex w-full items-center justify-between py-3 text-left">
                   <div className="flex items-center gap-2">
-                    <span className="txt-compact-small-plus text-ui-fg-base">
+                    <span className="text-section-label font-semibold text-text">
                       {option.title || "Option"}
                     </span>
-                    <span className="txt-compact-small-plus text-ui-fg-muted">
+                    <span className="text-section-label font-semibold text-faint">
                       ({selectedCount})
                     </span>
                   </div>
                   <span
                     className={clsx(
-                      "flex h-7 w-7 items-center justify-center text-ui-fg-muted transition-transform duration-150",
+                      "flex size-7 items-center justify-center text-faint transition-transform duration-150",
                       {
                         "rotate-180": isOpen,
                       },
                     )}
                   >
-                    <ChevronDownMini />
+                    <IconChevronDown />
                   </span>
                 </Accordion.Trigger>
               </Accordion.Header>
-              <Accordion.Content className="pb-4 pt-1">
+              <Accordion.Content className="pt-1 pb-4">
                 <div className="flex flex-wrap gap-2">
                   {values.map((value) => {
                     const isSelected = selectedValueIds.includes(value.id)
@@ -135,12 +135,10 @@ const OptionsPicker = ({
                         key={value.id}
                         onClick={() => toggleValue(value.id)}
                         className={clsx(
-                          "border-ui-border-base border text-small-regular h-10 rounded-rounded px-3 flex items-center transition-colors duration-150",
+                          "flex h-10 items-center border border-divider px-3 text-xs transition-colors duration-150",
                           {
-                            "border-ui-border-interactive text-ui-fg-base":
-                              isSelected,
-                            "text-ui-fg-muted hover:text-ui-fg-base":
-                              !isSelected,
+                            "border-accent text-text": isSelected,
+                            "text-faint hover:text-text": !isSelected,
                           },
                         )}
                         aria-pressed={isSelected}

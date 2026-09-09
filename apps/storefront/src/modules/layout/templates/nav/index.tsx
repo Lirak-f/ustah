@@ -3,7 +3,7 @@ import { Suspense } from "react"
 import { listCategories } from "@lib/data/categories"
 import { formatEur } from "@lib/util/ustah-price"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
-import { IconMenu, IconUser } from "@modules/common/icons/ustah"
+import { IconMenu, IconUser } from "@modules/common/icons"
 import UstahCartChip from "@modules/layout/components/ustah-cart-chip"
 import UstahSearch from "@modules/layout/components/ustah-search"
 import SideMenu from "@modules/layout/components/side-menu"
@@ -35,7 +35,7 @@ export default async function Nav() {
     <header className="bg-bg">
       {/* Utility strip */}
       <div className="bg-accent-700 text-white">
-        <div className="mx-auto flex h-[32px] max-w-[1440px] items-center gap-6 px-7 text-[12px]">
+        <div className="mx-auto flex h-9 max-w-[1440px] items-center gap-6 px-7 text-[12px]">
           <span className="hidden md:inline">
             Depot: Prishtinë · Fushë Kosovë · Tiranë
           </span>
@@ -71,7 +71,7 @@ export default async function Nav() {
             data-testid="nav-store-link"
             className="flex shrink-0 items-end gap-1"
           >
-            <span className="font-heading text-[40px] font-bold leading-[0.85] tracking-[0.05em]">
+            <span className="font-heading text-[40px] leading-[0.85] font-bold tracking-wider">
               USTAH
             </span>
             <span className="mb-1 block size-[11px] bg-yellow" aria-hidden />
@@ -88,7 +88,7 @@ export default async function Nav() {
 
           <LocalizedClientLink
             href="/store"
-            className="hidden h-[52px] shrink-0 items-center gap-4 bg-accent-600 px-6 font-heading text-[16px] font-semibold uppercase tracking-[0.04em] text-white transition-colors hover:bg-accent-700 xl:flex"
+            className="hidden h-[52px] shrink-0 items-center gap-4 bg-accent-600 px-6 font-heading text-[16px] font-semibold tracking-[0.04em] text-white uppercase transition-colors hover:bg-accent-700 xl:flex"
           >
             <IconMenu className="size-[19px]" />
             Të gjitha kategoritë
@@ -132,19 +132,19 @@ export default async function Nav() {
         {/* Category row */}
         {topLevel.length > 0 && (
           <nav aria-label="Kategoritë" className="bg-accent-600">
-            <div className="mx-auto flex max-w-[1440px] items-center overflow-x-auto px-7 no-scrollbar">
+            <div className="mx-auto no-scrollbar flex max-w-[1440px] items-center overflow-x-auto px-7">
               {topLevel.map((category) => (
                 <LocalizedClientLink
                   key={category.id}
                   href={`/categories/${category.handle}`}
-                  className="whitespace-nowrap px-5 py-5 font-heading text-[13px] font-semibold uppercase leading-none tracking-[0.05em] text-white hover:bg-accent-700"
+                  className="p-5 font-heading text-[13px] leading-none font-semibold tracking-wider whitespace-nowrap text-white uppercase hover:bg-accent-700"
                 >
                   {category.name}
                 </LocalizedClientLink>
               ))}
               <LocalizedClientLink
                 href={`/collections/${OFFERS_HANDLE}`}
-                className="ml-auto whitespace-nowrap px-5 py-5 font-heading text-[13px] font-bold uppercase leading-none tracking-[0.05em] text-yellow hover:bg-accent-700"
+                className="ml-auto p-5 font-heading text-[13px] leading-none font-bold tracking-wider whitespace-nowrap text-yellow uppercase hover:bg-accent-700"
               >
                 Ofertat e javës
               </LocalizedClientLink>

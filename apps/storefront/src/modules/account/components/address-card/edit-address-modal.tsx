@@ -5,17 +5,14 @@ import {
   updateCustomerAddress,
 } from "@lib/data/customer"
 import useToggleState from "@lib/hooks/use-toggle-state"
-import {
-  PencilSquare as Edit,
-  Trash,
-} from "../../../common/icons/medusa-compat"
+import { IconEdit as Edit, IconTrash } from "@modules/common/icons"
 import { HttpTypes } from "@medusajs/types"
 import CountrySelect from "@modules/checkout/components/country-select"
 import { SubmitButton } from "@modules/checkout/components/submit-button"
 import Input from "@modules/common/components/input"
 import Modal from "@modules/common/components/modal"
 import { Button, Heading, Text, clx } from "@modules/common/components/ui"
-import Spinner from "@modules/common/icons/spinner"
+import { IconSpinner } from "@modules/common/icons"
 import React, { useActionState, useEffect, useState } from "react"
 
 type EditAddressProps = {
@@ -66,7 +63,7 @@ const EditAddress: React.FC<EditAddressProps> = ({
     <>
       <div
         className={clx(
-          "border rounded-rounded p-5 min-h-[220px] h-full w-full flex flex-col justify-between transition-colors",
+          "border  p-5 min-h-[220px] h-full w-full flex flex-col justify-between transition-colors",
           {
             "border-gray-900": isActive,
           },
@@ -75,20 +72,20 @@ const EditAddress: React.FC<EditAddressProps> = ({
       >
         <div className="flex flex-col">
           <Heading
-            className="text-left text-base-semi"
+            className="text-left text-small font-semibold"
             data-testid="address-name"
           >
             {address.first_name} {address.last_name}
           </Heading>
           {address.company && (
             <Text
-              className="txt-compact-small text-ui-fg-base"
+              className="text-section-label text-text"
               data-testid="address-company"
             >
               {address.company}
             </Text>
           )}
-          <Text className="flex flex-col text-left text-base-regular mt-2">
+          <Text className="mt-2 flex flex-col text-left text-small">
             <span data-testid="address-address">
               {address.address_1}
               {address.address_2 && <span>, {address.address_2}</span>}
@@ -104,7 +101,7 @@ const EditAddress: React.FC<EditAddressProps> = ({
         </div>
         <div className="flex items-center gap-x-4">
           <button
-            className="text-small-regular text-ui-fg-base flex items-center gap-x-2"
+            className="flex items-center gap-x-2 text-xs text-text"
             onClick={open}
             data-testid="address-edit-button"
           >
@@ -112,11 +109,11 @@ const EditAddress: React.FC<EditAddressProps> = ({
             Edit
           </button>
           <button
-            className="text-small-regular text-ui-fg-base flex items-center gap-x-2"
+            className="flex items-center gap-x-2 text-xs text-text"
             onClick={removeAddress}
             data-testid="address-delete-button"
           >
-            {removing ? <Spinner /> : <Trash />}
+            {removing ? <IconSpinner /> : <IconTrash />}
             Remove
           </button>
         </div>
@@ -212,13 +209,13 @@ const EditAddress: React.FC<EditAddressProps> = ({
               />
             </div>
             {formState.error && (
-              <div className="text-rose-500 text-small-regular py-2">
+              <div className="py-2 text-xs text-rose-500">
                 {formState.error}
               </div>
             )}
           </Modal.Body>
           <Modal.Footer>
-            <div className="flex gap-3 mt-6">
+            <div className="mt-6 flex gap-3">
               <Button
                 type="reset"
                 variant="secondary"

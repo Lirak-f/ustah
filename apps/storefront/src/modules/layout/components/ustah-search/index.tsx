@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { useParams } from "next/navigation"
 import { useState } from "react"
 
-import { IconSearch } from "@modules/common/icons/ustah"
+import { IconSearch } from "@modules/common/icons"
 
 /**
  * Header search. Submits to the store listing as a `q` param — the same
@@ -28,7 +28,7 @@ const UstahSearch = () => {
   }
 
   return (
-    <form onSubmit={submit} className="flex flex-1 min-w-0" role="search">
+    <form onSubmit={submit} className="flex min-w-0 flex-1" role="search">
       <label htmlFor="ustah-search" className="sr-only">
         Kërko produkte
       </label>
@@ -38,11 +38,11 @@ const UstahSearch = () => {
         value={value}
         onChange={(e) => setValue(e.target.value)}
         placeholder="Kërko mbi 24.000 artikuj — produkt, kod ose markë"
-        className="flex-1 min-w-0 h-[52px] bg-bg text-text px-6 text-[17px] outline-none placeholder:text-faint focus-visible:ring-2 focus-visible:ring-yellow focus-visible:ring-inset"
+        className="h-[52px] min-w-0 flex-1 bg-bg px-6 text-[17px] text-text outline-none placeholder:text-faint focus-visible:ring-2 focus-visible:ring-yellow focus-visible:ring-inset"
       />
       <button
         type="submit"
-        className="flex h-[52px] w-[140px] shrink-0 items-center justify-center gap-4 bg-yellow font-heading text-[18px] font-bold uppercase tracking-[0.04em] text-text transition-colors hover:bg-yellow-600 focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-text"
+        className="flex h-[52px] w-[140px] shrink-0 items-center justify-center gap-4 bg-yellow font-heading text-[18px] font-bold tracking-[0.04em] text-text uppercase transition-colors hover:bg-yellow-600 focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-text"
       >
         <IconSearch className="size-[21px]" />
         Kërko

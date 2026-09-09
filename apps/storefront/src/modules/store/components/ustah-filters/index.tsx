@@ -1,6 +1,7 @@
 "use client"
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { buttonVariants } from "@modules/common/components/ustah"
 import { useCallback, useMemo } from "react"
 
 import {
@@ -63,7 +64,7 @@ const UstahFilters = ({ groups }: { groups: FilterGroup[] }) => {
   return (
     <aside className="w-full shrink-0 bg-surface lg:w-[264px]">
       <div className="flex items-baseline justify-between border-b border-divider px-6 py-5">
-        <h2 className="font-heading text-[15px] font-semibold uppercase tracking-[0.05em]">
+        <h2 className="font-heading text-[15px] font-semibold tracking-wider uppercase">
           Filtra
         </h2>
         {selected.length > 0 && (
@@ -79,7 +80,11 @@ const UstahFilters = ({ groups }: { groups: FilterGroup[] }) => {
             <button
               key={v.id}
               onClick={() => toggle(v.id)}
-              className="flex items-center gap-2 border border-border-strong bg-bg px-3 py-1 text-[12px] hover:border-accent"
+              className={buttonVariants({
+                variant: "outline",
+                size: "chip",
+                className: "gap-2",
+              })}
             >
               {v.value}
               <span aria-hidden>×</span>
@@ -88,7 +93,7 @@ const UstahFilters = ({ groups }: { groups: FilterGroup[] }) => {
           ))}
           <button
             onClick={() => apply([])}
-            className="px-2 py-1 text-[12px] text-accent underline"
+            className={buttonVariants({ variant: "link", size: "text" })}
           >
             Fshij të gjitha
           </button>
@@ -110,7 +115,7 @@ const UstahFilters = ({ groups }: { groups: FilterGroup[] }) => {
                   type="checkbox"
                   checked={selected.includes(value.id)}
                   onChange={() => toggle(value.id)}
-                  className="size-4 shrink-0 accent-[var(--color-accent)]"
+                  className="size-4 shrink-0 accent-(--color-accent)"
                 />
                 {value.value}
               </label>
@@ -120,7 +125,7 @@ const UstahFilters = ({ groups }: { groups: FilterGroup[] }) => {
       ))}
 
       {/* Trade pitch — part of the design, and the reason the sidebar exists. */}
-      <div className="px-6 py-6">
+      <div className="p-6">
         <h3 className="mb-2 font-heading text-section-label font-semibold uppercase">
           Çmime për tregtarë
         </h3>

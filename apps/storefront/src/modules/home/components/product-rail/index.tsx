@@ -31,7 +31,7 @@ const ProductRail = ({ title, products, viewAllHref, viewAllLabel }: Props) => {
         </LocalizedClientLink>
       </div>
 
-      <div className="mx-7 mb-7 mt-5 grid grid-cols-2 gap-px border border-divider bg-divider sm:grid-cols-3 lg:grid-cols-5">
+      <div className="mx-7 mt-5 mb-7 grid grid-cols-2 gap-px border border-divider bg-divider sm:grid-cols-3 lg:grid-cols-5">
         {products.map((product) => (
           <UstahProductCard key={product.id} product={product} />
         ))}
