@@ -1,4 +1,3 @@
-import clsx from "clsx"
 import {
   ButtonHTMLAttributes,
   forwardRef,
@@ -10,59 +9,87 @@ import {
   ThHTMLAttributes,
 } from "react"
 
-// TODO: Add Toaster component back when needed for notifications
+import { cn } from "@lib/util/cn"
+import { buttonVariants } from "@modules/common/components/ustah"
 
-// Re-export clsx as clx for compatibility
-export { clsx as clx }
+/**
+ * Shared primitives for the transactional half of the app — cart, checkout,
+ * account and order.
+ *
+ * These arrived with the Medusa starter styled against a generic palette
+ * (bg-black, rounded-md, text-gray-500) that contradicts the Ustah design in
+ * every respect. They are re-implemented here against the design tokens rather
+ * than replaced, because 75 files import this module: keeping the path and the
+ * prop shapes means the migration is this file instead of a codemod across all
+ * of them.
+ *
+ * The catalog side uses `../ustah` directly. Over time these should converge on
+ * that; the legacy prop names (`variant="primary"`, `size="large"`) are kept as
+ * aliases until then.
+ */
 
-// Text Component
+/**
+ * `clx` is the name 27 call sites already use. It resolves Tailwind conflicts
+ * rather than merely concatenating, so the `className` overrides those callers
+ * pass actually win against a component's own defaults — with plain clsx they
+ * silently depended on stylesheet order.
+ */
+export { cn as clx }
+
+// Text
 type TextProps = HTMLAttributes<HTMLParagraphElement> & {
   as?: "p" | "span" | "div"
 }
 
 export const Text = forwardRef<HTMLParagraphElement, TextProps>(
-  ({ className, as: Component = "p", children, ...props }, ref) => {
-    return (
-      <Component ref={ref} className={clsx("text-small", className)} {...props}>
-        {children}
-      </Component>
-    )
-  },
+  ({ className, as: Component = "p", children, ...props }, ref) => (
+    <Component ref={ref} className={cn("text-small", className)} {...props}>
+      {children}
+    </Component>
+  ),
 )
 Text.displayName = "Text"
 
-// Heading Component
+// Heading
 type HeadingProps = HTMLAttributes<HTMLHeadingElement> & {
   level?: "h1" | "h2" | "h3"
 }
 
 export const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(
-  ({ className, level: Component = "h2", children, ...props }, ref) => {
-    return (
-      <Component
-        ref={ref}
-        className={clsx(
-          "font-semibold",
-          Component === "h1" && "text-3xl",
-          Component === "h2" && "text-2xl",
-          Component === "h3" && "text-xl",
-          className,
-        )}
-        {...props}
-      >
-        {children}
-      </Component>
-    )
-  },
+  ({ className, level: Component = "h2", children, ...props }, ref) => (
+    <Component
+      ref={ref}
+      className={cn(
+        "font-heading font-semibold",
+        Component === "h1" && "text-page-title",
+        Component === "h2" && "text-card-title",
+        Component === "h3" && "text-body",
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </Component>
+  ),
 )
 Heading.displayName = "Heading"
 
-// Button Component
+// Button
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
-  variant?: "primary" | "secondary" | "transparent"
+  variant?: "primary" | "secondary" | "transparent" | "danger"
   size?: "small" | "medium" | "large"
   isLoading?: boolean
 }
+
+/** Legacy prop names, mapped onto the design's own variants. */
+const BUTTON_VARIANT = {
+  primary: "accent",
+  secondary: "outline",
+  transparent: "outline",
+  danger: "accent",
+} as const
+
+const BUTTON_SIZE = { small: "sm", medium: "md", large: "md" } as const
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
@@ -76,267 +103,246 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       ...props
     },
     ref,
-  ) => {
-    return (
-      <button
-        ref={ref}
-        disabled={disabled || isLoading}
-        className={clsx(
-          "inline-flex items-center justify-center gap-2 font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50",
-          variant === "primary" && "bg-black text-white hover:bg-gray-800",
-          variant === "secondary" &&
-            "border border-gray-200 bg-white text-black hover:bg-gray-50",
-          variant === "transparent" && "bg-transparent hover:bg-gray-100",
-          size === "small" && "h-8 px-3 text-sm",
-          size === "medium" && "h-10 px-4",
-          size === "large" && "h-12 px-6 text-lg",
-          className,
-        )}
-        {...props}
-      >
-        {isLoading ? "Loading..." : children}
-      </button>
-    )
-  },
+  ) => (
+    <button
+      ref={ref}
+      disabled={disabled || isLoading}
+      className={cn(
+        buttonVariants({
+          variant: BUTTON_VARIANT[variant],
+          size: BUTTON_SIZE[size],
+        }),
+        variant === "transparent" && "border-transparent bg-transparent",
+        variant === "danger" && "bg-danger hover:bg-danger",
+        className,
+      )}
+      {...props}
+    >
+      {isLoading ? "Duke u ngarkuar…" : children}
+    </button>
+  ),
 )
 Button.displayName = "Button"
 
-// Container Component
+// Container — a plain white panel on the page ground.
 type ContainerProps = HTMLAttributes<HTMLDivElement>
 
 export const Container = forwardRef<HTMLDivElement, ContainerProps>(
-  ({ className, children, ...props }, ref) => {
-    return (
-      <div ref={ref} className={clsx("bg-white p-4", className)} {...props}>
-        {children}
-      </div>
-    )
-  },
+  ({ className, children, ...props }, ref) => (
+    <div
+      ref={ref}
+      className={cn("border border-divider bg-bg p-5", className)}
+      {...props}
+    >
+      {children}
+    </div>
+  ),
 )
 Container.displayName = "Container"
 
-// Badge Component
+// Badge — square, per the zero-radius identity.
 type BadgeProps = HTMLAttributes<HTMLSpanElement> & {
   color?: "green" | "red" | "blue" | "orange" | "grey" | "purple"
 }
 
+/**
+ * The starter's six colours collapse onto the design's three tones: the palette
+ * has one accent for structure, one for attention, and a danger red.
+ */
+const BADGE_TONE = {
+  green: "bg-accent-100 text-accent-800",
+  blue: "bg-accent-100 text-accent-800",
+  purple: "bg-accent-100 text-accent-800",
+  orange: "bg-yellow text-text",
+  red: "bg-surface text-danger",
+  grey: "bg-surface text-muted",
+} as const
+
 export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
-  ({ className, color = "grey", children, ...props }, ref) => {
-    return (
-      <span
-        ref={ref}
-        className={clsx(
-          "inline-flex items-center px-2 py-1 text-xs font-medium",
-          color === "green" && "bg-green-100 text-green-700",
-          color === "red" && "bg-red-100 text-red-700",
-          color === "blue" && "bg-blue-100 text-blue-700",
-          color === "orange" && "bg-orange-100 text-orange-700",
-          color === "grey" && "bg-gray-100 text-gray-700",
-          color === "purple" && "bg-purple-100 text-purple-700",
-          className,
-        )}
-        {...props}
-      >
-        {children}
-      </span>
-    )
-  },
+  ({ className, color = "grey", children, ...props }, ref) => (
+    <span
+      ref={ref}
+      className={cn(
+        "inline-flex items-center px-2 py-1 text-xs font-semibold",
+        BADGE_TONE[color],
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </span>
+  ),
 )
 Badge.displayName = "Badge"
 
-// IconBadge Component
 type IconBadgeProps = HTMLAttributes<HTMLSpanElement>
 
 export const IconBadge = forwardRef<HTMLSpanElement, IconBadgeProps>(
-  ({ className, children, ...props }, ref) => {
-    return (
-      <span
-        ref={ref}
-        className={clsx(
-          "inline-flex items-center justify-center bg-gray-100 p-1",
-          className,
-        )}
-        {...props}
-      >
-        {children}
-      </span>
-    )
-  },
+  ({ className, children, ...props }, ref) => (
+    <span
+      ref={ref}
+      className={cn(
+        "inline-flex items-center justify-center bg-surface p-1",
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </span>
+  ),
 )
 IconBadge.displayName = "IconBadge"
 
-// IconButton Component
 type IconButtonProps = ButtonHTMLAttributes<HTMLButtonElement>
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
-  ({ className, children, ...props }, ref) => {
-    return (
-      <button
-        ref={ref}
-        className={clsx(
-          "inline-flex items-center justify-center p-2 transition-colors hover:bg-gray-100 focus-visible:ring-2 focus-visible:outline-hidden",
-          className,
-        )}
-        {...props}
-      >
-        {children}
-      </button>
-    )
-  },
+  ({ className, children, ...props }, ref) => (
+    <button
+      ref={ref}
+      className={cn(
+        "inline-flex items-center justify-center p-2 transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-accent",
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </button>
+  ),
 )
 IconButton.displayName = "IconButton"
 
-// Label Component
+// Label
 type LabelProps = LabelHTMLAttributes<HTMLLabelElement>
 
 export const Label = forwardRef<HTMLLabelElement, LabelProps>(
-  ({ className, children, ...props }, ref) => {
-    return (
-      <label
-        ref={ref}
-        className={clsx("text-sm font-medium", className)}
-        {...props}
-      >
-        {children}
-      </label>
-    )
-  },
+  ({ className, children, ...props }, ref) => (
+    <label
+      ref={ref}
+      className={cn("text-small font-medium", className)}
+      {...props}
+    >
+      {children}
+    </label>
+  ),
 )
 Label.displayName = "Label"
 
-// Input Component
+// Input
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   label?: string
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, label, ...props }, ref) => {
-    return (
-      <div className="flex flex-col gap-1">
-        {label && <Label>{label}</Label>}
-        <input
-          ref={ref}
-          className={clsx(
-            "flex h-10 w-full border border-gray-200 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 focus:outline-hidden disabled:cursor-not-allowed disabled:opacity-50",
-            className,
-          )}
-          {...props}
-        />
-      </div>
-    )
-  },
+  ({ className, label, ...props }, ref) => (
+    <div className="flex flex-col gap-1">
+      {label && <Label>{label}</Label>}
+      <input
+        ref={ref}
+        className={cn(
+          "flex h-11 w-full border border-divider bg-bg px-4 py-2 text-small placeholder:text-faint focus:border-accent focus:outline-none disabled:cursor-not-allowed disabled:bg-surface disabled:opacity-60",
+          className,
+        )}
+        {...props}
+      />
+    </div>
+  ),
 )
 Input.displayName = "Input"
 
-// Table Components
+// Table — compound export shape is load-bearing in 8 files.
 type TableProps = TableHTMLAttributes<HTMLTableElement>
 
 const TableRoot = forwardRef<HTMLTableElement, TableProps>(
-  ({ className, children, ...props }, ref) => {
-    return (
-      <table
-        ref={ref}
-        className={clsx("w-full caption-bottom text-sm", className)}
-        {...props}
-      >
-        {children}
-      </table>
-    )
-  },
+  ({ className, children, ...props }, ref) => (
+    <table
+      ref={ref}
+      className={cn("w-full caption-bottom text-small", className)}
+      {...props}
+    >
+      {children}
+    </table>
+  ),
 )
 TableRoot.displayName = "Table"
 
 type TableHeaderProps = HTMLAttributes<HTMLTableSectionElement>
 
 const TableHeader = forwardRef<HTMLTableSectionElement, TableHeaderProps>(
-  ({ className, children, ...props }, ref) => {
-    return (
-      <thead
-        ref={ref}
-        className={clsx("[&_tr]:border-b", className)}
-        {...props}
-      >
-        {children}
-      </thead>
-    )
-  },
+  ({ className, children, ...props }, ref) => (
+    <thead
+      ref={ref}
+      className={cn("[&_tr]:border-b [&_tr]:border-divider", className)}
+      {...props}
+    >
+      {children}
+    </thead>
+  ),
 )
 TableHeader.displayName = "TableHeader"
 
 type TableBodyProps = HTMLAttributes<HTMLTableSectionElement>
 
 const TableBody = forwardRef<HTMLTableSectionElement, TableBodyProps>(
-  ({ className, children, ...props }, ref) => {
-    return (
-      <tbody
-        ref={ref}
-        className={clsx("[&_tr:last-child]:border-0", className)}
-        {...props}
-      >
-        {children}
-      </tbody>
-    )
-  },
+  ({ className, children, ...props }, ref) => (
+    <tbody
+      ref={ref}
+      className={cn("[&_tr:last-child]:border-0", className)}
+      {...props}
+    >
+      {children}
+    </tbody>
+  ),
 )
 TableBody.displayName = "TableBody"
 
 type TableRowProps = HTMLAttributes<HTMLTableRowElement>
 
 const TableRow = forwardRef<HTMLTableRowElement, TableRowProps>(
-  ({ className, children, ...props }, ref) => {
-    return (
-      <tr
-        ref={ref}
-        className={clsx(
-          "border-b transition-colors hover:bg-gray-50",
-          className,
-        )}
-        {...props}
-      >
-        {children}
-      </tr>
-    )
-  },
+  ({ className, children, ...props }, ref) => (
+    <tr
+      ref={ref}
+      className={cn(
+        "border-b border-divider transition-colors hover:bg-surface",
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </tr>
+  ),
 )
 TableRow.displayName = "TableRow"
 
 type TableHeadProps = ThHTMLAttributes<HTMLTableCellElement>
 
 const TableHead = forwardRef<HTMLTableCellElement, TableHeadProps>(
-  ({ className, children, ...props }, ref) => {
-    return (
-      <th
-        ref={ref}
-        className={clsx(
-          "h-12 px-4 text-left align-middle font-medium text-gray-500 has-[[role=checkbox]]:pr-0",
-          className,
-        )}
-        {...props}
-      >
-        {children}
-      </th>
-    )
-  },
+  ({ className, children, ...props }, ref) => (
+    <th
+      ref={ref}
+      className={cn(
+        "h-12 px-4 text-left align-middle font-heading text-section-label font-semibold text-muted uppercase has-[[role=checkbox]]:pr-0",
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </th>
+  ),
 )
 TableHead.displayName = "TableHead"
 
 type TableCellProps = TdHTMLAttributes<HTMLTableCellElement>
 
 const TableCell = forwardRef<HTMLTableCellElement, TableCellProps>(
-  ({ className, children, ...props }, ref) => {
-    return (
-      <td
-        ref={ref}
-        className={clsx(
-          "p-4 align-middle has-[[role=checkbox]]:pr-0",
-          className,
-        )}
-        {...props}
-      >
-        {children}
-      </td>
-    )
-  },
+  ({ className, children, ...props }, ref) => (
+    <td
+      ref={ref}
+      className={cn("p-4 align-middle has-[[role=checkbox]]:pr-0", className)}
+      {...props}
+    >
+      {children}
+    </td>
+  ),
 )
 TableCell.displayName = "TableCell"
 
@@ -349,21 +355,15 @@ export const Table = Object.assign(TableRoot, {
   Cell: TableCell,
 })
 
-// RadioGroup Components
+// RadioGroup
 type RadioGroupProps = HTMLAttributes<HTMLDivElement>
 
 const RadioGroupRoot = forwardRef<HTMLDivElement, RadioGroupProps>(
-  ({ className, children, ...props }, ref) => {
-    return (
-      <div
-        ref={ref}
-        className={clsx("flex flex-col gap-2", className)}
-        {...props}
-      >
-        {children}
-      </div>
-    )
-  },
+  ({ className, children, ...props }, ref) => (
+    <div ref={ref} className={cn("flex flex-col gap-2", className)} {...props}>
+      {children}
+    </div>
+  ),
 )
 RadioGroupRoot.displayName = "RadioGroup"
 
@@ -372,23 +372,18 @@ type RadioGroupItemProps = InputHTMLAttributes<HTMLInputElement> & {
 }
 
 const RadioGroupItem = forwardRef<HTMLInputElement, RadioGroupItemProps>(
-  ({ className, label, id, ...props }, ref) => {
-    return (
-      <div className="flex items-center gap-2">
-        <input
-          ref={ref}
-          type="radio"
-          id={id}
-          className={clsx(
-            "size-4 border-gray-300 text-gray-900 focus:ring-gray-900",
-            className,
-          )}
-          {...props}
-        />
-        {label && <Label htmlFor={id}>{label}</Label>}
-      </div>
-    )
-  },
+  ({ className, label, id, ...props }, ref) => (
+    <div className="flex items-center gap-2">
+      <input
+        ref={ref}
+        type="radio"
+        id={id}
+        className={cn("size-4 accent-accent", className)}
+        {...props}
+      />
+      {label && <Label htmlFor={id}>{label}</Label>}
+    </div>
+  ),
 )
 RadioGroupItem.displayName = "RadioGroupItem"
 
@@ -396,28 +391,23 @@ export const RadioGroup = Object.assign(RadioGroupRoot, {
   Item: RadioGroupItem,
 })
 
-// Checkbox Component
+// Checkbox
 type CheckboxProps = Omit<InputHTMLAttributes<HTMLInputElement>, "type"> & {
   label?: string
 }
 
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
-  ({ className, label, id, ...props }, ref) => {
-    return (
-      <div className="flex items-center gap-2">
-        <input
-          ref={ref}
-          type="checkbox"
-          id={id}
-          className={clsx(
-            "size-4 border-gray-300 text-gray-900 focus:ring-gray-900",
-            className,
-          )}
-          {...props}
-        />
-        {label && <Label htmlFor={id}>{label}</Label>}
-      </div>
-    )
-  },
+  ({ className, label, id, ...props }, ref) => (
+    <div className="flex items-center gap-2">
+      <input
+        ref={ref}
+        type="checkbox"
+        id={id}
+        className={cn("size-4 accent-accent", className)}
+        {...props}
+      />
+      {label && <Label htmlFor={id}>{label}</Label>}
+    </div>
+  ),
 )
 Checkbox.displayName = "Checkbox"
