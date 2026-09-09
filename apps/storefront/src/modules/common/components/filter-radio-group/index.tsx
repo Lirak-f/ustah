@@ -1,4 +1,4 @@
-import { EllipseMiniSolid } from "../../icons/medusa-compat"
+import { IconDot } from "@modules/common/icons"
 import { Label, RadioGroup, Text, clx } from "@modules/common/components/ui"
 type FilterRadioGroupProps = {
   title: string
@@ -19,7 +19,7 @@ const FilterRadioGroup = ({
   "data-testid": dataTestId,
 }: FilterRadioGroupProps) => {
   return (
-    <div className="flex gap-x-3 flex-col gap-y-3">
+    <div className="flex flex-col gap-3">
       <Text className="txt-compact-small-plus text-ui-fg-muted">{title}</Text>
       <RadioGroup data-testid={dataTestId}>
         {items?.map((i) => (
@@ -29,11 +29,11 @@ const FilterRadioGroup = ({
               "ml-[-23px]": i.value === value,
             })}
           >
-            {i.value === value && <EllipseMiniSolid />}
+            {i.value === value && <IconDot />}
             <RadioGroup.Item
               checked={i.value === value}
               onChange={() => handleChange(i.value)}
-              className="hidden peer"
+              className="peer hidden"
               id={i.value}
               value={i.value}
             />

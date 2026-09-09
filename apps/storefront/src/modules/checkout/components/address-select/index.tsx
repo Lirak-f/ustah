@@ -1,5 +1,5 @@
 import { Listbox, Transition } from "@headlessui/react"
-import { ChevronUpDown } from "../../../common/icons/medusa-compat"
+import { IconChevronUpDown } from "@modules/common/icons"
 import { clx } from "@modules/common/components/ui"
 import { Fragment, useMemo } from "react"
 
@@ -48,7 +48,7 @@ const AddressSelect = ({
                   ? selectedAddress.address_1
                   : "Choose an address"}
               </span>
-              <ChevronUpDown
+              <IconChevronUpDown
                 className={clx("transition-rotate duration-200", {
                   "transform rotate-180": open,
                 })}

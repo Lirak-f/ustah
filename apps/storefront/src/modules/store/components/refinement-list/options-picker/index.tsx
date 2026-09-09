@@ -3,7 +3,7 @@
 import * as Accordion from "@radix-ui/react-accordion"
 import { useEffect, useState } from "react"
 
-import { ChevronDownMini } from "../../../../common/icons/medusa-compat"
+import { IconChevronDown } from "@modules/common/icons"
 import { sdk } from "@lib/config"
 import { HttpTypes } from "@medusajs/types"
 import clsx from "clsx"
@@ -115,17 +115,17 @@ const OptionsPicker = ({
                   </div>
                   <span
                     className={clsx(
-                      "flex h-7 w-7 items-center justify-center text-ui-fg-muted transition-transform duration-150",
+                      "flex size-7 items-center justify-center text-ui-fg-muted transition-transform duration-150",
                       {
                         "rotate-180": isOpen,
                       },
                     )}
                   >
-                    <ChevronDownMini />
+                    <IconChevronDown />
                   </span>
                 </Accordion.Trigger>
               </Accordion.Header>
-              <Accordion.Content className="pb-4 pt-1">
+              <Accordion.Content className="pt-1 pb-4">
                 <div className="flex flex-wrap gap-2">
                   {values.map((value) => {
                     const isSelected = selectedValueIds.includes(value.id)
@@ -135,7 +135,7 @@ const OptionsPicker = ({
                         key={value.id}
                         onClick={() => toggleValue(value.id)}
                         className={clsx(
-                          "border-ui-border-base border text-small-regular h-10 rounded-rounded px-3 flex items-center transition-colors duration-150",
+                          "flex h-10 items-center rounded-rounded border border-ui-border-base px-3 text-small-regular transition-colors duration-150",
                           {
                             "border-ui-border-interactive text-ui-fg-base":
                               isSelected,

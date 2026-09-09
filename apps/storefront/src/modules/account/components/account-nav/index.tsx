@@ -1,16 +1,16 @@
 "use client"
 
-import { ArrowRightOnRectangle } from "../../../common/icons/medusa-compat"
+import { IconSignOut } from "@modules/common/icons"
 import { clx } from "@modules/common/components/ui"
 import { useParams, usePathname } from "next/navigation"
 
 import { signout } from "@lib/data/customer"
 import { HttpTypes } from "@medusajs/types"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
-import ChevronDown from "@modules/common/icons/chevron-down"
-import MapPin from "@modules/common/icons/map-pin"
-import Package from "@modules/common/icons/package"
-import User from "@modules/common/icons/user"
+import { IconChevronDown } from "@modules/common/icons"
+import { IconMapPin } from "@modules/common/icons"
+import { IconPackage } from "@modules/common/icons"
+import { IconUser } from "@modules/common/icons"
 
 const AccountNav = ({
   customer,
@@ -34,7 +34,7 @@ const AccountNav = ({
             data-testid="account-main-link"
           >
             <>
-              <ChevronDown className="rotate-90 transform" />
+              <IconChevronDown className="rotate-90 transform" />
               <span>Account</span>
             </>
           </LocalizedClientLink>
@@ -53,10 +53,10 @@ const AccountNav = ({
                   >
                     <>
                       <div className="flex items-center gap-x-2">
-                        <User size={20} />
+                        <IconUser size={20} />
                         <span>Profile</span>
                       </div>
-                      <ChevronDown className="-rotate-90 transform" />
+                      <IconChevronDown className="-rotate-90 transform" />
                     </>
                   </LocalizedClientLink>
                 </li>
@@ -68,10 +68,10 @@ const AccountNav = ({
                   >
                     <>
                       <div className="flex items-center gap-x-2">
-                        <MapPin size={20} />
+                        <IconMapPin size={20} />
                         <span>Addresses</span>
                       </div>
-                      <ChevronDown className="-rotate-90 transform" />
+                      <IconChevronDown className="-rotate-90 transform" />
                     </>
                   </LocalizedClientLink>
                 </li>
@@ -82,10 +82,10 @@ const AccountNav = ({
                     data-testid="orders-link"
                   >
                     <div className="flex items-center gap-x-2">
-                      <Package size={20} />
+                      <IconPackage size={20} />
                       <span>Orders</span>
                     </div>
-                    <ChevronDown className="-rotate-90 transform" />
+                    <IconChevronDown className="-rotate-90 transform" />
                   </LocalizedClientLink>
                 </li>
                 <li>
@@ -96,10 +96,10 @@ const AccountNav = ({
                     data-testid="logout-button"
                   >
                     <div className="flex items-center gap-x-2">
-                      <ArrowRightOnRectangle />
+                      <IconSignOut />
                       <span>Log out</span>
                     </div>
-                    <ChevronDown className="-rotate-90 transform" />
+                    <IconChevronDown className="-rotate-90 transform" />
                   </button>
                 </li>
               </ul>

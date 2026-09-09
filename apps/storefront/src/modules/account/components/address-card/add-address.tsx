@@ -1,6 +1,6 @@
 "use client"
 
-import { Plus } from "../../../common/icons/medusa-compat"
+import { IconPlus } from "@modules/common/icons"
 import { Button, Heading } from "@modules/common/components/ui"
 import { useActionState, useEffect, useState } from "react"
 
@@ -47,12 +47,12 @@ const AddAddress = ({
   return (
     <>
       <button
-        className="border border-ui-border-base rounded-rounded p-5 min-h-[220px] h-full w-full flex flex-col justify-between"
+        className="flex size-full min-h-[220px] flex-col justify-between rounded-rounded border border-ui-border-base p-5"
         onClick={open}
         data-testid="add-address-button"
       >
         <span className="text-base-semi">New address</span>
-        <Plus />
+        <IconPlus />
       </button>
 
       <Modal isOpen={state} close={close} data-testid="add-address-modal">
@@ -135,7 +135,7 @@ const AddAddress = ({
             </div>
             {formState.error && (
               <div
-                className="text-rose-500 text-small-regular py-2"
+                className="py-2 text-small-regular text-rose-500"
                 data-testid="address-error"
               >
                 {formState.error}
@@ -143,7 +143,7 @@ const AddAddress = ({
             )}
           </Modal.Body>
           <Modal.Footer>
-            <div className="flex gap-3 mt-6">
+            <div className="mt-6 flex gap-3">
               <Button
                 type="reset"
                 variant="secondary"

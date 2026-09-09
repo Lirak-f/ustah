@@ -1,9 +1,6 @@
 "use client"
 import { createTransferRequest } from "@lib/data/orders"
-import {
-  CheckCircleMiniSolid,
-  XCircleSolid,
-} from "../../../common/icons/medusa-compat"
+import { IconCheckCircle, IconXCircle } from "@modules/common/icons"
 import { Heading, IconButton, Input, Text } from "@modules/common/components/ui"
 import { useActionState } from "react"
 // TODO: Re-add Toaster component when needed
@@ -64,7 +61,7 @@ export default function TransferRequestForm() {
       {showSuccess && (
         <div className="flex w-full items-center justify-between self-stretch bg-neutral-50 p-4 shadow-borders-base">
           <div className="flex items-center gap-x-2">
-            <CheckCircleMiniSolid className="size-4 text-emerald-500" />
+            <IconCheckCircle className="size-4 text-emerald-500" />
             <div className="flex flex-col gap-y-1">
               <Text className="text-neutral-950">
                 Transfer for order {state.order?.id} requested
@@ -75,7 +72,7 @@ export default function TransferRequestForm() {
             </div>
           </div>
           <IconButton className="h-fit" onClick={() => setShowSuccess(false)}>
-            <XCircleSolid className="size-4 text-neutral-500" />
+            <IconXCircle className="size-4 text-neutral-500" />
           </IconButton>
         </div>
       )}

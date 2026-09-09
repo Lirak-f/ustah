@@ -1,6 +1,6 @@
 import { retrieveCart } from "@lib/data/cart"
 import { formatEur } from "@lib/util/ustah-price"
-import { IconCart } from "@modules/common/icons/ustah"
+import { IconCart } from "@modules/common/icons"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 
 /**

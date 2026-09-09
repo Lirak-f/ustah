@@ -5,7 +5,7 @@ import {
   IconCash,
   IconInvoice,
   IconTruck,
-} from "@modules/common/icons/ustah"
+} from "@modules/common/icons"
 
 /**
  * The four trust claims under the header. These are the store's actual terms —

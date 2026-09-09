@@ -1,5 +1,5 @@
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
-import ChevronDown from "@modules/common/icons/chevron-down"
+import { IconChevronDown } from "@modules/common/icons"
 import MedusaCTA from "@modules/layout/components/medusa-cta"
 
 export default function CheckoutLayout({
@@ -16,7 +16,7 @@ export default function CheckoutLayout({
             className="flex flex-1 basis-0 items-center gap-x-2 text-small-semi text-ui-fg-base uppercase"
             data-testid="back-to-cart-link"
           >
-            <ChevronDown className="rotate-90" size={16} />
+            <IconChevronDown className="rotate-90" size={16} />
             <span className="mt-px hidden txt-compact-medium-plus text-ui-fg-subtle hover:text-ui-fg-base small:block">
               Back to shopping cart
             </span>

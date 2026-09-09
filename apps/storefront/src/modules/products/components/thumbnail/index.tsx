@@ -2,7 +2,7 @@ import { Container, clx } from "@modules/common/components/ui"
 import Image from "next/image"
 import React from "react"
 
-import PlaceholderImage from "@modules/common/icons/placeholder-image"
+import { IconPlaceholderImage } from "@modules/common/icons"
 
 type ThumbnailProps = {
   thumbnail?: string | null
@@ -60,8 +60,8 @@ const ImageOrPlaceholder = ({
       fill
     />
   ) : (
-    <div className="w-full h-full absolute inset-0 flex items-center justify-center">
-      <PlaceholderImage size={size === "small" ? 16 : 24} />
+    <div className="absolute inset-0 flex size-full items-center justify-center">
+      <IconPlaceholderImage size={size === "small" ? 16 : 24} />
     </div>
   )
 }

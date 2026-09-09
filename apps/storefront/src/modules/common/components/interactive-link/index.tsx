@@ -1,4 +1,4 @@
-import { ArrowUpRightMini } from "../../icons/medusa-compat"
+import { IconArrowUpRight } from "@modules/common/icons"
 import { Text } from "@modules/common/components/ui"
 import LocalizedClientLink from "../localized-client-link"
 type InteractiveLinkProps = {
@@ -15,14 +15,14 @@ const InteractiveLink = ({
 }: InteractiveLinkProps) => {
   return (
     <LocalizedClientLink
-      className="flex gap-x-1 items-center group"
+      className="group flex items-center gap-x-1"
       href={href}
       onClick={onClick}
       {...props}
     >
       <Text className="text-ui-fg-interactive">{children}</Text>
-      <ArrowUpRightMini
-        className="group-hover:rotate-45 ease-in-out duration-150"
+      <IconArrowUpRight
+        className="duration-150 ease-in-out group-hover:rotate-45"
         color="var(--fg-interactive)"
       />
     </LocalizedClientLink>

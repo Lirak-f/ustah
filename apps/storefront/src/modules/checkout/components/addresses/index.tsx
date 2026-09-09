@@ -2,11 +2,11 @@
 import { setAddresses } from "@lib/data/cart"
 import useToggleState from "@lib/hooks/use-toggle-state"
 import compareAddresses from "@lib/util/compare-addresses"
-import { CheckCircleSolid } from "../../../common/icons/medusa-compat"
+import { IconCheckCircle } from "@modules/common/icons"
 import { HttpTypes } from "@medusajs/types"
 import Divider from "@modules/common/components/divider"
 import { Heading, Text } from "@modules/common/components/ui"
-import Spinner from "@modules/common/icons/spinner"
+import { IconSpinner } from "@modules/common/icons"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useActionState } from "react"
 import BillingAddress from "../billing_address"
@@ -41,13 +41,13 @@ const Addresses = ({
 
   return (
     <div className="bg-white">
-      <div className="flex flex-row items-center justify-between mb-6">
+      <div className="mb-6 flex flex-row items-center justify-between">
         <Heading
           level="h2"
-          className="flex flex-row text-3xl-regular gap-x-2 items-baseline"
+          className="flex flex-row items-baseline gap-x-2 text-3xl-regular"
         >
           Shipping Address
-          {!isOpen && <CheckCircleSolid />}
+          {!isOpen && <IconCheckCircle />}
         </Heading>
         {!isOpen && cart?.shipping_address && (
           <Text>
@@ -75,7 +75,7 @@ const Addresses = ({
               <div>
                 <Heading
                   level="h2"
-                  className="text-3xl-regular gap-x-4 pb-6 pt-8"
+                  className="gap-x-4 pt-8 pb-6 text-3xl-regular"
                 >
                   Billing address
                 </Heading>
@@ -94,12 +94,12 @@ const Addresses = ({
           <div className="text-small-regular">
             {cart && cart.shipping_address ? (
               <div className="flex items-start gap-x-8">
-                <div className="flex items-start gap-x-1 w-full">
+                <div className="flex w-full items-start gap-x-1">
                   <div
-                    className="flex flex-col w-1/3"
+                    className="flex w-1/3 flex-col"
                     data-testid="shipping-address-summary"
                   >
-                    <Text className="txt-medium-plus text-ui-fg-base mb-1">
+                    <Text className="mb-1 txt-medium-plus text-ui-fg-base">
                       Shipping Address
                     </Text>
                     <Text className="txt-medium text-ui-fg-subtle">
@@ -120,10 +120,10 @@ const Addresses = ({
                   </div>
 
                   <div
-                    className="flex flex-col w-1/3 "
+                    className="flex w-1/3 flex-col"
                     data-testid="shipping-contact-summary"
                   >
-                    <Text className="txt-medium-plus text-ui-fg-base mb-1">
+                    <Text className="mb-1 txt-medium-plus text-ui-fg-base">
                       Contact
                     </Text>
                     <Text className="txt-medium text-ui-fg-subtle">
@@ -135,10 +135,10 @@ const Addresses = ({
                   </div>
 
                   <div
-                    className="flex flex-col w-1/3"
+                    className="flex w-1/3 flex-col"
                     data-testid="billing-address-summary"
                   >
-                    <Text className="txt-medium-plus text-ui-fg-base mb-1">
+                    <Text className="mb-1 txt-medium-plus text-ui-fg-base">
                       Billing Address
                     </Text>
 
@@ -170,7 +170,7 @@ const Addresses = ({
               </div>
             ) : (
               <div>
-                <Spinner />
+                <IconSpinner />
               </div>
             )}
           </div>

@@ -24,6 +24,7 @@
     "@ustah/design-tokens": "workspace:*",
     "clsx": "^2.1.1",
     "lodash": "^4.17.21",
+    "lucide-react": "^1.43.0",
     "next": "^15.5.21",
     "pg": "^8.11.3",
     "qs": "^6.12.1",

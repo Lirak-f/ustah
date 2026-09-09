@@ -10,7 +10,7 @@ import {
   IconPlumbing,
   IconPowerTool,
   IconSafety,
-} from "@modules/common/icons/ustah"
+} from "@modules/common/icons"
 
 /**
  * Icon per category handle. Handles come from the seed (src/data/ustah-catalog.ts);
@@ -40,7 +40,7 @@ const CategoryGrid = ({ categories }: Props) => {
   return (
     <section className="bg-bg">
       <div className="flex items-baseline justify-between px-7 pt-8">
-        <h2 className="text-[26px] uppercase tracking-[0.01em]">Kategoritë</h2>
+        <h2 className="text-[26px] tracking-[0.01em] uppercase">Kategoritë</h2>
         <LocalizedClientLink
           href="/store"
           className="text-[13px] text-accent hover:underline"
@@ -49,7 +49,7 @@ const CategoryGrid = ({ categories }: Props) => {
         </LocalizedClientLink>
       </div>
 
-      <div className="grid grid-cols-1 gap-px px-7 pb-7 pt-5 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-px px-7 pt-5 pb-7 sm:grid-cols-2 lg:grid-cols-4">
         {categories.map((category) => {
           const Icon = ICONS[category.handle] ?? IconPowerTool
           const count = category.products?.length ?? 0
@@ -62,7 +62,7 @@ const CategoryGrid = ({ categories }: Props) => {
             >
               <Icon className="size-[34px]" />
               <span>
-                <span className="block font-heading text-[24px] font-bold uppercase leading-[1.02]">
+                <span className="block font-heading text-[24px] leading-[1.02] font-bold uppercase">
                   {category.name}
                 </span>
                 {count > 0 && (

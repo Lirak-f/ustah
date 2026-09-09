@@ -2,10 +2,7 @@
 import { RadioGroup } from "@headlessui/react"
 import { paymentInfoMap } from "@lib/constants"
 import { initiatePaymentSession } from "@lib/data/cart"
-import {
-  CheckCircleSolid,
-  CreditCard,
-} from "../../../common/icons/medusa-compat"
+import { IconCheckCircle, IconCreditCard } from "@modules/common/icons"
 import ErrorMessage from "@modules/checkout/components/error-message"
 import PaymentContainer from "@modules/checkout/components/payment-container"
 import Divider from "@modules/common/components/divider"
@@ -103,7 +100,7 @@ const Payment = ({
 
   return (
     <div className="bg-white">
-      <div className="flex flex-row items-center justify-between mb-6">
+      <div className="mb-6 flex flex-row items-center justify-between">
         <Heading
           level="h2"
           className={clx(
@@ -115,7 +112,7 @@ const Payment = ({
           )}
         >
           Payment
-          {!isOpen && paymentReady && <CheckCircleSolid />}
+          {!isOpen && paymentReady && <IconCheckCircle />}
         </Heading>
         {!isOpen && paymentReady && (
           <Text>
@@ -151,8 +148,8 @@ const Payment = ({
           )}
 
           {paidByGiftcard && (
-            <div className="flex flex-col w-1/3">
-              <Text className="txt-medium-plus text-ui-fg-base mb-1">
+            <div className="flex w-1/3 flex-col">
+              <Text className="mb-1 txt-medium-plus text-ui-fg-base">
                 Payment method
               </Text>
               <Text
@@ -183,9 +180,9 @@ const Payment = ({
 
         <div className={isOpen ? "hidden" : "block"}>
           {cart && paymentReady && activeSession ? (
-            <div className="flex items-start gap-x-1 w-full">
-              <div className="flex flex-col w-1/3">
-                <Text className="txt-medium-plus text-ui-fg-base mb-1">
+            <div className="flex w-full items-start gap-x-1">
+              <div className="flex w-1/3 flex-col">
+                <Text className="mb-1 txt-medium-plus text-ui-fg-base">
                   Payment method
                 </Text>
                 <Text
@@ -196,17 +193,17 @@ const Payment = ({
                     activeSession?.provider_id}
                 </Text>
               </div>
-              <div className="flex flex-col w-1/3">
-                <Text className="txt-medium-plus text-ui-fg-base mb-1">
+              <div className="flex w-1/3 flex-col">
+                <Text className="mb-1 txt-medium-plus text-ui-fg-base">
                   Payment details
                 </Text>
                 <div
-                  className="flex gap-2 txt-medium text-ui-fg-subtle items-center"
+                  className="flex items-center gap-2 txt-medium text-ui-fg-subtle"
                   data-testid="payment-details-summary"
                 >
-                  <Container className="flex items-center h-7 w-fit p-2 bg-ui-button-neutral-hover">
+                  <Container className="flex h-7 w-fit items-center bg-ui-button-neutral-hover p-2">
                     {paymentInfoMap[selectedPaymentMethod]?.icon || (
-                      <CreditCard />
+                      <IconCreditCard />
                     )}
                   </Container>
                   <Text>Payable in cash on delivery</Text>
@@ -214,8 +211,8 @@ const Payment = ({
               </div>
             </div>
           ) : paidByGiftcard ? (
-            <div className="flex flex-col w-1/3">
-              <Text className="txt-medium-plus text-ui-fg-base mb-1">
+            <div className="flex w-1/3 flex-col">
+              <Text className="mb-1 txt-medium-plus text-ui-fg-base">
                 Payment method
               </Text>
               <Text
