@@ -100,19 +100,30 @@ export default async function initial_data_seed({
   })
 
   logger.info("Seeding region data...")
-  const { result: regionResult } = await createRegionsWorkflow(container).run({
-    input: {
-      regions: [
-        {
-          name: "Europe",
-          currency_code: "eur",
-          countries,
-          payment_providers: ["pp_system_default"],
-        },
-      ],
-    },
+  // Reuse an existing region rather than failing on re-run. This script is
+  // re-executed during development whenever the catalog changes, and creating
+  // a region whose countries are already claimed aborts the whole seed before
+  // any product is written.
+  const { data: existingRegions } = await query.graph({
+    entity: "region",
+    fields: ["id", "name"],
   })
-  const region = regionResult[0]
+  const region =
+    existingRegions.find((r) => r.name === "Europe") ??
+    (
+      await createRegionsWorkflow(container).run({
+        input: {
+          regions: [
+            {
+              name: "Europe",
+              currency_code: "eur",
+              countries,
+              payment_providers: ["pp_system_default"],
+            },
+          ],
+        },
+      })
+    ).result[0]
   logger.info("Finished seeding regions.")
 
   logger.info("Seeding tax regions...")
@@ -370,6 +381,9 @@ export default async function initial_data_seed({
           shipping_profile_id: shippingProfile.id,
           metadata: {
             brand: p.brand,
+            // Pre-discount price behind the card's yellow badge. Authored
+            // against the product's CHEAPEST variant, because that is the
+            // price the card leads with.
             ...(p.compareAt ? { compare_at: p.compareAt } : {}),
           },
           options: [

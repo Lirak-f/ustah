@@ -9,12 +9,22 @@ import { commerce } from "@ustah/design-tokens"
  * `convertToLocale` anywhere a price is shown in Ustah chrome.
  */
 
-const eur = new Intl.NumberFormat("sq-AL", {
+/**
+ * de-DE, not sq-AL, on purpose.
+ *
+ * The design writes money as `1.234,50 €` and `21.900 L` — dot thousands, comma
+ * decimal. Node's ICU data for sq-AL drops the grouping separator entirely
+ * (1700 rather than 1.700), so formatting Albanian prices with the Albanian
+ * locale silently loses it. de-DE produces the exact grouping and decimal marks
+ * the design specifies. Verified against Node 22 ICU — re-check if the runtime's
+ * ICU data changes.
+ */
+const eur = new Intl.NumberFormat("de-DE", {
   minimumFractionDigits: 2,
   maximumFractionDigits: 2,
 })
 
-const lek = new Intl.NumberFormat("sq-AL", {
+const lek = new Intl.NumberFormat("de-DE", {
   maximumFractionDigits: 0,
 })
 

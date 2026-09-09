@@ -1,7 +1,6 @@
 import Image from "next/image"
 import { HttpTypes } from "@medusajs/types"
 
-import { getProductPrice } from "@lib/util/get-product-price"
 import {
   discountPercent,
   formatEur,
@@ -14,6 +13,11 @@ type Props = {
   product: HttpTypes.StoreProduct
 }
 
+/** Narrow view of the priced variant shape the card reads. */
+type PricedVariant = HttpTypes.StoreProductVariant & {
+  calculated_price?: { calculated_amount?: number }
+}
+
 /**
  * Product card, shared by the homepage rail and the listing grid.
  *
@@ -23,13 +27,36 @@ type Props = {
  * gap between white cards *is* the rule.
  */
 const UstahProductCard = ({ product }: Props) => {
-  const { cheapestPrice } = getProductPrice({ product })
-  const { brand, compareAt } = productMeta(product.metadata)
+  const { brand } = productMeta(product.metadata)
 
-  const amount = cheapestPrice?.calculated_price_number ?? null
+  // Price, SKU and compare-at must all describe the SAME variant, or the card
+  // pairs one variant's price with another's code and strikes through a figure
+  // the shopper is never offered.
+  //
+  // Which variant leads is a merchandising choice, and the design answers it:
+  // the KB-SET2 card shows "2 × 5,0 Ah" at 219,00 € struck from 269,00 € — the
+  // DISCOUNTED variant, not the cheapest (2 × 2,0 Ah at 179,00 €). A card in
+  // "Ofertat e javës" that hid the offer would defeat the rail. So: prefer the
+  // deepest genuine discount, and fall back to the cheapest when none is on
+  // offer.
+  const priced = ((product.variants ?? []) as PricedVariant[]).filter(
+    (v) => typeof v.calculated_price?.calculated_amount === "number",
+  )
+
+  const leadVariant =
+    priced
+      .map((v) => {
+        const price = v.calculated_price?.calculated_amount ?? 0
+        const was = productMeta(v.metadata).compareAt
+        return { v, price, saving: was && was > price ? was - price : 0 }
+      })
+      .sort((a, b) => b.saving - a.saving || a.price - b.price)[0]?.v ?? null
+
+  const amount = leadVariant?.calculated_price?.calculated_amount ?? null
+  const sku = leadVariant?.sku ?? null
+  const { compareAt } = productMeta(leadVariant?.metadata)
   const discount =
     amount !== null ? discountPercent(amount, compareAt ?? undefined) : null
-  const sku = product.variants?.[0]?.sku ?? null
 
   return (
     <article className="group bg-bg p-5">
