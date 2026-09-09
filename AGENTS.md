@@ -32,17 +32,37 @@ Each app can have its own nested `AGENTS.md`; agents read the nearest one in the
 
 ## Package Manager
 
-**The package manager is chosen at install time and is not fixed.** Detect it before running anything, in this order:
+**This repo uses pnpm. Do not use npm or yarn.** `packageManager` in the root
+`package.json` pins it, and `pnpm-lock.yaml` is the only lockfile. `npm install`
+does not merely warn here — it errors.
 
-1. The `packageManager` field in the root `package.json` (e.g. `"pnpm@10.11.1"`) — authoritative when present.
-2. The lockfile at the repo root: `pnpm-lock.yaml` → pnpm, `yarn.lock` → yarn, `package-lock.json` → npm.
+This is a technical constraint, not a style choice. The backend pins React 18
+(Medusa's admin dashboard requires it) and the storefront pins React 19. npm
+hoists one copy of each package to the root regardless of which workspace
+declared it, so `@radix-ui/*`, `@headlessui/react` and `react-country-flag`
+resolved React 18 while the storefront compiled against 19 — every element they
+created was rejected at render ("Objects are not valid as a React child"), and
+`next build` failed with "Minified React error #31". npm's
+`install-strategy=nested` does **not** fix this; it was tried and only
+`react`/`react-dom` nest. pnpm resolves peer dependencies per dependent, so each
+app links against its own React.
+
+Useful forms:
 
 ```bash
-node -p "require('./package.json').packageManager ?? 'unset'"
-ls pnpm-lock.yaml yarn.lock package-lock.json bun.lock bun.lockb 2>/dev/null
+pnpm install                            # never `npm install`
+pnpm add <pkg>                          # into the app that needs it, see below
+pnpm --filter @ustah/storefront <cmd>   # by package NAME
+pnpm -C apps/storefront <cmd>           # by PATH
 ```
 
-Use that manager for every command and never introduce a second lockfile. Below, `<pm>` means the detected manager. The `<pm> run <script>` and `<pm> exec <bin>` forms work across npm, pnpm, yarn, and bun; workspace-filter flags do not, so the per-app commands below `cd` into the app instead.
+`--filter` takes a package name and `-C` takes a directory — mixing them up is
+the usual mistake. Both beat `cd`-ing into the app.
+
+If you add a dependency that a config file imports (an ESLint plugin, a type
+package), **declare it in that workspace**. pnpm resolves only what a package
+declares; several deps here had been working by accident as hoisted transitive
+dependencies of something else and broke the moment npm's flat tree went away.
 
 ## Commands
 
@@ -51,50 +71,50 @@ Run from the repo root unless noted. Turbo skips missing apps automatically.
 ### Development
 
 ```bash
-<pm> run dev                # all apps
-<pm> run backend:dev        # backend only (http://localhost:9000, admin at /app)
-<pm> run storefront:dev     # storefront only (http://localhost:8000)
+pnpm run dev                # all apps
+pnpm run backend:dev        # backend only (http://localhost:9000, admin at /app)
+pnpm run storefront:dev     # storefront only (http://localhost:8000)
 ```
 
 ### Build
 
 ```bash
-<pm> run build              # all apps
-<pm> run start              # build (via turbo dependsOn) then start
+pnpm run build              # all apps
+pnpm run start              # build (via turbo dependsOn) then start
 ```
 
 ### Lint
 
 ```bash
-<pm> run lint                          # all apps via turbo
-cd apps/backend && <pm> run lint       # medusa lint
-cd apps/storefront && <pm> run lint    # next lint
+pnpm run lint                          # all apps via turbo
+pnpm --filter @ustah/backend lint      # medusa lint
+pnpm --filter @ustah/storefront lint   # next lint
 ```
 
 ### Test (backend only; the storefront has no test suite)
 
 ```bash
-<pm> run test                                              # all test tasks via turbo
-cd apps/backend && <pm> run test:unit                      # **/src/**/__tests__/**/*.unit.spec.ts
-cd apps/backend && <pm> run test:integration:modules       # **/src/modules/*/__tests__/**
-cd apps/backend && <pm> run test:integration:http          # **/integration-tests/http/*.spec.ts
+pnpm run test                                             # all test tasks via turbo
+pnpm --filter @ustah/backend run test:unit                # **/src/**/__tests__/**/*.unit.spec.ts
+pnpm --filter @ustah/backend run test:integration:modules # **/src/modules/*/__tests__/**
+pnpm --filter @ustah/backend run test:integration:http    # **/integration-tests/http/*.spec.ts
 ```
 
 Single test — pass a path/pattern through to Jest, keeping `TEST_TYPE`:
 
 ```bash
-cd apps/backend && <pm> run test:unit -- src/modules/foo/__tests__/service.unit.spec.ts
-cd apps/backend && <pm> run test:unit -- -t "returns the cart"
+pnpm --filter @ustah/backend run test:unit -- src/modules/foo/__tests__/service.unit.spec.ts
+pnpm --filter @ustah/backend run test:unit -- -t "returns the cart"
 ```
 
 ### Database
 
 ```bash
 cd apps/backend
-<pm> exec medusa db:generate <module-name>   # generate migrations for a custom module
-<pm> exec medusa db:migrate                  # run migrations
-<pm> exec medusa user -e admin@test.com -p supersecret
-<pm> run backend:seed                        # from root; seeds initial data
+pnpm exec medusa db:generate <module-name>   # generate migrations for a custom module
+pnpm exec medusa db:migrate                  # run migrations
+pnpm exec medusa user -e admin@test.com -p supersecret
+pnpm run backend:seed                        # from root; seeds initial data
 ```
 
 ## Medusa Skills & MCP Server
@@ -137,9 +157,10 @@ claude mcp add --transport http medusa https://docs.medusajs.com/mcp # or agent 
 ## Common Mistakes
 
 - Running storefront commands without checking that `apps/storefront/` exists.
-- Assuming a package manager instead of detecting it, or running a command that creates a second lockfile.
-- Installing a dependency at the root instead of inside the app that needs it (`cd apps/backend && <pm> add <pkg>`).
-- Editing a custom module's model without running `<pm> exec medusa db:generate <module>` — the migration is missing and the change silently never applies.
+- Reaching for `npm`. This repo is pnpm-only; `npm install` errors, and either npm or yarn would create a second lockfile.
+- Installing a dependency at the root instead of inside the app that needs it (`pnpm --filter @ustah/backend add <pkg>`).
+- Importing a package from a config file without declaring it in that workspace. pnpm resolves only declared dependencies, so it fails where npm's hoisting silently supplied it.
+- Editing a custom module's model without running `pnpm exec medusa db:generate <module>` — the migration is missing and the change silently never applies.
 - Writing raw SQL or importing DB clients directly in the backend instead of going through module services / workflows.
 - Calling the Medusa API from the storefront without `NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY`; requests fail with a publishable-key error, not an obvious 401.
 - Running the test task without a reachable PostgreSQL — integration suites need a live DB.

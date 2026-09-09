@@ -18,7 +18,16 @@ A direct-to-consumer ecommerce monorepo built on [Medusa](https://medusajs.com) 
 
 - [Node.js](https://nodejs.org/) `^20.19.0 || >=22.12.0`
 - [PostgreSQL](https://www.postgresql.org/) v15+
-- npm v11+ — this repo pins `npm` via the `packageManager` field. Do not use pnpm or yarn; they will refuse to run, and would create a second lockfile.
+- [pnpm](https://pnpm.io/) v10+ (`corepack enable`, or `brew install pnpm`) — pinned via the `packageManager` field. **Do not use npm or yarn**: `npm install` errors out here, and either would create a second lockfile.
+
+  pnpm is not a preference. The backend needs React 18 (Medusa's admin
+  dashboard) and the storefront needs React 19. npm hoists one copy of each
+  package to the root regardless of which workspace asked for it, so
+  `@radix-ui/*`, `@headlessui/react` and `react-country-flag` resolved React 18
+  while the storefront compiled against 19 — every element they created was
+  rejected at render, and `next build` died with "Minified React error #31".
+  pnpm resolves peer dependencies per dependent, so each app gets a copy linked
+  against its own React.
 
 ### Local Installation
 
@@ -27,7 +36,7 @@ A direct-to-consumer ecommerce monorepo built on [Medusa](https://medusajs.com) 
 ```bash
 git clone git@github.com:Lirak-f/ustah.git
 cd ustah
-npm install
+pnpm install
 ```
 
 2. Set up environment variables for the backend:
@@ -60,7 +69,7 @@ npx medusa user -e admin@test.com -p supersecret
 6. Start the Medusa backend:
 
 ```bash
-npm run backend:dev
+pnpm run backend:dev
 ```
 
 7. Open the admin dashboard at `localhost:9000/app` and log in. Retrieve your publishable API key at Settings > Publishable API key.
@@ -74,7 +83,7 @@ NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=pk_6c3...
 9. Start the storefront:
 
 ```bash
-npm run storefront:dev
+pnpm run storefront:dev
 ```
 
 The storefront runs on `http://localhost:8000`.
@@ -82,7 +91,7 @@ The storefront runs on `http://localhost:8000`.
 You can also run the following command from the root to start both backend and storefront:
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 ## Commands
@@ -90,13 +99,13 @@ npm run dev
 Run from the repo root. Turbo fans each task out to both apps.
 
 ```bash
-npm run dev              # backend + storefront
-npm run backend:dev      # backend only (http://localhost:9000, admin at /app)
-npm run storefront:dev   # storefront only (http://localhost:8000)
-npm run build            # build all apps
-npm run start            # build, then start
-npm run lint             # lint all apps
-npm run test             # backend test suites (needs a reachable PostgreSQL)
+pnpm run dev              # backend + storefront
+pnpm run backend:dev      # backend only (http://localhost:9000, admin at /app)
+pnpm run storefront:dev   # storefront only (http://localhost:8000)
+pnpm run build            # build all apps
+pnpm run start            # build, then start
+pnpm run lint             # lint all apps
+pnpm run test             # backend test suites (needs a reachable PostgreSQL)
 ```
 
 ## Configuration
