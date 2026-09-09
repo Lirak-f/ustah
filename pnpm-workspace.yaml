@@ -1,0 +1,6 @@
+# Workspace packages. `apps/*` and `packages/*` glob a single level, so the
+# build output at apps/backend/.medusa/server — which carries its own
+# package.json — is excluded without needing a negation.
+packages:
+  - apps/*
+  - packages/*
