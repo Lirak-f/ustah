@@ -1,0 +1,287 @@
+@import 'tailwindcss';
+
+/*
+  Ustah design tokens — GENERATED, do not edit inline.
+  Regenerate with: npm run build --workspace=@ustah/design-tokens
+
+  Tailwind v4 only builds utility namespaces from @theme blocks in the ENTRY
+  stylesheet; a @theme reached through @import registers the CSS variables but
+  generates no `bg-accent` / `text-price` utilities. So the generator writes the
+  @theme block into this file directly, between the markers below, and keeps the
+  @font-face rules in the imported file where an import is harmless.
+*/
+@import '@ustah/design-tokens/fonts.css';
+
+/* ustah:theme:start */
+@theme {
+  /* ── Colour ─────────────────────────────────────────────────────── */
+  --color-accent-100: #E6F2FA;
+  --color-accent-200: #CCE5F5;
+  --color-accent-300: #99CAEA;
+  --color-accent-400: #4D9DD4;
+  --color-accent-500: #0071B9;
+  --color-accent-600: #005A94;
+  --color-accent-700: #004675;
+  --color-accent-800: #003357;
+  --color-accent-900: #00223B;
+  --color-accent: #0071B9;
+  --color-yellow-600: #F0C000;
+  --color-yellow-700: #E6B800;
+  --color-yellow: #FFCC00;
+  --color-bg: #FFFFFF;
+  --color-page: #DDE1E6;
+  --color-surface: #F4F5F7;
+  --color-surface-alt: #EDEFF2;
+  --color-text: #1A1A1A;
+  --color-muted: #4A5058;
+  --color-muted2: #3F464E;
+  --color-faint: #6B7280;
+  --color-divider: #E1E4E8;
+  --color-border-strong: #C9CDD3;
+  --color-border-soft: #DDE0E4;
+  --color-danger: #C8102E;
+
+  /* ── Type ───────────────────────────────────────────────────────── */
+  --font-heading: 'Barlow Condensed', system-ui, sans-serif;
+  --font-body: 'Barlow', system-ui, sans-serif;
+  --font-mono: ui-monospace, Menlo, monospace;
+
+  --text-logo: 34px;
+  --text-logo--line-height: 0.85;
+  --text-logo--font-weight: 700;
+  --text-logo--letter-spacing: 0.05em;
+  --text-price: 30px;
+  --text-price--line-height: 1;
+  --text-price--font-weight: 700;
+  --text-price--letter-spacing: -0.02em;
+  --text-price-lg: 38px;
+  --text-price-lg--line-height: 1;
+  --text-price-lg--font-weight: 700;
+  --text-price-lg--letter-spacing: -0.02em;
+  --text-card-title: 17px;
+  --text-card-title--line-height: 1.1;
+  --text-card-title--font-weight: 600;
+  --text-card-title--letter-spacing: 0;
+  --text-page-title: 28px;
+  --text-page-title--line-height: 1.15;
+  --text-page-title--font-weight: 600;
+  --text-page-title--letter-spacing: -0.015em;
+  --text-nav: 13px;
+  --text-nav--line-height: 1;
+  --text-nav--font-weight: 600;
+  --text-nav--letter-spacing: 0.05em;
+  --text-section-label: 12px;
+  --text-section-label--line-height: 1;
+  --text-section-label--font-weight: 600;
+  --text-section-label--letter-spacing: 0.06em;
+  --text-body: 15px;
+  --text-body--line-height: 1.55;
+  --text-body--font-weight: 400;
+  --text-body--letter-spacing: 0;
+  --text-small: 13px;
+  --text-small--line-height: 1.4;
+  --text-small--font-weight: 400;
+  --text-small--letter-spacing: 0;
+  --text-xs: 11px;
+  --text-xs--line-height: 1.3;
+  --text-xs--font-weight: 400;
+  --text-xs--letter-spacing: 0;
+  --text-sku: 11px;
+  --text-sku--line-height: 1;
+  --text-sku--font-weight: 400;
+  --text-sku--letter-spacing: 0;
+
+  /* ── Spacing ────────────────────────────────────────────────────── */
+  --spacing-1: 4px;
+  --spacing-2: 6px;
+  --spacing-3: 8px;
+  --spacing-4: 9px;
+  --spacing-5: 12px;
+  --spacing-6: 16px;
+  --spacing-7: 20px;
+  --spacing-8: 24px;
+  --spacing-9: 32px;
+  --spacing-10: 40px;
+
+  /* ── Layout ─────────────────────────────────────────────────────── */
+  --layout-frame: 1440px;
+  --layout-gutter: 20px;
+  --layout-sidebar: 264px;
+  --layout-card-image: 170px;
+  --layout-search-height: 46px;
+  --layout-utility-height: 32px;
+  --layout-product-columns: 520px 1fr 340px;
+
+  /* ── Radii ──────────────────────────────────────────────────────── */
+  /* Square is the identity. There is no rounded variant on purpose. */
+  --radius-none: 0;
+}
+
+/* ── Base ───────────────────────────────────────────────────────────── */
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  background: var(--color-page);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height);
+  /* Prices sit in columns across cards and the spec table; without this the
+     digits jitter between rows. The design sets it globally. */
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  margin: 0;
+}
+
+/* The design uses zero border-radius everywhere. Reset UA styles that add it. */
+button, input, select, textarea {
+  border-radius: 0;
+  font: inherit;
+}
+
+/* ustah:theme:end */
+
+@config '../../tailwind.config.js';
+
+
+/*
+  Explicit scan roots. The inherited v3 `content` globs come in through @config
+  and resolve relative to the config file, which silently misses sources; these
+  are relative to this stylesheet and cover everything the app renders.
+*/
+@source '../app';
+@source '../modules';
+@source '../lib';
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@utility no-scrollbar {
+  /* Chrome, Safari and Opera */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+@utility content-container {
+  @apply max-w-[1440px] w-full mx-auto px-6;
+}
+
+@utility contrast-btn {
+  @apply px-4 py-2 border border-black rounded-full hover:bg-black hover:text-white transition-colors duration-200 ease-in;
+}
+
+@utility text-xsmall-regular {
+  @apply text-[10px] leading-4 font-normal;
+}
+
+@utility text-small-regular {
+  @apply text-xs leading-5 font-normal;
+}
+
+@utility text-small-semi {
+  @apply text-xs leading-5 font-semibold;
+}
+
+@utility text-base-regular {
+  @apply text-sm leading-6 font-normal;
+}
+
+@utility text-base-semi {
+  @apply text-sm leading-6 font-semibold;
+}
+
+@utility text-large-regular {
+  @apply text-base leading-6 font-normal;
+}
+
+@utility text-large-semi {
+  @apply text-base leading-6 font-semibold;
+}
+
+@utility text-xl-regular {
+  @apply text-2xl leading-[36px] font-normal;
+}
+
+@utility text-xl-semi {
+  @apply text-2xl leading-[36px] font-semibold;
+}
+
+@utility text-2xl-regular {
+  @apply text-[30px] leading-[48px] font-normal;
+}
+
+@utility text-2xl-semi {
+  @apply text-[30px] leading-[48px] font-semibold;
+}
+
+@utility text-3xl-regular {
+  @apply text-[32px] leading-[44px] font-normal;
+}
+
+@utility text-3xl-semi {
+  @apply text-[32px] leading-[44px] font-semibold;
+}
+
+@layer utilities {
+  input:focus ~ label,
+  input:not(:placeholder-shown) ~ label {
+    @apply -translate-y-2 text-xsmall-regular;
+  }
+
+  input:focus ~ label {
+    @apply left-0;
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus,
+  select:-webkit-autofill,
+  select:-webkit-autofill:hover,
+  select:-webkit-autofill:focus {
+    border: 1px solid #212121;
+    -webkit-text-fill-color: #212121;
+    -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+
+  input[type="search"]::-webkit-search-decoration,
+  input[type="search"]::-webkit-search-cancel-button,
+  input[type="search"]::-webkit-search-results-button,
+  input[type="search"]::-webkit-search-results-decoration {
+    -webkit-appearance: none;
+  }
+}
