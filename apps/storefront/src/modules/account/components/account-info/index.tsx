@@ -42,11 +42,11 @@ const AccountInfo = ({
   }, [isSuccess, close])
 
   return (
-    <div className="text-small-regular" data-testid={dataTestid}>
+    <div className="text-xs" data-testid={dataTestid}>
       <div className="flex items-end justify-between">
         <div className="flex flex-col">
-          <span className="uppercase text-ui-fg-base">{label}</span>
-          <div className="flex items-center flex-1 basis-0 justify-end gap-x-4">
+          <span className="text-text uppercase">{label}</span>
+          <div className="flex flex-1 basis-0 items-center justify-end gap-x-4">
             {typeof currentInfo === "string" ? (
               <span className="font-semibold" data-testid="current-info">
                 {currentInfo}
@@ -59,7 +59,7 @@ const AccountInfo = ({
         <div>
           <Button
             variant="secondary"
-            className="w-[100px] min-h-[25px] py-1"
+            className="min-h-[25px] w-[100px] py-1"
             onClick={handleToggle}
             type={state ? "reset" : "button"}
             data-testid="edit-button"
@@ -83,7 +83,7 @@ const AccountInfo = ({
           )}
           data-testid="success-message"
         >
-          <Badge className="p-2 my-4" color="green">
+          <Badge className="my-4 p-2" color="green">
             <span>{label} updated succesfully</span>
           </Badge>
         </Disclosure.Panel>
@@ -102,7 +102,7 @@ const AccountInfo = ({
           )}
           data-testid="error-message"
         >
-          <Badge className="p-2 my-4" color="red">
+          <Badge className="my-4 p-2" color="red">
             <span>{errorMessage}</span>
           </Badge>
         </Disclosure.Panel>
@@ -121,7 +121,7 @@ const AccountInfo = ({
         >
           <div className="flex flex-col gap-y-2 py-4">
             <div>{children}</div>
-            <div className="flex items-center justify-end mt-2">
+            <div className="mt-2 flex items-center justify-end">
               <Button
                 isLoading={pending}
                 className="w-full small:max-w-[140px]"

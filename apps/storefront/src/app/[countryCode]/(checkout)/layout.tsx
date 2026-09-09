@@ -13,20 +13,20 @@ export default function CheckoutLayout({
         <nav className="content-container flex h-full items-center justify-between">
           <LocalizedClientLink
             href="/cart"
-            className="flex flex-1 basis-0 items-center gap-x-2 text-small-semi text-ui-fg-base uppercase"
+            className="flex flex-1 basis-0 items-center gap-x-2 text-xs font-semibold text-text uppercase"
             data-testid="back-to-cart-link"
           >
             <IconChevronDown className="rotate-90" size={16} />
-            <span className="mt-px hidden txt-compact-medium-plus text-ui-fg-subtle hover:text-ui-fg-base small:block">
+            <span className="mt-px hidden text-small font-semibold text-muted hover:text-text small:block">
               Back to shopping cart
             </span>
-            <span className="mt-px block txt-compact-medium-plus text-ui-fg-subtle hover:text-ui-fg-base small:hidden">
+            <span className="mt-px block text-small font-semibold text-muted hover:text-text small:hidden">
               Back
             </span>
           </LocalizedClientLink>
           <LocalizedClientLink
             href="/"
-            className="txt-compact-xlarge-plus text-ui-fg-subtle uppercase hover:text-ui-fg-base"
+            className="text-page-title text-muted uppercase hover:text-text"
             data-testid="store-link"
           >
             Medusa Store

@@ -40,7 +40,7 @@ const StoreTemplate = async ({
         <UstahFilters groups={filterGroups} />
 
         <div className="min-w-0 flex-1 border-divider lg:border-l">
-          <div className="border-b border-divider px-6 py-6">
+          <div className="border-b border-divider p-6">
             <h1
               className="text-page-title uppercase"
               data-testid="store-page-title"

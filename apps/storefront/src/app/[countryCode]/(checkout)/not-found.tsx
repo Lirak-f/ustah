@@ -8,9 +8,11 @@ export const metadata: Metadata = {
 
 export default async function NotFound() {
   return (
-    <div className="flex flex-col gap-4 items-center justify-center min-h-[calc(100vh-64px)]">
-      <h1 className="text-2xl-semi text-ui-fg-base">Page not found</h1>
-      <p className="text-small-regular text-ui-fg-base">
+    <div className="flex min-h-[calc(100vh-64px)] flex-col items-center justify-center gap-4">
+      <h1 className="text-page-title font-semibold text-text">
+        Page not found
+      </h1>
+      <p className="text-xs text-text">
         The page you tried to access does not exist.
       </p>
       <InteractiveLink href="/">Go to frontpage</InteractiveLink>

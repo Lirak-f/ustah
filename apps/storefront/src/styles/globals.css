@@ -112,6 +112,15 @@
   --layout-utility-height: 32px;
   --layout-product-columns: 520px 1fr 340px;
 
+  /* ── Breakpoints ────────────────────────────────────────────────── */
+  --breakpoint-2xsmall: 320px;
+  --breakpoint-xsmall: 512px;
+  --breakpoint-small: 1024px;
+  --breakpoint-medium: 1280px;
+  --breakpoint-large: 1440px;
+  --breakpoint-xlarge: 1680px;
+  --breakpoint-2xlarge: 1920px;
+
   /* ── Radii ──────────────────────────────────────────────────────── */
   /* Square is the identity. There is no rounded variant on purpose. */
   --radius-none: 0;
@@ -150,34 +159,13 @@ button, input, select, textarea {
 
 /* ustah:theme:end */
 
-@config '../../tailwind.config.js';
-
 /*
-  Explicit scan roots. The inherited v3 `content` globs come in through @config
-  and resolve relative to the config file, which silently misses sources; these
-  are relative to this stylesheet and cover everything the app renders.
+  Explicit scan roots, relative to this stylesheet, covering everything the app
+  renders. These replace the v3 config's `content` globs.
 */
 @source '../app';
 @source '../modules';
 @source '../lib';
-
-/*
-  The default border color has changed to `currentcolor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
-@layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentcolor);
-  }
-}
 
 /*
   The design's hatched "foto produkti" band, shown where a product has no
@@ -207,69 +195,17 @@ button, input, select, textarea {
 }
 
 @utility content-container {
-  @apply max-w-[1440px] w-full mx-auto px-6;
-}
-
-@utility contrast-btn {
-  @apply px-4 py-2 border border-black rounded-full hover:bg-black hover:text-white transition-colors duration-200 ease-in;
-}
-
-@utility text-xsmall-regular {
-  @apply text-[10px] leading-4 font-normal;
-}
-
-@utility text-small-regular {
-  @apply text-xs leading-5 font-normal;
-}
-
-@utility text-small-semi {
-  @apply text-xs leading-5 font-semibold;
-}
-
-@utility text-base-regular {
-  @apply text-sm leading-6 font-normal;
-}
-
-@utility text-base-semi {
-  @apply text-sm leading-6 font-semibold;
-}
-
-@utility text-large-regular {
-  @apply text-base leading-6 font-normal;
-}
-
-@utility text-large-semi {
-  @apply text-base leading-6 font-semibold;
-}
-
-@utility text-xl-regular {
-  @apply text-2xl leading-[36px] font-normal;
-}
-
-@utility text-xl-semi {
-  @apply text-2xl leading-[36px] font-semibold;
-}
-
-@utility text-2xl-regular {
-  @apply text-[30px] leading-[48px] font-normal;
-}
-
-@utility text-2xl-semi {
-  @apply text-[30px] leading-[48px] font-semibold;
-}
-
-@utility text-3xl-regular {
-  @apply text-[32px] leading-[44px] font-normal;
-}
-
-@utility text-3xl-semi {
-  @apply text-[32px] leading-[44px] font-semibold;
+  /* The design's 1440px frame and 20px gutter, from the layout tokens. */
+  width: 100%;
+  max-width: var(--layout-frame);
+  margin-inline: auto;
+  padding-inline: var(--layout-gutter);
 }
 
 @layer utilities {
   input:focus ~ label,
   input:not(:placeholder-shown) ~ label {
-    @apply -translate-y-2 text-xsmall-regular;
+    @apply -translate-y-2 text-xs;
   }
 
   input:focus ~ label {

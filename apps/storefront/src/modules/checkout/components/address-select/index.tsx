@@ -38,7 +38,7 @@ const AddressSelect = ({
     <Listbox onChange={handleSelect} value={selectedAddress?.id}>
       <div className="relative">
         <Listbox.Button
-          className="relative flex w-full cursor-default items-center justify-between rounded-rounded border bg-white px-4 py-[10px] text-left text-base-regular focus:outline-hidden focus-visible:border-gray-300 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-300"
+          className="relative flex w-full cursor-default items-center justify-between border bg-white px-4 py-[10px] text-left text-small focus:outline-hidden focus-visible:border-gray-300 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-300"
           data-testid="shipping-address-select"
         >
           {({ open }) => (
@@ -63,7 +63,7 @@ const AddressSelect = ({
           leaveTo="opacity-0"
         >
           <Listbox.Options
-            className="absolute z-20 max-h-60 w-full overflow-auto border border-t-0 bg-white text-small-regular focus:outline-hidden sm:text-sm"
+            className="absolute z-20 max-h-60 w-full overflow-auto border border-t-0 bg-white text-xs focus:outline-hidden sm:text-sm"
             data-testid="shipping-address-options"
           >
             {addresses.map((address) => {
@@ -80,15 +80,15 @@ const AddressSelect = ({
                       data-testid="shipping-address-radio"
                     />
                     <div className="flex flex-col">
-                      <span className="text-left text-base-semi">
+                      <span className="text-left text-small font-semibold">
                         {address.first_name} {address.last_name}
                       </span>
                       {address.company && (
-                        <span className="text-small-regular text-ui-fg-base">
+                        <span className="text-xs text-text">
                           {address.company}
                         </span>
                       )}
-                      <div className="mt-2 flex flex-col text-left text-base-regular">
+                      <div className="mt-2 flex flex-col text-left text-small">
                         <span>
                           {address.address_1}
                           {address.address_2 && (

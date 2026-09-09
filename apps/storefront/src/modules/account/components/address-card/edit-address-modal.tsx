@@ -63,7 +63,7 @@ const EditAddress: React.FC<EditAddressProps> = ({
     <>
       <div
         className={clx(
-          "border rounded-rounded p-5 min-h-[220px] h-full w-full flex flex-col justify-between transition-colors",
+          "border  p-5 min-h-[220px] h-full w-full flex flex-col justify-between transition-colors",
           {
             "border-gray-900": isActive,
           },
@@ -72,20 +72,20 @@ const EditAddress: React.FC<EditAddressProps> = ({
       >
         <div className="flex flex-col">
           <Heading
-            className="text-left text-base-semi"
+            className="text-left text-small font-semibold"
             data-testid="address-name"
           >
             {address.first_name} {address.last_name}
           </Heading>
           {address.company && (
             <Text
-              className="txt-compact-small text-ui-fg-base"
+              className="text-section-label text-text"
               data-testid="address-company"
             >
               {address.company}
             </Text>
           )}
-          <Text className="mt-2 flex flex-col text-left text-base-regular">
+          <Text className="mt-2 flex flex-col text-left text-small">
             <span data-testid="address-address">
               {address.address_1}
               {address.address_2 && <span>, {address.address_2}</span>}
@@ -101,7 +101,7 @@ const EditAddress: React.FC<EditAddressProps> = ({
         </div>
         <div className="flex items-center gap-x-4">
           <button
-            className="flex items-center gap-x-2 text-small-regular text-ui-fg-base"
+            className="flex items-center gap-x-2 text-xs text-text"
             onClick={open}
             data-testid="address-edit-button"
           >
@@ -109,7 +109,7 @@ const EditAddress: React.FC<EditAddressProps> = ({
             Edit
           </button>
           <button
-            className="flex items-center gap-x-2 text-small-regular text-ui-fg-base"
+            className="flex items-center gap-x-2 text-xs text-text"
             onClick={removeAddress}
             data-testid="address-delete-button"
           >
@@ -209,7 +209,7 @@ const EditAddress: React.FC<EditAddressProps> = ({
               />
             </div>
             {formState.error && (
-              <div className="py-2 text-small-regular text-rose-500">
+              <div className="py-2 text-xs text-rose-500">
                 {formState.error}
               </div>
             )}

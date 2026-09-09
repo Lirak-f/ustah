@@ -142,7 +142,7 @@ function FreeShippingInline({
   }
 }) {
   return (
-    <div className="rounded-lg border bg-neutral-100 p-2">
+    <div className="border bg-neutral-100 p-2">
       <div className="space-y-1.5">
         <div className="flex justify-between text-xs text-neutral-600">
           <div>
@@ -175,14 +175,14 @@ function FreeShippingInline({
         <div className="flex justify-between gap-1">
           <div
             className={clx(
-              "bg-linear-to-r from-zinc-400 to-zinc-500 h-1 rounded-full max-w-full duration-500 ease-in-out",
+              "bg-linear-to-r from-zinc-400 to-zinc-500 h-1  max-w-full duration-500 ease-in-out",
               {
                 "from-green-400 to-green-500": price.target_reached,
               },
             )}
             style={{ width: `${price.remaining_percentage}%` }}
           ></div>
-          <div className="h-1 w-fit grow rounded-full bg-neutral-300"></div>
+          <div className="h-1 w-fit grow bg-neutral-300"></div>
         </div>
       </div>
     </div>
@@ -211,14 +211,14 @@ function FreeShippingPopup({
     >
       <div>
         <Button
-          className="rounded-full border-none bg-neutral-900 p-2 text-[15px] shadow-none outline-hidden"
+          className="border-none bg-neutral-900 p-2 text-[15px] shadow-none outline-hidden"
           onClick={() => setIsClosed(true)}
         >
           <IconX />
         </Button>
       </div>
 
-      <div className="w-[400px] rounded-lg bg-black p-6 text-white">
+      <div className="w-[400px] bg-black p-6 text-white">
         <div className="pb-4">
           <div className="space-y-3">
             <div className="flex justify-between text-[15px] text-neutral-400">
@@ -251,28 +251,28 @@ function FreeShippingPopup({
             <div className="flex justify-between gap-1">
               <div
                 className={clx(
-                  "bg-linear-to-r from-zinc-400 to-zinc-500 h-1.5 rounded-full max-w-full duration-500 ease-in-out",
+                  "bg-linear-to-r from-zinc-400 to-zinc-500 h-1.5  max-w-full duration-500 ease-in-out",
                   {
                     "from-green-400 to-green-500": price.target_reached,
                   },
                 )}
                 style={{ width: `${price.remaining_percentage}%` }}
               ></div>
-              <div className="h-1.5 w-fit grow rounded-full bg-zinc-600"></div>
+              <div className="h-1.5 w-fit grow bg-zinc-600"></div>
             </div>
           </div>
         </div>
 
         <div className="flex gap-3">
           <LocalizedClientLink
-            className="rounded-2xl border border-white bg-transparent px-4 py-2.5 text-[15px] shadow-none outline-hidden"
+            className="border border-white bg-transparent px-4 py-2.5 text-[15px] shadow-none outline-hidden"
             href="/cart"
           >
             View cart
           </LocalizedClientLink>
 
           <LocalizedClientLink
-            className="grow rounded-2xl border border-white bg-white px-4 py-2.5 text-center text-[15px] text-neutral-950 shadow-none outline-hidden"
+            className="grow border border-white bg-white px-4 py-2.5 text-center text-[15px] text-neutral-950 shadow-none outline-hidden"
             href="/store"
           >
             View products

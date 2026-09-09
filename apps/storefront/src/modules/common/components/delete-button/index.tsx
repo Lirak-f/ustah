@@ -23,13 +23,10 @@ const DeleteButton = ({
 
   return (
     <div
-      className={clx(
-        "flex items-center justify-between text-small-regular",
-        className,
-      )}
+      className={clx("flex items-center justify-between text-xs", className)}
     >
       <button
-        className="flex cursor-pointer gap-x-1 text-ui-fg-subtle hover:text-ui-fg-base"
+        className="flex cursor-pointer gap-x-1 text-muted hover:text-text"
         onClick={() => handleDelete(id)}
       >
         {isDeleting ? <IconSpinner className="animate-spin" /> : <IconTrash />}

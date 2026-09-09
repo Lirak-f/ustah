@@ -183,6 +183,24 @@ export const layout = {
 } as const
 
 /**
+ * Breakpoints.
+ *
+ * Named rather than numbered, and inherited from the Medusa starter's markup —
+ * ~40 components are written against `small:` and `xsmall:`, so the names stay
+ * even though the v3 config that defined them is gone. `small` at 1024px is the
+ * desktop breakpoint despite its name.
+ */
+export const screens = {
+  "2xsmall": "320px",
+  xsmall: "512px",
+  small: "1024px",
+  medium: "1280px",
+  large: "1440px",
+  xlarge: "1680px",
+  "2xlarge": "1920px",
+} as const
+
+/**
  * Commerce display constants.
  *
  * These are presentation-only. EUR is the sole transacted currency; the lek

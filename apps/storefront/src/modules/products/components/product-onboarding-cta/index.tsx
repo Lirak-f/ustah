@@ -11,12 +11,12 @@ async function ProductOnboardingCta() {
   }
 
   return (
-    <Container className="size-full max-w-4xl bg-ui-bg-subtle p-8">
+    <Container className="size-full max-w-4xl bg-surface p-8">
       <div className="flex flex-col gap-y-4">
-        <Text className="text-xl text-ui-fg-base">
+        <Text className="text-xl text-text">
           Your demo product was successfully created! 🎉
         </Text>
-        <Text className="text-small-regular text-ui-fg-subtle">
+        <Text className="text-xs text-muted">
           You can now continue setting up your store in the admin.
         </Text>
         <a href="http://localhost:7001/a/orders?onboarding_step=create_order_nextjs">

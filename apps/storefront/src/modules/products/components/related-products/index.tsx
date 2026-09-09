@@ -55,7 +55,7 @@ export default async function RelatedProducts({
   return (
     <section className="bg-bg">
       <h2 className="px-6 pt-7 text-[26px] uppercase">Produkte të ngjashme</h2>
-      <div className="mx-6 mb-7 mt-5 grid grid-cols-2 gap-px border border-divider bg-divider lg:grid-cols-4">
+      <div className="mx-6 mt-5 mb-7 grid grid-cols-2 gap-px border border-divider bg-divider lg:grid-cols-4">
         {products.map((related) => (
           <UstahProductCard key={related.id} product={related} />
         ))}

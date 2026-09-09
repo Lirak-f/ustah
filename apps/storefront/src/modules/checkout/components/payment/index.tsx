@@ -104,7 +104,7 @@ const Payment = ({
         <Heading
           level="h2"
           className={clx(
-            "flex flex-row text-3xl-regular gap-x-2 items-baseline",
+            "flex flex-row text-page-title gap-x-2 items-baseline",
             {
               "opacity-50 pointer-events-none select-none":
                 !isOpen && !paymentReady,
@@ -118,7 +118,7 @@ const Payment = ({
           <Text>
             <button
               onClick={handleEdit}
-              className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
+              className="text-accent hover:text-accent-600"
               data-testid="edit-payment-button"
             >
               Edit
@@ -149,11 +149,11 @@ const Payment = ({
 
           {paidByGiftcard && (
             <div className="flex w-1/3 flex-col">
-              <Text className="mb-1 txt-medium-plus text-ui-fg-base">
+              <Text className="mb-1 text-small font-semibold text-text">
                 Payment method
               </Text>
               <Text
-                className="txt-medium text-ui-fg-subtle"
+                className="text-small text-muted"
                 data-testid="payment-method-summary"
               >
                 Gift card
@@ -182,11 +182,11 @@ const Payment = ({
           {cart && paymentReady && activeSession ? (
             <div className="flex w-full items-start gap-x-1">
               <div className="flex w-1/3 flex-col">
-                <Text className="mb-1 txt-medium-plus text-ui-fg-base">
+                <Text className="mb-1 text-small font-semibold text-text">
                   Payment method
                 </Text>
                 <Text
-                  className="txt-medium text-ui-fg-subtle"
+                  className="text-small text-muted"
                   data-testid="payment-method-summary"
                 >
                   {paymentInfoMap[activeSession?.provider_id]?.title ||
@@ -194,14 +194,14 @@ const Payment = ({
                 </Text>
               </div>
               <div className="flex w-1/3 flex-col">
-                <Text className="mb-1 txt-medium-plus text-ui-fg-base">
+                <Text className="mb-1 text-small font-semibold text-text">
                   Payment details
                 </Text>
                 <div
-                  className="flex items-center gap-2 txt-medium text-ui-fg-subtle"
+                  className="flex items-center gap-2 text-small text-muted"
                   data-testid="payment-details-summary"
                 >
-                  <Container className="flex h-7 w-fit items-center bg-ui-button-neutral-hover p-2">
+                  <Container className="flex h-7 w-fit items-center bg-surface-alt p-2">
                     {paymentInfoMap[selectedPaymentMethod]?.icon || (
                       <IconCreditCard />
                     )}
@@ -212,11 +212,11 @@ const Payment = ({
             </div>
           ) : paidByGiftcard ? (
             <div className="flex w-1/3 flex-col">
-              <Text className="mb-1 txt-medium-plus text-ui-fg-base">
+              <Text className="mb-1 text-small font-semibold text-text">
                 Payment method
               </Text>
               <Text
-                className="txt-medium text-ui-fg-subtle"
+                className="text-small text-muted"
                 data-testid="payment-method-summary"
               >
                 Gift card

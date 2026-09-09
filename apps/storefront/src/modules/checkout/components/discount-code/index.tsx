@@ -61,13 +61,13 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
 
   return (
     <div className="flex w-full flex-col bg-white">
-      <div className="txt-medium">
+      <div className="text-small">
         <form action={(a) => addPromotionCode(a)} className="mb-5 w-full">
           <Label className="my-2 flex items-center gap-x-1">
             <button
               onClick={() => setIsOpen(!isOpen)}
               type="button"
-              className="txt-medium text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
+              className="text-small text-accent hover:text-accent-600"
               data-testid="add-discount-button"
             >
               Add Promotion Code(s)
@@ -108,7 +108,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
         {promotions.length > 0 && (
           <div className="flex w-full items-center">
             <div className="flex w-full flex-col">
-              <Heading className="mb-2 txt-medium">
+              <Heading className="mb-2 text-small">
                 Promotion(s) applied:
               </Heading>
 
@@ -119,7 +119,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
                     className="mb-2 flex w-full max-w-full items-center justify-between"
                     data-testid="discount-row"
                   >
-                    <Text className="flex w-4/5 items-baseline gap-x-1 pr-1 txt-small-plus">
+                    <Text className="flex w-4/5 items-baseline gap-x-1 pr-1 text-section-label font-semibold">
                       <span className="truncate" data-testid="discount-code">
                         <Badge
                           color={promotion.is_automatic ? "green" : "grey"}

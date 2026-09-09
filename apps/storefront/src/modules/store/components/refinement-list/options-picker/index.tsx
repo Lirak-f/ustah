@@ -57,7 +57,7 @@ const OptionsPicker = ({
   return (
     <div className="flex flex-col gap-y-4">
       <div className="flex items-center justify-between px-1">
-        <span className="txt-compact-small-plus text-ui-fg-subtle">
+        <span className="text-section-label font-semibold text-muted">
           Options
         </span>
       </div>
@@ -106,16 +106,16 @@ const OptionsPicker = ({
               <Accordion.Header>
                 <Accordion.Trigger className="flex w-full items-center justify-between py-3 text-left">
                   <div className="flex items-center gap-2">
-                    <span className="txt-compact-small-plus text-ui-fg-base">
+                    <span className="text-section-label font-semibold text-text">
                       {option.title || "Option"}
                     </span>
-                    <span className="txt-compact-small-plus text-ui-fg-muted">
+                    <span className="text-section-label font-semibold text-faint">
                       ({selectedCount})
                     </span>
                   </div>
                   <span
                     className={clsx(
-                      "flex size-7 items-center justify-center text-ui-fg-muted transition-transform duration-150",
+                      "flex size-7 items-center justify-center text-faint transition-transform duration-150",
                       {
                         "rotate-180": isOpen,
                       },
@@ -135,12 +135,10 @@ const OptionsPicker = ({
                         key={value.id}
                         onClick={() => toggleValue(value.id)}
                         className={clsx(
-                          "flex h-10 items-center rounded-rounded border border-ui-border-base px-3 text-small-regular transition-colors duration-150",
+                          "flex h-10 items-center border border-divider px-3 text-xs transition-colors duration-150",
                           {
-                            "border-ui-border-interactive text-ui-fg-base":
-                              isSelected,
-                            "text-ui-fg-muted hover:text-ui-fg-base":
-                              !isSelected,
+                            "border-accent text-text": isSelected,
+                            "text-faint hover:text-text": !isSelected,
                           },
                         )}
                         aria-pressed={isSelected}

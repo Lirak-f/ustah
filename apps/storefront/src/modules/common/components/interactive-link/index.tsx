@@ -20,7 +20,7 @@ const InteractiveLink = ({
       onClick={onClick}
       {...props}
     >
-      <Text className="text-ui-fg-interactive">{children}</Text>
+      <Text className="text-accent">{children}</Text>
       <IconArrowUpRight
         className="duration-150 ease-in-out group-hover:rotate-45"
         color="var(--fg-interactive)"

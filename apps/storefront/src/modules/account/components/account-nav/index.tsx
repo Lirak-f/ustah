@@ -30,7 +30,7 @@ const AccountNav = ({
         {route !== `/${countryCode}/account` ? (
           <LocalizedClientLink
             href="/account"
-            className="flex items-center gap-x-2 py-2 text-small-regular"
+            className="flex items-center gap-x-2 py-2 text-xs"
             data-testid="account-main-link"
           >
             <>
@@ -40,10 +40,10 @@ const AccountNav = ({
           </LocalizedClientLink>
         ) : (
           <>
-            <div className="mb-4 px-8 text-xl-semi">
+            <div className="mb-4 px-8 text-page-title font-semibold">
               Hello {customer?.first_name}
             </div>
-            <div className="text-base-regular">
+            <div className="text-small">
               <ul>
                 <li>
                   <LocalizedClientLink
@@ -110,9 +110,9 @@ const AccountNav = ({
       <div className="hidden small:block" data-testid="account-nav">
         <div>
           <div className="pb-4">
-            <h3 className="text-base-semi">Account</h3>
+            <h3 className="text-small font-semibold">Account</h3>
           </div>
-          <div className="text-base-regular">
+          <div className="text-small">
             <ul className="mb-0 flex flex-col items-start justify-start gap-y-4">
               <li>
                 <AccountNavLink
@@ -150,7 +150,7 @@ const AccountNav = ({
                   Orders
                 </AccountNavLink>
               </li>
-              <li className="text-grey-70">
+              <li className="text-muted">
                 <button
                   type="button"
                   onClick={handleLogout}
@@ -186,8 +186,8 @@ const AccountNavLink = ({
   return (
     <LocalizedClientLink
       href={href}
-      className={clx("text-ui-fg-subtle hover:text-ui-fg-base", {
-        "text-ui-fg-base font-semibold": active,
+      className={clx("text-muted hover:text-text", {
+        "text-text font-semibold": active,
       })}
       data-testid={dataTestId}
     >

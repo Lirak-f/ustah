@@ -65,7 +65,7 @@ const Modal = ({
                     "max-w-xl": size === "medium",
                     "max-w-3xl": size === "large",
                     "bg-transparent shadow-none": search,
-                    "bg-white shadow-xl border rounded-rounded": !search,
+                    "bg-white shadow-xl border ": !search,
                   },
                 )}
               >
@@ -84,7 +84,7 @@ const Title: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
   return (
     <Dialog.Title className="flex items-center justify-between">
-      <div className="text-large-semi">{children}</div>
+      <div className="text-body font-semibold">{children}</div>
       <div>
         <button onClick={close} data-testid="close-modal-button">
           <IconX size={20} />
@@ -96,7 +96,7 @@ const Title: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
 const Description: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <Dialog.Description className="flex h-full items-center justify-center pt-2 pb-4 text-small-regular text-ui-fg-base">
+    <Dialog.Description className="flex h-full items-center justify-center pt-2 pb-4 text-xs text-text">
       {children}
     </Dialog.Description>
   )

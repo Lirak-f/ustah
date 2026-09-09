@@ -47,11 +47,11 @@ const AddAddress = ({
   return (
     <>
       <button
-        className="flex size-full min-h-[220px] flex-col justify-between rounded-rounded border border-ui-border-base p-5"
+        className="flex size-full min-h-[220px] flex-col justify-between border border-divider p-5"
         onClick={open}
         data-testid="add-address-button"
       >
-        <span className="text-base-semi">New address</span>
+        <span className="text-small font-semibold">New address</span>
         <IconPlus />
       </button>
 
@@ -135,7 +135,7 @@ const AddAddress = ({
             </div>
             {formState.error && (
               <div
-                className="py-2 text-small-regular text-rose-500"
+                className="py-2 text-xs text-rose-500"
                 data-testid="address-error"
               >
                 {formState.error}
