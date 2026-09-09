@@ -60,8 +60,9 @@ export const colors = {
   text: '#1A1A1A',
   /** Spec keys, filter labels, secondary meta. */
   muted: '#4A5058',
-  /** Sub-price line ("≈ 12.900 L · pa TVSH 107,50 €"). */
-  muted2: '#3F464E',
+  /** Sub-price line ("≈ 12.900 L · pa TVSH 107,50 €"). Slightly darker than
+   *  `muted`; the design uses both, a few points apart, on adjacent lines. */
+  mutedDeep: '#3F464E',
   /** Placeholder / disabled text. */
   faint: '#6B7280',
 

@@ -156,7 +156,7 @@ export default function KitchenSink() {
               Krahaso
             </button>
             <button
-              className="bg-accent text-bg font-heading text-sm uppercase px-5 h-[38px] opacity-45"
+              className="border border-divider bg-surface text-faint font-heading text-sm uppercase px-5 h-[38px] cursor-not-allowed"
               disabled
             >
               Jashtë stoku
@@ -171,7 +171,7 @@ export default function KitchenSink() {
           <div className="flex gap-9">
             <div>
               <div className="font-heading text-price">{eur(price)}</div>
-              <div className="text-xs text-muted2 mt-0.5">
+              <div className="text-xs text-muted-deep mt-0.5">
                 ≈ {lek.toLocaleString("de-DE")} L · pa TVSH {eur(exVat)}
               </div>
             </div>
@@ -179,7 +179,7 @@ export default function KitchenSink() {
               <div className="inline-block bg-yellow px-1.5 py-0.5">
                 <span className="font-heading text-price">{eur(219)}</span>
               </div>
-              <div className="text-xs text-muted2 mt-0.5">
+              <div className="text-xs text-muted-deep mt-0.5">
                 <s>{eur(269)}</s> · ≈ 21.900 L
               </div>
             </div>
