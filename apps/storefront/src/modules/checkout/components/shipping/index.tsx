@@ -100,34 +100,51 @@ const Shipping: React.FC<ShippingProps> = ({
   const hasPickupOptions = !!_pickupMethods?.length
 
   useEffect(() => {
-    setIsLoadingPrices(true)
+    // Guards a stale response from overwriting a newer one: when the methods
+    // change while a request is in flight, the older allSettled can resolve
+    // last and clobber the fresh prices.
+    let ignore = false
 
-    if (_shippingMethods?.length) {
-      const promises = _shippingMethods
-        .filter((sm) => sm.price_type === "calculated")
-        .map((sm) => calculatePriceForShippingOption(sm.id, cart.id))
+    const calculated =
+      _shippingMethods?.filter((sm) => sm.price_type === "calculated") ?? []
 
-      if (promises.length) {
-        Promise.allSettled(promises).then((res) => {
-          const pricesMap: Record<string, number> = {}
-          res
-            .filter((r) => r.status === "fulfilled")
-            .forEach((p) => {
-              if (p.value?.id) {
-                pricesMap[p.value.id] = p.value.amount ?? 0
-              }
-            })
+    // A region whose options are all flat-rate has nothing to calculate. The
+    // spinner used to be switched on unconditionally and only ever switched
+    // off inside this branch, so those regions showed it forever.
+    if (!calculated.length) {
+      setIsLoadingPrices(false)
+    } else {
+      setIsLoadingPrices(true)
 
-          setCalculatedPricesMap(pricesMap)
-          setIsLoadingPrices(false)
-        })
-      }
+      Promise.allSettled(
+        calculated.map((sm) => calculatePriceForShippingOption(sm.id, cart.id)),
+      ).then((res) => {
+        if (ignore) {
+          return
+        }
+
+        const pricesMap: Record<string, number> = {}
+        res
+          .filter((r) => r.status === "fulfilled")
+          .forEach((p) => {
+            if (p.value?.id) {
+              pricesMap[p.value.id] = p.value.amount ?? 0
+            }
+          })
+
+        setCalculatedPricesMap(pricesMap)
+        setIsLoadingPrices(false)
+      })
     }
 
     if (_pickupMethods?.find((m) => m.id === shippingMethodId)) {
       setShowPickupOptions(PICKUP_OPTION_ON)
     }
-  }, [availableShippingMethods])
+
+    return () => {
+      ignore = true
+    }
+  }, [_shippingMethods, _pickupMethods, cart.id, shippingMethodId])
 
   const handleEdit = () => {
     router.push(pathname + "?step=delivery", { scroll: false })
@@ -403,7 +420,6 @@ const Shipping: React.FC<ShippingProps> = ({
             />
             <Button
               size="large"
-              className="mt"
               onClick={handleSubmit}
               isLoading={isLoading}
               disabled={!cart.shipping_methods?.[0]}

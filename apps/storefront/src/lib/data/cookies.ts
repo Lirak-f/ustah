@@ -18,7 +18,48 @@ export const getAuthHeaders = async (): Promise<
   }
 }
 
+/**
+ * Catalog tags that are shared by every visitor.
+ *
+ * The rest of the tags name data that belongs to ONE shopper — their cart,
+ * their customer record, their orders, the delivery options quoted for their
+ * cart — and those stay partitioned by `_medusa_cache_id` so one visitor can
+ * never be served another's response.
+ *
+ * This is deliberately an allowlist rather than a denylist: a tag nobody
+ * thought about stays per-visitor, which is slow but safe. Adding a tag here
+ * is a decision that its data is identical for all shoppers.
+ *
+ * Catalog data qualifies because price varies by REGION, not by visitor, and
+ * the region is already part of both the fetch URL and the `regions-<id>` tag.
+ */
+const GLOBAL_CACHE_TAGS = new Set([
+  "products",
+  "categories",
+  "collections",
+  "regions",
+  "variants",
+  "locales",
+  "payment_providers",
+])
+
+/**
+ * Cache tag for a data set.
+ *
+ * Catalog tags are returned as-is so every visitor shares one Next.js data
+ * cache entry. Previously ALL tags were suffixed with the per-visitor
+ * `_medusa_cache_id` that middleware mints as a fresh UUID, which partitioned
+ * the catalog cache per visitor — `cache: "force-cache"` on products then
+ * bought nothing, because the first request of every session was a cold miss.
+ *
+ * `tag` may be composite (`regions-<id>`), so the lookup uses the segment
+ * before the first `-`.
+ */
 export const getCacheTag = async (tag: string): Promise<string> => {
+  if (GLOBAL_CACHE_TAGS.has(tag.split("-")[0])) {
+    return tag
+  }
+
   try {
     const cookies = await nextCookies()
     const cacheId = cookies.get("_medusa_cache_id")?.value

@@ -10,7 +10,7 @@ const regionMapCache = {
   regionMapUpdated: Date.now(),
 }
 
-async function getRegionMap(cacheId: string) {
+async function getRegionMap() {
   const { regionMap, regionMapUpdated } = regionMapCache
 
   if (!BACKEND_URL) {
@@ -31,7 +31,10 @@ async function getRegionMap(cacheId: string) {
       },
       next: {
         revalidate: 3600,
-        tags: [`regions-${cacheId}`],
+        // Regions are identical for every visitor, so this tag is global —
+        // it must match what getCacheTag("regions") returns in lib/data,
+        // or middleware and page render cache the same data under two keys.
+        tags: ["regions"],
       },
       cache: "force-cache",
     })
@@ -110,7 +113,7 @@ export async function middleware(request: NextRequest) {
   const cacheIdCookie = request.cookies.get("_medusa_cache_id")
   const cacheId = cacheIdCookie?.value || crypto.randomUUID()
 
-  const regionMap = await getRegionMap(cacheId)
+  const regionMap = await getRegionMap()
   const countryCode = await getCountryCode(request, regionMap)
 
   // if the country code is available, use it, otherwise use the default region
