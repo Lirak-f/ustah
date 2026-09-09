@@ -4,6 +4,19 @@ App-specific context. The repo-root [AGENTS.md](../../AGENTS.md) still applies.
 
 ## Design system
 
+It lives in two places, deliberately:
+
+- **`packages/design-tokens`** is a workspace package. Tokens are data, they have
+  no React dependency, and the theme generator has to run as its own build step —
+  so a package is the honest shape.
+- **The components are not a package.** They sit in `src/modules/` with the rest
+  of the app because the storefront is their only consumer. Extracting an
+  `@ustah/ui` package for one consumer would buy a build step, a second
+  tsconfig, and cross-package imports in exchange for nothing.
+
+  Extract them the moment a second app needs them — an admin UI, a landing site.
+  Until then this is the cheaper correct answer, not an oversight.
+
 `packages/design-tokens/src/tokens.ts` is the source of truth for every colour,
 type step, spacing step, breakpoint and layout dimension. Nothing in the app may
 hardcode a hex value — ESLint fails the build on a hex literal in a `.tsx`.
@@ -12,7 +25,7 @@ The generator writes the `@theme` block **into** `src/styles/globals.css`
 between the `ustah:theme` markers:
 
 ```bash
-<pm> run build --filter=@ustah/design-tokens
+pnpm run build --filter=@ustah/design-tokens
 ```
 
 It has to land in that file rather than an imported one: Tailwind v4 only builds
