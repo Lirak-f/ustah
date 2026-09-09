@@ -1,0 +1,4 @@
+# Format and lint only what is staged. Typecheck is not run here: it is
+# whole-program, so it cannot be scoped to staged files and would make every
+# commit slow. CI and `npm run check` cover it.
+npx lint-staged

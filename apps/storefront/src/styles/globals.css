@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 /*
   Ustah design tokens — GENERATED, do not edit inline.
@@ -10,7 +10,7 @@
   @theme block into this file directly, between the markers below, and keeps the
   @font-face rules in the imported file where an import is harmless.
 */
-@import '@ustah/design-tokens/fonts.css';
+@import "@ustah/design-tokens/fonts.css";
 
 /* ustah:theme:start */
 @theme {
@@ -151,7 +151,6 @@ button, input, select, textarea {
 /* ustah:theme:end */
 
 @config '../../tailwind.config.js';
-
 
 /*
   Explicit scan roots. The inherited v3 `content` globs come in through @config

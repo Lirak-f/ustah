@@ -10,24 +10,25 @@
     "build": "turbo build",
     "start": "turbo start",
     "lint": "turbo lint",
+    "typecheck": "turbo typecheck",
     "test": "turbo test",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "npm run format:check && npm run lint && npm run typecheck",
     "backend:seed": "turbo seed --filter=@ustah/backend",
     "backend:dev": "turbo dev --filter=@ustah/backend",
-    "storefront:dev": "turbo dev --filter=@ustah/storefront"
-  },
-  "pnpm": {
-    "overrides": {
-      "@types/react": "19.0.5",
-      "@types/react-dom": "19.0.5"
-    }
+    "storefront:dev": "turbo dev --filter=@ustah/storefront",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@medusajs/eslint-plugin": "2.20.1",
+    "ajv": "^8.13.0",
     "eslint": "^9.39.4",
+    "husky": "9.1.7",
     "jiti": "^2.7.0",
+    "lint-staged": "15.5.2",
     "prettier": "^3.2.5",
-    "turbo": "^2.0.14",
-    "ajv": "^8.13.0"
+    "turbo": "^2.0.14"
   },
   "workspaces": [
     "apps/**",

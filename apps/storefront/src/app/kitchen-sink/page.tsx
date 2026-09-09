@@ -36,7 +36,10 @@ function Section({
 function Swatch({ name, value }: { name: string; value: string }) {
   return (
     <div className="flex flex-col">
-      <div className="h-14 border border-divider" style={{ background: value }} />
+      <div
+        className="h-14 border border-divider"
+        style={{ background: value }}
+      />
       <span className="text-xs mt-1 font-mono">{name}</span>
       <span className="text-xs text-muted font-mono">{value}</span>
     </div>
@@ -93,20 +96,26 @@ export default function KitchenSink() {
           <div className="flex flex-col gap-4">
             <div>
               <span className="text-xs text-muted font-mono">text-logo</span>
-              <div className="font-heading text-logo">USTAH · Vegla elektrike</div>
+              <div className="font-heading text-logo">
+                USTAH · Vegla elektrike
+              </div>
             </div>
             <div>
               <span className="text-xs text-muted font-mono">text-price</span>
               <div className="font-heading text-price">{eur(price)}</div>
             </div>
             <div>
-              <span className="text-xs text-muted font-mono">text-card-title</span>
+              <span className="text-xs text-muted font-mono">
+                text-card-title
+              </span>
               <div className="font-heading text-card-title">
                 Trapan me bateri 18 V, 2 bateri 4,0 Ah
               </div>
             </div>
             <div>
-              <span className="text-xs text-muted font-mono">text-nav (uppercase)</span>
+              <span className="text-xs text-muted font-mono">
+                text-nav (uppercase)
+              </span>
               <div className="font-heading text-nav uppercase">
                 Ndërtim &amp; çimento · Mbrojtje në punë
               </div>
@@ -119,7 +128,9 @@ export default function KitchenSink() {
               </p>
             </div>
             <div>
-              <span className="text-xs text-muted font-mono">font-mono (SKU)</span>
+              <span className="text-xs text-muted font-mono">
+                font-mono (SKU)
+              </span>
               <div className="font-mono text-sku text-muted">
                 KRAFTBAU · KB-18X · EAN 5901234123457
               </div>

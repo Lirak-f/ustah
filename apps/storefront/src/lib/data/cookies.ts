@@ -34,7 +34,7 @@ export const getCacheTag = async (tag: string): Promise<string> => {
 }
 
 export const getCacheOptions = async (
-  tag: string
+  tag: string,
 ): Promise<{ tags: string[] } | Record<string, never>> => {
   if (typeof window !== "undefined") {
     return {}
@@ -49,12 +49,11 @@ export const getCacheOptions = async (
   return { tags: [`${cacheTag}`] }
 }
 
-// `sameSite: "lax"` rather than `"strict"`: the customer returns from a
-// redirect-based payment method (iDEAL, Bancontact, ...) via a cross-site
+// `sameSite: "lax"` rather than `"strict"`: a customer arriving from an
+// external link or an off-site auth redirect does so via a cross-site
 // top-level navigation. A "strict" cookie is withheld on that navigation, so
-// the storefront would see a logged-out, cartless visitor and render a 404 for
-// the checkout page instead of resuming the order. "lax" is sent on top-level
-// GET navigations while still blocking cross-site subrequests.
+// the storefront would see a logged-out, cartless visitor. "lax" is sent on
+// top-level GET navigations while still blocking cross-site subrequests.
 export const setAuthToken = async (token: string) => {
   const cookies = await nextCookies()
   cookies.set("_medusa_jwt", token, {

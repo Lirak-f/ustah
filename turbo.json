@@ -15,10 +15,15 @@
     "lint": {
       "outputs": []
     },
+    "typecheck": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
     "test": {
       "outputs": []
     },
     "seed": {
+      "cache": false,
       "outputs": []
     }
   }

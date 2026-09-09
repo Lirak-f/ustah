@@ -4,14 +4,19 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./src/index.ts",
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
     "./fonts.css": "./src/fonts.css"
   },
   "scripts": {
-    "build": "tsx src/generate-theme.ts"
+    "build": "tsx src/generate-theme.ts",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "tsx": "^4.19.2",
     "typescript": "^5.7.2"
-  }
+  },
+  "types": "./src/index.ts"
 }
