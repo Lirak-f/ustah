@@ -10,6 +10,7 @@ import {
   SkuLine,
   StockLine,
 } from "@modules/common/components/ustah"
+import UstahAddToCartButton from "@modules/products/components/ustah-add-to-cart-button"
 
 type Props = {
   product: HttpTypes.StoreProduct
@@ -84,6 +85,10 @@ const UstahListingCard = ({ product }: Props) => {
           </div>
         )}
       </LocalizedClientLink>
+
+      {/* Outside the link on purpose: a button nested in an anchor is invalid
+          markup, and the click would navigate as well as add. */}
+      {lead && <UstahAddToCartButton product={product} className="mt-5" />}
     </article>
   )
 }

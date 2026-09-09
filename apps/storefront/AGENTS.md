@@ -51,8 +51,11 @@ removed once nothing used them; everything is v4 CSS-first.
 several buttons are links — a nav CTA must stay an anchor to keep middle-click
 and open-in-new-tab working.
 
-`/kitchen-sink` renders the primitives for eye-comparison against
-`design/ustah-storefront.html`. Not linked from the app.
+`/kitchen-sink` renders the primitives for eye-comparison against the design.
+Not linked from the app. The exported design HTML used to live at
+`design/ustah-storefront.html`; it was deleted once it went stale, and the
+Claude Design project is now the reference. `design/extracted/fonts/` stays —
+`packages/design-tokens/src/generate-theme.ts` reads it to emit `@font-face`.
 
 ## Two traps
 
@@ -71,6 +74,13 @@ existing correct use would break. And **distrust editor "canonical class"
 suggestions on arbitrary values**: an IDE offering `size-3.5` for `size-[14px]`
 or `h-11.5` for `h-[46px]` is computing against a 4px scale this project does
 not have. Keep the explicit px value.
+
+Where a scale class _does_ happen to match — `w-10` is exactly the 40px that
+`w-[40px]` asks for — the two are equal by coincidence of today's token values,
+not by construction. Retuning a spacing token would silently resize everything
+written the short way, so a measurement taken from the design stays spelled in
+px. The ESLint rule that rewrites these (`enforce-canonical-classes`) is off for
+this reason; see the comment in `eslint.config.mjs`.
 
 **2. `tailwind-merge` must know about custom scales.**
 
@@ -92,8 +102,13 @@ unknown class.
   its first run.
 - `no-restricted-classes` fences the retired Medusa vocabularies. Currently at
   zero uses; it stays as a ratchet.
-- The rule is `enforce-canonical-classes`. `suggestCanonicalClasses` is the
-  VS Code extension's name for a similar check, not an ESLint rule.
+- `enforce-canonical-classes` is **off** — it rewrites `w-[40px]` to `w-10` and
+  `tracking-[0.1em]` to `tracking-widest`, which is wrong for this project's
+  ordinal scale and design-derived tracking values (see trap 1). Note it is also
+  auto-fixed by lint-staged, so leaving it on meant the rewrite landed on commit
+  rather than being a warning someone chose to accept. `suggestCanonicalClasses`
+  is the VS Code extension's name for a similar check, not an ESLint rule — turn
+  it off in your editor settings too, or it will keep offering these.
 
 `next.config.js` deliberately does **not** set `typescript.ignoreBuildErrors` or
 `eslint.ignoreDuringBuilds`. Both were on, which is how a React version mismatch

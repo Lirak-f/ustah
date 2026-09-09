@@ -4,6 +4,7 @@ import { productMeta } from "@lib/util/ustah-price"
 import { selectLeadVariant } from "@lib/util/ustah-variant"
 import { Price, ProductMedia, SkuLine } from "@modules/common/components/ustah"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import UstahAddToCartButton from "@modules/products/components/ustah-add-to-cart-button"
 
 type Props = {
   product: HttpTypes.StoreProduct
@@ -20,7 +21,7 @@ const UstahProductCard = ({ product }: Props) => {
   const lead = selectLeadVariant(product)
 
   return (
-    <article className="group bg-bg p-5">
+    <article className="group flex flex-col bg-bg p-5">
       <LocalizedClientLink
         href={`/products/${product.handle}`}
         className="block"
@@ -54,6 +55,10 @@ const UstahProductCard = ({ product }: Props) => {
           />
         )}
       </LocalizedClientLink>
+
+      {/* Outside the link on purpose: a button nested in an anchor is invalid
+          markup, and the click would navigate as well as add. */}
+      {lead && <UstahAddToCartButton product={product} className="mt-4" />}
     </article>
   )
 }

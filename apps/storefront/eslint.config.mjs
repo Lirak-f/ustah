@@ -100,10 +100,34 @@ export default defineConfig([
        * error so a work-in-progress file still lints cleanly enough to run.
        */
       "better-tailwindcss/enforce-consistent-class-order": "warn",
-      "better-tailwindcss/enforce-canonical-classes": "warn",
       "better-tailwindcss/enforce-shorthand-classes": "warn",
       "better-tailwindcss/no-unnecessary-whitespace": "warn",
       "better-tailwindcss/enforce-consistent-variable-syntax": "warn",
+
+      /**
+       * Off, because its premise does not hold here. The rule rewrites an
+       * arbitrary value to the scale class of equal width — `w-[40px]` to
+       * `w-10`, `h-[4px]` to `h-1` — which is only an improvement when the
+       * scale is the usual 4px multiples. This project's spacing scale is
+       * ordinal (--spacing-4 is 9px, --spacing-5 is 12px; see AGENTS.md), so
+       * the two forms are equal today by coincidence of the current token
+       * values rather than by construction.
+       *
+       * That makes the "simplified" class the more fragile one. Retuning a
+       * spacing token silently resizes every element the rule converted, while
+       * an explicit px value keeps saying what the design specified. The same
+       * applies to `tracking-[0.1em]` -> `tracking-widest`: the codebase spells
+       * every other tracking value arbitrarily (0.01em, 0.04em, 0.06em, 0.12em)
+       * because they come from the design, and one named class among them
+       * hides that it is the same kind of value.
+       *
+       * AGENTS.md already tells contributors to distrust these suggestions and
+       * keep the px value; leaving the rule on contradicted that in CI. It is
+       * also auto-fixed by lint-staged, so the rewrite would land on commit
+       * rather than being a warning anyone chose to accept.
+       */
+      "better-tailwindcss/enforce-canonical-classes": "off",
+
       /**
        * Design tokens are the single source of truth for colour. A hex literal
        * in a component is drift: it survives a token change and quietly breaks

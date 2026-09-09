@@ -1,10 +1,5 @@
 import { cn } from "@lib/util/cn"
-import {
-  formatEur,
-  formatExVat,
-  formatLek,
-  productMeta,
-} from "@lib/util/ustah-price"
+import { formatEur, formatExVat, productMeta } from "@lib/util/ustah-price"
 
 type PriceProps = {
   /** Price actually charged, in EUR. */
@@ -33,7 +28,7 @@ const priceText = {
 /**
  * The price block, as the design specifies it: the figure is the loudest
  * element on a card, and a discounted price sits on a yellow block with the
- * struck original and the lek conversion beneath.
+ * struck original beneath.
  *
  * Three components rendered this independently and had drifted on the padding,
  * the type scale and whether the ex-VAT figure appeared at all.
@@ -45,27 +40,34 @@ const Price = ({
   size = "md",
   showExVat = false,
   className,
-}: PriceProps) => (
-  <div className={className}>
-    {/* Padding only exists to inset the figure from the yellow ground, so it
+}: PriceProps) => {
+  const hasCompareAt = !!compareAt && !!discount
+
+  return (
+    <div className={className}>
+      {/* Padding only exists to inset the figure from the yellow ground, so it
         is tied to the block rather than applied unconditionally — otherwise an
         undiscounted price sits 12px off the card's text column. */}
-    <div className={cn("inline-block", discount && "bg-yellow px-3 py-[2px]")}>
-      <span className={cn("font-heading font-bold", priceText[size])}>
-        {formatEur(amount)}
-      </span>
+      <div
+        className={cn("inline-block", discount && "bg-yellow px-3 py-[2px]")}
+      >
+        <span className={cn("font-heading font-bold", priceText[size])}>
+          {formatEur(amount)}
+        </span>
+      </div>
+      {/* This row is often empty, so it renders only when
+        it actually carries something — an unconditional div would add 2px of
+        margin under every undiscounted card price. */}
+      {(hasCompareAt || showExVat) && (
+        <div className="mt-[2px] text-[11px] text-muted-deep">
+          {hasCompareAt ? <s>{formatEur(compareAt)}</s> : null}
+          {hasCompareAt && showExVat ? " · " : null}
+          {showExVat ? `pa TVSH ${formatExVat(amount)}` : null}
+        </div>
+      )}
     </div>
-    <div className="mt-[2px] text-[11px] text-muted-deep">
-      {compareAt && discount ? (
-        <>
-          <s>{formatEur(compareAt)}</s> ·{" "}
-        </>
-      ) : null}
-      {`≈ ${formatLek(amount)}`}
-      {showExVat ? ` · pa TVSH ${formatExVat(amount)}` : null}
-    </div>
-  </div>
-)
+  )
+}
 
 export default Price
 
