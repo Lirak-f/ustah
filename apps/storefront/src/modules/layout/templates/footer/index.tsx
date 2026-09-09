@@ -1,156 +1,126 @@
-import { listCategories } from "@lib/data/categories"
-import { listCollections } from "@lib/data/collections"
-import { Text, clx } from "@modules/common/components/ui"
+import { commerce } from "@ustah/design-tokens"
 
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
-import MedusaCTA from "@modules/layout/components/medusa-cta"
+
+/**
+ * Ustah footer.
+ *
+ * Three link columns plus the store's terms. The terms line is not decoration:
+ * cash-on-delivery only, VAT-inclusive pricing and VAT invoicing on request are
+ * the actual commercial terms, and the design gives them their own row.
+ */
+
+const columns = [
+  {
+    title: "Porosia",
+    links: [
+      { label: "Si funksionon porosia", href: "/store" },
+      { label: "Pagesa në dorëzim", href: "/store" },
+      { label: "Dërgesa & tarifat", href: "/store" },
+      { label: "Gjurmo porosinë", href: "/account/orders" },
+    ],
+  },
+  {
+    title: "Për tregtarë",
+    links: [
+      { label: "Llogari tregtari", href: "/account" },
+      { label: "Çmime për sasi", href: "/store" },
+      { label: "Faturë me TVSH", href: "/store" },
+      { label: "Ofertë për projekt", href: "/store" },
+    ],
+  },
+  {
+    title: "Ndihmë",
+    links: [
+      { label: "Kthimi brenda 14 ditësh", href: "/store" },
+      { label: "Garancia & servisi", href: "/store" },
+      { label: "Depot dhe orari", href: "/store" },
+      { label: "Kontakt", href: "/store" },
+    ],
+  },
+]
+
+/** House brands carried in the seeded catalog. */
+const brands = [
+  "Kraftbau",
+  "Nordvekt",
+  "Termoplast",
+  "Voltik",
+  "Fixpro",
+  "Gurëz",
+]
 
 export default async function Footer() {
-  const { collections } = await listCollections({
-    fields: "*products",
-  })
-  const productCategories = await listCategories()
-
   return (
-    <footer className="border-t border-ui-border-base w-full">
-      <div className="content-container flex flex-col w-full">
-        <div className="flex flex-col gap-y-6 xsmall:flex-row items-start justify-between py-40">
-          <div>
-            <LocalizedClientLink
-              href="/"
-              className="txt-compact-xlarge-plus text-ui-fg-subtle hover:text-ui-fg-base uppercase"
+    <footer className="mx-auto max-w-[1440px] border-x border-b border-border-strong bg-bg">
+      {/* Brand strip */}
+      <div className="px-7 pb-7">
+        <h2 className="mb-3 text-[18px] uppercase tracking-[0.04em] text-muted">
+          Markat
+        </h2>
+        <div className="grid grid-cols-3 gap-px border border-divider bg-divider sm:grid-cols-6">
+          {brands.map((brand) => (
+            <div
+              key={brand}
+              className="grid h-[64px] place-items-center bg-bg font-heading text-[16px] font-semibold uppercase tracking-[0.06em]"
             >
-              Medusa Store
-            </LocalizedClientLink>
-          </div>
-          <div className="text-small-regular gap-10 md:gap-x-16 grid grid-cols-2 sm:grid-cols-3">
-            {productCategories && productCategories?.length > 0 && (
-              <div className="flex flex-col gap-y-2">
-                <span className="txt-small-plus txt-ui-fg-base">
-                  Categories
-                </span>
-                <ul
-                  className="grid grid-cols-1 gap-2"
-                  data-testid="footer-categories"
-                >
-                  {productCategories?.slice(0, 6).map((c) => {
-                    if (c.parent_category) {
-                      return
-                    }
-
-                    const children =
-                      c.category_children?.map((child) => ({
-                        name: child.name,
-                        handle: child.handle,
-                        id: child.id,
-                      })) || null
-
-                    return (
-                      <li
-                        className="flex flex-col gap-2 text-ui-fg-subtle txt-small"
-                        key={c.id}
-                      >
-                        <LocalizedClientLink
-                          className={clx(
-                            "hover:text-ui-fg-base",
-                            children && "txt-small-plus",
-                          )}
-                          href={`/categories/${c.handle}`}
-                          data-testid="category-link"
-                        >
-                          {c.name}
-                        </LocalizedClientLink>
-                        {children && (
-                          <ul className="grid grid-cols-1 ml-3 gap-2">
-                            {children &&
-                              children.map((child) => (
-                                <li key={child.id}>
-                                  <LocalizedClientLink
-                                    className="hover:text-ui-fg-base"
-                                    href={`/categories/${child.handle}`}
-                                    data-testid="category-link"
-                                  >
-                                    {child.name}
-                                  </LocalizedClientLink>
-                                </li>
-                              ))}
-                          </ul>
-                        )}
-                      </li>
-                    )
-                  })}
-                </ul>
-              </div>
-            )}
-            {collections && collections.length > 0 && (
-              <div className="flex flex-col gap-y-2">
-                <span className="txt-small-plus txt-ui-fg-base">
-                  Collections
-                </span>
-                <ul
-                  className={clx(
-                    "grid grid-cols-1 gap-2 text-ui-fg-subtle txt-small",
-                    {
-                      "grid-cols-2": (collections?.length || 0) > 3,
-                    },
-                  )}
-                >
-                  {collections?.slice(0, 6).map((c) => (
-                    <li key={c.id}>
-                      <LocalizedClientLink
-                        className="hover:text-ui-fg-base"
-                        href={`/collections/${c.handle}`}
-                      >
-                        {c.title}
-                      </LocalizedClientLink>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            <div className="flex flex-col gap-y-2">
-              <span className="txt-small-plus txt-ui-fg-base">Medusa</span>
-              <ul className="grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small">
-                <li>
-                  <a
-                    href="https://github.com/medusajs"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-ui-fg-base"
-                  >
-                    GitHub
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://docs.medusajs.com"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-ui-fg-base"
-                  >
-                    Documentation
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://github.com/medusajs/dtc-starter"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-ui-fg-base"
-                  >
-                    Source code
-                  </a>
-                </li>
-              </ul>
+              {brand}
             </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="border-t border-divider px-7 py-9">
+        <div className="grid grid-cols-1 gap-9 md:grid-cols-[1.5fr_1fr_1fr_1fr]">
+          <div>
+            <LocalizedClientLink href="/" className="flex items-end gap-1">
+              <span className="font-heading text-[34px] font-bold leading-[0.85] tracking-[0.05em] text-accent">
+                USTAH
+              </span>
+              <span className="mb-1 block size-[9px] bg-yellow" aria-hidden />
+            </LocalizedClientLink>
+            <p className="mt-5 max-w-[38ch] text-[13px] text-muted-deep">
+              Hardware dhe material ndërtimi për tregtarë dhe shtëpi. Depot:
+              Prishtinë, Fushë Kosovë, Tiranë.
+            </p>
+            <a
+              href="tel:038700700"
+              className="mt-3 inline-block font-heading text-[20px] font-bold text-text"
+            >
+              038 700 700
+            </a>
           </div>
+
+          {columns.map((column) => (
+            <nav key={column.title} aria-label={column.title}>
+              <h3 className="mb-4 font-heading text-[13px] font-semibold uppercase tracking-[0.06em] text-muted">
+                {column.title}
+              </h3>
+              <ul className="flex flex-col gap-3">
+                {column.links.map((link) => (
+                  <li key={link.label}>
+                    <LocalizedClientLink
+                      href={link.href}
+                      className="text-[13px] text-text hover:text-accent hover:underline"
+                    >
+                      {link.label}
+                    </LocalizedClientLink>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ))}
         </div>
-        <div className="flex w-full mb-16 justify-between text-ui-fg-muted">
-          <Text className="txt-compact-small">
-            © {new Date().getFullYear()} Medusa Store. All rights reserved.
-          </Text>
-          <MedusaCTA />
-        </div>
+      </div>
+
+      {/* Commercial terms */}
+      <div className="flex flex-col gap-2 border-t border-divider px-7 py-6 text-[12px] text-muted-deep sm:flex-row sm:items-center sm:justify-between">
+        <p>
+          Pagesa vetëm në dorëzim (cash) — pa pagesë online. Çmimet me TVSH{" "}
+          {Math.round(commerce.vatRate * 100)}%. Faturë me TVSH për biznese me
+          kërkesë.
+        </p>
+        <p>© {new Date().getFullYear()} Ustah</p>
       </div>
     </footer>
   )

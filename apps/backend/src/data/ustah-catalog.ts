@@ -70,6 +70,13 @@ type SeedVariant = {
   sku: string
   /** EUR, VAT-inclusive. */
   price: number
+  /**
+   * Pre-discount EUR price for THIS variant. Lives on the variant, not the
+   * product, because price is per-variant: a product-level figure cannot say
+   * which variant it discounts. The card leads with the discounted variant,
+   * matching the design's own KB-SET2 card (219,00 € struck from 269,00 €).
+   */
+  compareAt?: number
   options: Record<string, string>
 }
 
@@ -80,8 +87,6 @@ export type SeedProduct = {
   brand: string
   category: UstahCategoryHandle
   collection?: (typeof collections)[number]["handle"]
-  /** Pre-discount EUR price; drives the discount badge. */
-  compareAt?: number
   /** Short spec line under the card title. */
   subtitle: string
   weight: number
@@ -104,7 +109,6 @@ export const products: SeedProduct[] = [
     brand: "KRAFTBAU",
     category: "vegla-elektrike",
     collection: "ofertat-e-javes",
-    compareAt: 219,
     subtitle: "2 × 5,0 Ah · valixhe · 12 bita",
     weight: 6200,
     optionTitle: "Bateria",
@@ -119,6 +123,7 @@ export const products: SeedProduct[] = [
         title: "2 × 5,0 Ah",
         sku: "KB-SET2-50",
         price: 219,
+        compareAt: 269,
         options: { Bateria: "2 × 5,0 Ah" },
       },
     ],
@@ -183,7 +188,6 @@ export const products: SeedProduct[] = [
     brand: "NORDVEKT",
     category: "hidraulike",
     collection: "ofertat-e-javes",
-    compareAt: 119,
     subtitle: "3.600 l/h · lartësi 45 m",
     weight: 11500,
     optionTitle: "Fuqia",
@@ -193,6 +197,7 @@ export const products: SeedProduct[] = [
         title: "1.200 W",
         sku: "ND-1200",
         price: 112,
+        compareAt: 149,
         options: { Fuqia: "1.200 W" },
       },
     ],
@@ -279,7 +284,6 @@ export const products: SeedProduct[] = [
     brand: "NORDVEKT",
     category: "ngrohje",
     collection: "ofertat-e-javes",
-    compareAt: 899,
     subtitle: "Kondensim · ujë sanitar · murale",
     weight: 34000,
     optionTitle: "Fuqia",
@@ -294,6 +298,7 @@ export const products: SeedProduct[] = [
         title: "28 kW",
         sku: "ND-BLR28",
         price: 829,
+        compareAt: 899,
         options: { Fuqia: "28 kW" },
       },
     ],
@@ -389,13 +394,18 @@ export const products: SeedProduct[] = [
     brand: "VOLTIK",
     category: "elektrike",
     collection: "ofertat-e-javes",
-    compareAt: 23,
     subtitle: "IP65 · 4.000 K · 4.500 lm",
     weight: 850,
     optionTitle: "Fuqia",
     variants: [
       { title: "30 W", sku: "VK-FL30", price: 17, options: { Fuqia: "30 W" } },
-      { title: "50 W", sku: "VK-FL50", price: 23, options: { Fuqia: "50 W" } },
+      {
+        title: "50 W",
+        sku: "VK-FL50",
+        price: 23,
+        compareAt: 32,
+        options: { Fuqia: "50 W" },
+      },
       {
         title: "100 W",
         sku: "VK-FL100",
@@ -579,7 +589,6 @@ export const products: SeedProduct[] = [
     brand: "KROMA",
     category: "boje-izolim",
     collection: "ofertat-e-javes",
-    compareAt: 16,
     subtitle: "Mat · ngjyrim në depo",
     weight: 19000,
     optionTitle: "Vëllimi",
@@ -589,6 +598,7 @@ export const products: SeedProduct[] = [
         title: "15 l",
         sku: "KR-IW15",
         price: 29,
+        compareAt: 38,
         options: { Vëllimi: "15 l" },
       },
     ],
@@ -696,13 +706,18 @@ export const products: SeedProduct[] = [
     brand: "SIGURIA",
     category: "mbrojtje-ne-pune",
     collection: "ofertat-e-javes",
-    compareAt: 79,
     subtitle: "S3 · majë çeliku · antistatike",
     weight: 1600,
     optionTitle: "Numri",
     variants: [
       { title: "42", sku: "SG-BT-42", price: 59, options: { Numri: "42" } },
-      { title: "43", sku: "SG-BT-43", price: 59, options: { Numri: "43" } },
+      {
+        title: "43",
+        sku: "SG-BT-43",
+        price: 59,
+        compareAt: 79,
+        options: { Numri: "43" },
+      },
       { title: "44", sku: "SG-BT-44", price: 59, options: { Numri: "44" } },
     ],
   },

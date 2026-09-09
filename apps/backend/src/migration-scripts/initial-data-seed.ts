@@ -381,10 +381,6 @@ export default async function initial_data_seed({
           shipping_profile_id: shippingProfile.id,
           metadata: {
             brand: p.brand,
-            // Pre-discount price behind the card's yellow badge. Authored
-            // against the product's CHEAPEST variant, because that is the
-            // price the card leads with.
-            ...(p.compareAt ? { compare_at: p.compareAt } : {}),
           },
           options: [
             { title: p.optionTitle, values: p.variants.map((v) => v.title) },
@@ -393,6 +389,10 @@ export default async function initial_data_seed({
             title: v.title,
             sku: v.sku,
             options: v.options,
+            // compare-at rides the variant, not the product: price is
+            // per-variant, so a product-level value could not say which
+            // variant it discounts.
+            ...(v.compareAt ? { metadata: { compare_at: v.compareAt } } : {}),
             prices: [{ amount: v.price, currency_code: "eur" }],
           })),
           sales_channels: [{ id: defaultSalesChannel.id }],
