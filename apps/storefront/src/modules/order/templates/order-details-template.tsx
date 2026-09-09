@@ -1,6 +1,6 @@
 "use client"
 
-import { XMark } from "@medusajs/icons"
+import { XMark } from "../../common/icons/medusa-compat"
 import { HttpTypes } from "@medusajs/types"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import Help from "@modules/order/components/help"

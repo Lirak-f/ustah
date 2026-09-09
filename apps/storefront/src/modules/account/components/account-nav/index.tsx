@@ -1,6 +1,6 @@
 "use client"
 
-import { ArrowRightOnRectangle } from "@medusajs/icons"
+import { ArrowRightOnRectangle } from "../../../common/icons/medusa-compat"
 import { clx } from "@modules/common/components/ui"
 import { useParams, usePathname } from "next/navigation"
 

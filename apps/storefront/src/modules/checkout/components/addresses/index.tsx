@@ -2,7 +2,7 @@
 import { setAddresses } from "@lib/data/cart"
 import useToggleState from "@lib/hooks/use-toggle-state"
 import compareAddresses from "@lib/util/compare-addresses"
-import { CheckCircleSolid } from "@medusajs/icons"
+import { CheckCircleSolid } from "../../../common/icons/medusa-compat"
 import { HttpTypes } from "@medusajs/types"
 import Divider from "@modules/common/components/divider"
 import { Heading, Text } from "@modules/common/components/ui"

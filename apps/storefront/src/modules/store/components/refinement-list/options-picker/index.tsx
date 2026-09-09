@@ -3,7 +3,7 @@
 import * as Accordion from "@radix-ui/react-accordion"
 import { useEffect, useState } from "react"
 
-import { ChevronDownMini } from "@medusajs/icons"
+import { ChevronDownMini } from "../../../../common/icons/medusa-compat"
 import { sdk } from "@lib/config"
 import { HttpTypes } from "@medusajs/types"
 import clsx from "clsx"

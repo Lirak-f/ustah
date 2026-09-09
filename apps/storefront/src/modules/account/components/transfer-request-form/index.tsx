@@ -1,6 +1,9 @@
 "use client"
 import { createTransferRequest } from "@lib/data/orders"
-import { CheckCircleMiniSolid, XCircleSolid } from "@medusajs/icons"
+import {
+  CheckCircleMiniSolid,
+  XCircleSolid,
+} from "../../../common/icons/medusa-compat"
 import { Heading, IconButton, Input, Text } from "@modules/common/components/ui"
 import { useActionState } from "react"
 // TODO: Re-add Toaster component when needed

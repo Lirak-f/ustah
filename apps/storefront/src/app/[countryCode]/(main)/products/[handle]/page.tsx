@@ -88,11 +88,11 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   }
 
   return {
-    title: `${product.title} | Medusa Store`,
-    description: `${product.title}`,
+    title: `${product.title} | Ustah`,
+    description: product.subtitle ?? product.title,
     openGraph: {
-      title: `${product.title} | Medusa Store`,
-      description: `${product.title}`,
+      title: `${product.title} | Ustah`,
+      description: product.subtitle ?? product.title,
       images: product.thumbnail ? [product.thumbnail] : [],
     },
   }
@@ -111,7 +111,13 @@ export default async function ProductPage(props: Props) {
 
   const pricedProduct = await listProducts({
     countryCode: params.countryCode,
-    queryParams: { handle: params.handle },
+    queryParams: {
+      handle: params.handle,
+      // The breadcrumb and the related-products rail both key off categories,
+      // which the default field set omits.
+      fields:
+        "*categories,*variants.calculated_price,+variants.inventory_quantity,*variants.images,*variants.options,+metadata,+variants.metadata,*options,*options.values,+tags",
+    },
   }).then(({ response }) => response.products[0])
 
   if (!pricedProduct) {

@@ -1,5 +1,5 @@
 import { Listbox, Transition } from "@headlessui/react"
-import { ChevronUpDown } from "@medusajs/icons"
+import { ChevronUpDown } from "../../../common/icons/medusa-compat"
 import { clx } from "@modules/common/components/ui"
 import { Fragment, useMemo } from "react"
 

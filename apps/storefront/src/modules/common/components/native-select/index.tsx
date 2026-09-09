@@ -1,4 +1,4 @@
-import { ChevronUpDown } from "@medusajs/icons"
+import { ChevronUpDown } from "../../icons/medusa-compat"
 import { clx } from "@modules/common/components/ui"
 import {
   SelectHTMLAttributes,

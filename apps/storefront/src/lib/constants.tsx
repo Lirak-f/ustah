@@ -1,4 +1,4 @@
-import { CreditCard } from "@medusajs/icons"
+import { CreditCard } from "../modules/common/icons/medusa-compat"
 import React from "react"
 
 /* Map of payment provider_id to their title and icon. Add in any payment providers you want to use. */

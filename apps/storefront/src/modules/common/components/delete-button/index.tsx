@@ -1,5 +1,5 @@
 import { deleteLineItem } from "@lib/data/cart"
-import { Spinner, Trash } from "@medusajs/icons"
+import { Spinner, Trash } from "../../icons/medusa-compat"
 import { clx } from "@modules/common/components/ui"
 import { useState } from "react"
 

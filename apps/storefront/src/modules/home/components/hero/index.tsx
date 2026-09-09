@@ -1,4 +1,4 @@
-import { Github } from "@medusajs/icons"
+import { Github } from "../../../common/icons/medusa-compat"
 import { Button, Heading } from "@modules/common/components/ui"
 const Hero = () => {
   return (

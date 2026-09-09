@@ -1,6 +1,6 @@
 "use client"
 
-import { Plus } from "@medusajs/icons"
+import { Plus } from "../../../common/icons/medusa-compat"
 import { Button, Heading } from "@modules/common/components/ui"
 import { useActionState, useEffect, useState } from "react"
 

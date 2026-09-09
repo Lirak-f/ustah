@@ -1,4 +1,4 @@
-import { ArrowUpRightMini } from "@medusajs/icons"
+import { ArrowUpRightMini } from "../modules/common/icons/medusa-compat"
 import { Text } from "@modules/common/components/ui"
 import { Metadata } from "next"
 import Link from "next/link"

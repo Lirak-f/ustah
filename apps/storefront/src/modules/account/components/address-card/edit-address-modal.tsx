@@ -5,7 +5,10 @@ import {
   updateCustomerAddress,
 } from "@lib/data/customer"
 import useToggleState from "@lib/hooks/use-toggle-state"
-import { PencilSquare as Edit, Trash } from "@medusajs/icons"
+import {
+  PencilSquare as Edit,
+  Trash,
+} from "../../../common/icons/medusa-compat"
 import { HttpTypes } from "@medusajs/types"
 import CountrySelect from "@modules/checkout/components/country-select"
 import { SubmitButton } from "@modules/checkout/components/submit-button"

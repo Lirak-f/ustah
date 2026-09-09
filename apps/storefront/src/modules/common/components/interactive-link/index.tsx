@@ -1,4 +1,4 @@
-import { ArrowUpRightMini } from "@medusajs/icons"
+import { ArrowUpRightMini } from "../../icons/medusa-compat"
 import { Text } from "@modules/common/components/ui"
 import LocalizedClientLink from "../localized-client-link"
 type InteractiveLinkProps = {

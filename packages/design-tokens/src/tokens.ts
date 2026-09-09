@@ -196,4 +196,19 @@ export const commerce = {
   vatRate: 0.18,
   /** Free delivery threshold in EUR. */
   freeDeliveryThreshold: 120,
+
+  /**
+   * Quantity price breaks shown on the product page.
+   *
+   * INDICATIVE ONLY. The storefront has no price-list backing these, so the
+   * cart charges the unit price at every quantity. The design presents them as
+   * a trade enquiry ("Zbritje 5–12% për sasi ... pas verifikimit"), not as an
+   * automatic checkout discount, and the buy box must say so — advertising a
+   * break the cart will not honour is worse than not showing one.
+   */
+  quantityBreaks: [
+    { min: 1, max: 9, discount: 0 },
+    { min: 10, max: 24, discount: 0.05 },
+    { min: 25, max: null, discount: 0.1 },
+  ],
 } as const

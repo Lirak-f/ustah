@@ -1,7 +1,7 @@
 "use client"
 
 import { convertToLocale } from "@lib/util/money"
-import { CheckCircleSolid, XMark } from "@medusajs/icons"
+import { CheckCircleSolid, XMark } from "../../../common/icons/medusa-compat"
 import {
   HttpTypes,
   StoreCart,
