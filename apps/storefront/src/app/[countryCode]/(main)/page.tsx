@@ -5,6 +5,9 @@ import { listCollections } from "@lib/data/collections"
 import { listProducts } from "@lib/data/products"
 import { getRegion } from "@lib/data/regions"
 import CategoryGrid from "@modules/home/components/category-grid"
+import HeroCarousel, {
+  type HeroSlide,
+} from "@modules/home/components/hero-carousel"
 import ProductRail from "@modules/home/components/product-rail"
 import TrustBar from "@modules/home/components/trust-bar"
 
@@ -13,6 +16,44 @@ export const metadata: Metadata = {
   description:
     "Vegla, hidraulikë, ngrohje dhe materiale ndërtimi. Pagesa në dorëzim, dërgesa në Kosovë dhe Shqipëri.",
 }
+
+/**
+ * Hero slides, as the design specifies them.
+ *
+ * Authored here rather than fetched: there is no CMS or campaign module behind
+ * them, and inventing a "hero" collection would imply an editorial surface the
+ * backend does not have. Move these to the backend the moment marketing needs
+ * to change them without a deploy.
+ */
+const HERO_SLIDES: HeroSlide[] = [
+  {
+    eyebrow: "Java 37",
+    title: "Sezoni i kantierit",
+    body: "Vegla, material dhe mbrojtje me çmim shumice — te dera brenda 48 orësh.",
+    ctaLabel: "Shiko ofertat",
+    ctaHref: "/collections/ofertat-e-javes",
+    offer: { amount: 219, label: "Set trapan 18 V" },
+    imageAlt: "foto — punëtor në kantier",
+  },
+  {
+    eyebrow: "Sezonale",
+    title: "Ngrohje para dimrit",
+    body: "Kaldaja, radiatorë dhe gypa nga stoku — montim brenda javës.",
+    ctaLabel: "Shiko ngrohjen",
+    ctaHref: "/categories/ngrohje",
+    offer: { amount: 640, label: "Kaldajë 24 kW" },
+    imageAlt: "foto — kaldajë e montuar",
+  },
+  {
+    eyebrow: "Për ekipe",
+    title: "Pajis ekipin",
+    body: "Helmeta, doreza dhe këpucë të certifikuara, me çmim për sasi.",
+    ctaLabel: "Shiko mbrojtjen",
+    ctaHref: "/categories/mbrojtje-ne-pune",
+    offer: { amount: 39, label: "Set mbrojtje EN" },
+    imageAlt: "foto — ekip me helmeta",
+  },
+]
 
 const OFFERS_HANDLE = "ofertat-e-javes"
 const BESTSELLERS_HANDLE = "me-te-shiturat"
@@ -60,6 +101,7 @@ export default async function Home(props: {
 
   return (
     <div className="mx-auto max-w-[1440px] border border-border-strong bg-bg">
+      <HeroCarousel slides={HERO_SLIDES} />
       <TrustBar />
       <CategoryGrid categories={topLevel} />
       <ProductRail

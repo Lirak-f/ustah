@@ -1,7 +1,7 @@
 /**
  * Ustah design tokens — SOURCE OF TRUTH.
  *
- * Extracted from design/ustah-storefront.html (the Ustah override block, which is
+ * Extracted from the Claude Design project (the Ustah override block, which is
  * the third <style> block in the bundle and wins over the generic design-system
  * defaults preceding it).
  *
@@ -203,13 +203,10 @@ export const screens = {
 /**
  * Commerce display constants.
  *
- * These are presentation-only. EUR is the sole transacted currency; the lek
- * figure is an approximate courtesy conversion shown beside it, and the ex-VAT
- * figure is derived from the gross price for trade buyers.
+ * These are presentation-only. EUR is the sole transacted currency, and the
+ * ex-VAT figure is derived from the gross price for trade buyers.
  */
 export const commerce = {
-  /** Display-only. The design shows a flat 100 L = 1 €. */
-  lekPerEur: 100,
   /** Kosovo VAT. Prices in the catalog are VAT-inclusive. */
   vatRate: 0.18,
   /** Free delivery threshold in EUR. */

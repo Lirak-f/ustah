@@ -1,6 +1,7 @@
 import { MedusaContainer } from "@medusajs/framework"
 import {
   ContainerRegistrationKeys,
+  MedusaError,
   ModuleRegistrationName,
   Modules,
   ProductStatus,
@@ -355,7 +356,8 @@ export default async function initial_data_seed({
       products: ustahProducts.map((p) => {
         const categoryId = categoryIdByHandle.get(p.category)
         if (!categoryId) {
-          throw new Error(
+          throw new MedusaError(
+            MedusaError.Types.INVALID_DATA,
             `Product "${p.handle}" references unknown category "${p.category}".`
           )
         }
@@ -364,7 +366,8 @@ export default async function initial_data_seed({
           ? collectionIdByHandle.get(p.collection)
           : undefined
         if (p.collection && !collectionId) {
-          throw new Error(
+          throw new MedusaError(
+            MedusaError.Types.INVALID_DATA,
             `Product "${p.handle}" references unknown collection "${p.collection}".`
           )
         }

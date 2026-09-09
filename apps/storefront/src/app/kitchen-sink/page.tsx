@@ -4,7 +4,7 @@ import { commerce } from "@ustah/design-tokens"
  * Phase 0 verification surface.
  *
  * Renders every primitive the Ustah design defines, using only theme tokens, so
- * the extraction can be checked against design/ustah-storefront.html side by
+ * the extraction can be checked against the Claude Design project side by
  * side. Not linked from the app; it exists to catch token drift.
  *
  * If a colour here looks wrong, fix packages/design-tokens/src/tokens.ts and
@@ -54,7 +54,6 @@ function eur(n: number) {
 export default function KitchenSink() {
   const price = 129.0
   const exVat = price / (1 + commerce.vatRate)
-  const lek = price * commerce.lekPerEur
 
   return (
     <div className="min-h-screen bg-page">
@@ -177,13 +176,13 @@ export default function KitchenSink() {
 
         <Section
           title="Çmimi / Price block"
-          note="Every price carries three figures: gross EUR (loud), approximate lek, and ex-VAT for trade buyers. The lek rate is display-only — EUR is the sole transacted currency."
+          note="Every price carries two figures: gross EUR (loud) and ex-VAT for trade buyers. EUR is the sole transacted currency."
         >
           <div className="flex gap-9">
             <div>
               <div className="font-heading text-price">{eur(price)}</div>
               <div className="mt-0.5 text-xs text-muted-deep">
-                ≈ {lek.toLocaleString("de-DE")} L · pa TVSH {eur(exVat)}
+                pa TVSH {eur(exVat)}
               </div>
             </div>
             <div>

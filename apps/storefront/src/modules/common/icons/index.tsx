@@ -8,6 +8,8 @@ import {
   Bolt,
   CheckCircle2,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   ChevronsUpDown,
   CircleAlert,
   CircleSmall,
@@ -122,6 +124,8 @@ export const IconSafety = withDefaults(HardHat)
 /* ── Interface ───────────────────────────────────────────────────────── */
 
 export const IconChevronDown = withDefaults(ChevronDown)
+export const IconChevronLeft = withDefaults(ChevronLeft)
+export const IconChevronRight = withDefaults(ChevronRight)
 export const IconChevronUpDown = withDefaults(ChevronsUpDown)
 export const IconX = withDefaults(X)
 export const IconPlus = withDefaults(Plus)

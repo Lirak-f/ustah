@@ -6,7 +6,7 @@
  *
  * Conventions that the storefront depends on:
  *  - Prices are EUR, VAT-inclusive (Kosovo 18%). EUR is the only transacted
- *    currency; the lek figure on the card is a display-only conversion.
+ *    currency.
  *  - `metadata.brand` and the variant SKU drive the mono "BRAND · SKU" line on
  *    the product card, so every product carries a brand.
  *  - `metadata.compare_at` is the pre-discount price used to render the yellow

@@ -13,7 +13,6 @@ import { addToCart } from "@lib/data/cart"
 import {
   formatEur,
   formatExVat,
-  formatLek,
   productMeta,
   discountPercent,
 } from "@lib/util/ustah-price"
@@ -39,7 +38,7 @@ const optionsAsKeymap = (
 /**
  * Product buy box.
  *
- * Carries the variant picker, price with its lek and ex-VAT lines, stock,
+ * Carries the variant picker, price with its ex-VAT line, stock,
  * delivery, quantity and add-to-cart. The quantity price-break table is
  * indicative: no price list backs it, so the cart charges the unit price at
  * every quantity, and the box says so rather than implying an automatic
@@ -188,7 +187,7 @@ const UstahBuyBox = ({ product, disabled }: Props) => {
               </div>
             )}
             <p className="mt-2 text-[11px] text-muted-deep">
-              ≈ {formatLek(price)} · pa TVSH {formatExVat(price)}
+              pa TVSH {formatExVat(price)}
             </p>
             <p className="mt-1 text-[11px] text-muted-deep">
               Çmimi për copë · TVSH {Math.round(commerce.vatRate * 100)}% e

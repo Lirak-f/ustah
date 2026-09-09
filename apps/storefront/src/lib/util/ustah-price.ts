@@ -12,7 +12,7 @@ import { commerce } from "@ustah/design-tokens"
 /**
  * de-DE, not sq-AL, on purpose.
  *
- * The design writes money as `1.234,50 €` and `21.900 L` — dot thousands, comma
+ * The design writes money as `1.234,50 €` — dot thousands, comma
  * decimal. Node's ICU data for sq-AL drops the grouping separator entirely
  * (1700 rather than 1.700), so formatting Albanian prices with the Albanian
  * locale silently loses it. de-DE produces the exact grouping and decimal marks
@@ -24,19 +24,8 @@ const eur = new Intl.NumberFormat("de-DE", {
   maximumFractionDigits: 2,
 })
 
-const lek = new Intl.NumberFormat("de-DE", {
-  maximumFractionDigits: 0,
-})
-
 /** `219,00 €` */
 export const formatEur = (amount: number) => `${eur.format(amount)} €`
-
-/**
- * Courtesy conversion shown under the price. Display-only: EUR is the sole
- * transacted currency and the design fixes the rate at 100 L = 1 €.
- */
-export const formatLek = (amountEur: number) =>
-  `${lek.format(Math.round(amountEur * commerce.lekPerEur))} L`
 
 /** Ex-VAT figure for trade buyers, derived from the VAT-inclusive catalog price. */
 export const formatExVat = (amountEur: number) =>
