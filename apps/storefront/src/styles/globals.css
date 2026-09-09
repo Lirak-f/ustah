@@ -179,6 +179,20 @@ button, input, select, textarea {
   }
 }
 
+/*
+  The design's hatched "foto produkti" band, shown where a product has no
+  thumbnail. Was inlined as an arbitrary bg-[repeating-linear-gradient(...)] in
+  four places, one of which hardcoded the hex values and so survived a token
+  change. Defined once, against the tokens.
+*/
+@utility bg-hatch {
+  background-image: repeating-linear-gradient(
+    135deg,
+    var(--color-surface) 0 7px,
+    var(--color-bg) 7px 14px
+  );
+}
+
 @utility no-scrollbar {
   /* Chrome, Safari and Opera */
   &::-webkit-scrollbar {

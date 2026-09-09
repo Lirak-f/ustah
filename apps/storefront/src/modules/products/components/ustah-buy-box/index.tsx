@@ -18,7 +18,9 @@ import {
   discountPercent,
 } from "@lib/util/ustah-price"
 import { getStockState } from "@lib/util/ustah-stock"
+import { selectLeadVariant } from "@lib/util/ustah-variant"
 import { HttpTypes } from "@medusajs/types"
+import { buttonVariants, StockLine } from "@modules/common/components/ustah"
 import { commerce } from "@ustah/design-tokens"
 
 type Props = {
@@ -59,26 +61,14 @@ const UstahBuyBox = ({ product, disabled }: Props) => {
   // "Nuk ka në stok" for a product that is in stock — the shopper reads that as
   // unavailable and leaves. The discounted variant leads when there is an
   // offer, matching the card they clicked through from; otherwise the cheapest.
+  const variants = product.variants
+
   useEffect(() => {
-    const priced = (product.variants ??
-      []) as (HttpTypes.StoreProductVariant & {
-      calculated_price?: { calculated_amount: number }
-    })[]
-
-    const lead = priced
-      .filter((v) => typeof v.calculated_price?.calculated_amount === "number")
-      .map((v) => {
-        const amount = v.calculated_price?.calculated_amount ?? 0
-        const was = productMeta(v.metadata).compareAt
-        return { v, amount, saving: was && was > amount ? was - amount : 0 }
-      })
-      .sort((a, b) => b.saving - a.saving || a.amount - b.amount)[0]?.v
-
-    const initial = lead ?? product.variants?.[0]
+    const initial = selectLeadVariant({ variants })?.variant ?? variants?.[0]
     if (initial) {
       setOptions(optionsAsKeymap(initial.options) ?? {})
     }
-  }, [product.variants])
+  }, [variants])
 
   const selectedVariant = useMemo(
     () =>
@@ -164,11 +154,10 @@ const UstahBuyBox = ({ product, disabled }: Props) => {
                           }))
                         }
                         aria-pressed={isSelected}
-                        className={`border px-4 py-3 text-[13px] transition-colors ${
-                          isSelected
-                            ? "border-accent bg-accent text-white"
-                            : "border-border-strong bg-bg hover:border-accent"
-                        }`}
+                        className={buttonVariants({
+                          variant: isSelected ? "selected" : "outline",
+                          size: "option",
+                        })}
                       >
                         {value.value}
                       </button>
@@ -212,21 +201,7 @@ const UstahBuyBox = ({ product, disabled }: Props) => {
           </p>
         )}
 
-        <div className="mt-5 flex items-center gap-2 text-[13px]">
-          <i
-            aria-hidden
-            className={`block size-2 ${
-              stock.level === "in"
-                ? "bg-accent"
-                : stock.level === "low"
-                  ? "bg-danger"
-                  : "bg-border-strong"
-            }`}
-          />
-          <span className={stock.level === "low" ? "text-danger" : undefined}>
-            {stock.label}
-          </span>
-        </div>
+        <StockLine stock={stock} className="mt-5 text-[13px]" />
         <p className="mt-1 text-[11px] text-muted-deep">
           Prishtinë 1–2 ditë · Tiranë 2–3 ditë · Porosit deri 15:00 — niset të
           njëjtën ditë
@@ -251,7 +226,11 @@ const UstahBuyBox = ({ product, disabled }: Props) => {
             onClick={handleAdd}
             disabled={!canAdd}
             data-testid="add-product-button"
-            className="h-[46px] flex-1 bg-accent font-heading text-[16px] font-semibold uppercase tracking-[0.04em] text-white transition-colors hover:bg-accent-600 disabled:cursor-not-allowed disabled:bg-border-strong"
+            className={buttonVariants({
+              variant: "accent",
+              size: "md",
+              className: "flex-1",
+            })}
           >
             {isAdding ? "Duke shtuar…" : added ? "Shtuar ✓" : "Shto në shportë"}
           </button>

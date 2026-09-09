@@ -2,6 +2,7 @@
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
+import { buttonVariants } from "@modules/common/components/ustah"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 
 const OPTIONS: { value: SortOptions; label: string }[] = [
@@ -35,7 +36,7 @@ const UstahSortBar = ({ sortBy, count }: Props) => {
         {count === 1 ? "produkt" : "produkte"} · të gjitha me pagesë në dorëzim
       </p>
       <div className="flex items-center gap-2">
-        <span className="font-heading text-section-label font-semibold uppercase text-muted">
+        <span className="font-heading text-section-label font-semibold text-muted uppercase">
           Rendit
         </span>
         {OPTIONS.map((option) => (
@@ -43,11 +44,10 @@ const UstahSortBar = ({ sortBy, count }: Props) => {
             key={option.value}
             onClick={() => setSort(option.value)}
             aria-pressed={sortBy === option.value}
-            className={`border px-4 py-2 text-[12px] transition-colors ${
-              sortBy === option.value
-                ? "border-accent bg-accent text-white"
-                : "border-border-strong bg-bg hover:border-accent"
-            }`}
+            className={buttonVariants({
+              variant: sortBy === option.value ? "selected" : "outline",
+              size: "toggle",
+            })}
           >
             {option.label}
           </button>
