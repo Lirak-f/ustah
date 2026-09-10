@@ -1,5 +1,3 @@
-import { commerce } from "@ustah/design-tokens"
-
 /**
  * Price formatting for the Ustah storefront.
  *
@@ -26,10 +24,6 @@ const eur = new Intl.NumberFormat("de-DE", {
 
 /** `219,00 €` */
 export const formatEur = (amount: number) => `${eur.format(amount)} €`
-
-/** Ex-VAT figure for trade buyers, derived from the VAT-inclusive catalog price. */
-export const formatExVat = (amountEur: number) =>
-  formatEur(amountEur / (1 + commerce.vatRate))
 
 /**
  * Discount percentage as the design renders it: a negative integer with the

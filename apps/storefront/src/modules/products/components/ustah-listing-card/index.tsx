@@ -22,9 +22,9 @@ const DELIVERY_ESTIMATE = "Prishtinë 1–2 ditë · Tiranë 2–3 ditë"
 /**
  * Catalog listing card.
  *
- * Denser than the rail card: it adds a spec table, the ex-VAT price for trade
- * buyers, a stock state and a delivery estimate — the four things a builder
- * compares across a results page before opening anything.
+ * Denser than the rail card: it adds a spec table, a stock state and a delivery
+ * estimate — the things a builder compares across a results page before opening
+ * anything.
  */
 const UstahListingCard = ({ product }: Props) => {
   const { brand } = productMeta(product.metadata)
@@ -76,7 +76,6 @@ const UstahListingCard = ({ product }: Props) => {
               compareAt={lead.compareAt}
               discount={lead.discount}
               size="md"
-              showExVat
             />
             <StockLine stock={stock} className="mt-4" />
             <div className="mt-[2px] text-[11px] text-muted-deep">

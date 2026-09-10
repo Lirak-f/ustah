@@ -145,33 +145,41 @@ const banner = `/**
 
 const base = `/* ── Base ───────────────────────────────────────────────────────────── */
 
-:root {
-  color-scheme: light;
-}
+/*
+  These resets live in @layer base so Tailwind's utilities (in the later
+  \`utilities\` layer) win over them. Unlayered, \`h2 { margin: 0 }\` beats
+  \`.mb-6\` regardless of specificity and every heading margin utility is
+  silently dropped.
+*/
+@layer base {
+  :root {
+    color-scheme: light;
+  }
 
-body {
-  background: var(--color-page);
-  color: var(--color-text);
-  font-family: var(--font-body);
-  font-size: var(--text-body);
-  line-height: var(--text-body--line-height);
-  /* Prices sit in columns across cards and the spec table; without this the
-     digits jitter between rows. The design sets it globally. */
-  font-variant-numeric: tabular-nums;
-  -webkit-font-smoothing: antialiased;
-  margin: 0;
-}
+  body {
+    background: var(--color-page);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    /* Prices sit in columns across cards and the spec table; without this the
+       digits jitter between rows. The design sets it globally. */
+    font-variant-numeric: tabular-nums;
+    -webkit-font-smoothing: antialiased;
+    margin: 0;
+  }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
-  font-weight: 600;
-  margin: 0;
-}
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    margin: 0;
+  }
 
-/* The design uses zero border-radius everywhere. Reset UA styles that add it. */
-button, input, select, textarea {
-  border-radius: 0;
-  font: inherit;
+  /* The design uses zero border-radius everywhere. Reset UA styles that add it. */
+  button, input, select, textarea {
+    border-radius: 0;
+    font: inherit;
+  }
 }
 `
 

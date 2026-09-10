@@ -1,6 +1,7 @@
 "use client"
 
 import { convertToLocale } from "@lib/util/money"
+import { commerce } from "@ustah/design-tokens"
 import React from "react"
 
 type CartTotalsProps = {
@@ -14,6 +15,8 @@ type CartTotalsProps = {
     discount_subtotal?: number | null
   }
 }
+
+const vatPct = Math.round(commerce.vatRate * 100)
 
 const CartTotals: React.FC<CartTotalsProps> = ({ totals }) => {
   const {
@@ -29,7 +32,7 @@ const CartTotals: React.FC<CartTotalsProps> = ({ totals }) => {
     <div>
       <div className="flex flex-col gap-y-2 text-small text-muted">
         <div className="flex items-center justify-between">
-          <span>Nëntotali (pa dërgesë dhe taksa)</span>
+          <span>Nëntotali (pa dërgesë)</span>
           <span data-testid="cart-subtotal" data-value={item_subtotal || 0}>
             {convertToLocale({ amount: item_subtotal ?? 0, currency_code })}
           </span>
@@ -56,8 +59,11 @@ const CartTotals: React.FC<CartTotalsProps> = ({ totals }) => {
             </span>
           </div>
         )}
+        {/* Catalog prices are VAT-inclusive, so this is the VAT already contained
+            in the total, not an amount added on top. Medusa computes it from the
+            18% Kosovo rate on the shipping-country tax region. */}
         <div className="flex justify-between">
-          <span className="flex items-center gap-x-1">Taksat</span>
+          <span className="flex items-center gap-x-1">TVSH ({vatPct}%)</span>
           <span data-testid="cart-taxes" data-value={tax_total || 0}>
             {convertToLocale({ amount: tax_total ?? 0, currency_code })}
           </span>

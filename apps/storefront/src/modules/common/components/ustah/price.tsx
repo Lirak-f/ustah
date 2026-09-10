@@ -1,5 +1,5 @@
 import { cn } from "@lib/util/cn"
-import { formatEur, formatExVat, productMeta } from "@lib/util/ustah-price"
+import { formatEur, productMeta } from "@lib/util/ustah-price"
 
 type PriceProps = {
   /** Price actually charged, in EUR. */
@@ -14,8 +14,6 @@ type PriceProps = {
    * card used to hardcode 26px against a 30px token.
    */
   size?: "sm" | "md" | "lg"
-  /** Trade buyers compare ex-VAT; the listing and buy box show it, cards do not. */
-  showExVat?: boolean
   className?: string
 }
 
@@ -30,15 +28,14 @@ const priceText = {
  * element on a card, and a discounted price sits on a yellow block with the
  * struck original beneath.
  *
- * Three components rendered this independently and had drifted on the padding,
- * the type scale and whether the ex-VAT figure appeared at all.
+ * Three components rendered this independently and had drifted on the padding
+ * and the type scale.
  */
 const Price = ({
   amount,
   compareAt,
   discount,
   size = "md",
-  showExVat = false,
   className,
 }: PriceProps) => {
   const hasCompareAt = !!compareAt && !!discount
@@ -55,14 +52,12 @@ const Price = ({
           {formatEur(amount)}
         </span>
       </div>
-      {/* This row is often empty, so it renders only when
-        it actually carries something — an unconditional div would add 2px of
-        margin under every undiscounted card price. */}
-      {(hasCompareAt || showExVat) && (
+      {/* Only the struck original, and only when there is a real discount — an
+        unconditional div would add 2px of margin under every undiscounted card
+        price. */}
+      {hasCompareAt && (
         <div className="mt-[2px] text-[11px] text-muted-deep">
-          {hasCompareAt ? <s>{formatEur(compareAt)}</s> : null}
-          {hasCompareAt && showExVat ? " · " : null}
-          {showExVat ? `pa TVSH ${formatExVat(amount)}` : null}
+          <s>{formatEur(compareAt)}</s>
         </div>
       )}
     </div>

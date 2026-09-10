@@ -10,12 +10,7 @@ import {
 import { useEffect, useMemo, useState } from "react"
 
 import { addToCart } from "@lib/data/cart"
-import {
-  formatEur,
-  formatExVat,
-  productMeta,
-  discountPercent,
-} from "@lib/util/ustah-price"
+import { formatEur, productMeta, discountPercent } from "@lib/util/ustah-price"
 import { getStockState } from "@lib/util/ustah-stock"
 import { selectLeadVariant } from "@lib/util/ustah-variant"
 import { HttpTypes } from "@medusajs/types"
@@ -38,8 +33,8 @@ const optionsAsKeymap = (
 /**
  * Product buy box.
  *
- * Carries the variant picker, price with its ex-VAT line, stock,
- * delivery, quantity and add-to-cart. The quantity price-break table is
+ * Carries the variant picker, price, stock, delivery, quantity and
+ * add-to-cart. The quantity price-break table is
  * indicative: no price list backs it, so the cart charges the unit price at
  * every quantity, and the box says so rather than implying an automatic
  * discount.
@@ -186,13 +181,6 @@ const UstahBuyBox = ({ product, disabled }: Props) => {
                 <s>{formatEur(compareAt)}</s>
               </div>
             )}
-            <p className="mt-2 text-[11px] text-muted-deep">
-              pa TVSH {formatExVat(price)}
-            </p>
-            <p className="mt-1 text-[11px] text-muted-deep">
-              Çmimi për copë · TVSH {Math.round(commerce.vatRate * 100)}% e
-              përfshirë
-            </p>
           </>
         ) : (
           <p className="text-[13px] text-muted">
