@@ -28,6 +28,17 @@ const CartTotals: React.FC<CartTotalsProps> = ({ totals }) => {
     discount_subtotal,
   } = totals
 
+  // Every product is sourced from Kosovo and the catalog price is VAT-inclusive
+  // at 18%, so the cart always states the VAT contained in the total. Medusa only
+  // fills tax_total once a shipping country is known (at checkout), so before
+  // that we derive it from the gross total: total − total / 1.18. Once Medusa has
+  // computed it, its figure wins.
+  const grossTotal = total ?? 0
+  const vatAmount =
+    tax_total && tax_total > 0
+      ? tax_total
+      : grossTotal - grossTotal / (1 + commerce.vatRate)
+
   return (
     <div>
       <div className="flex flex-col gap-y-2 text-small text-muted">
@@ -59,13 +70,10 @@ const CartTotals: React.FC<CartTotalsProps> = ({ totals }) => {
             </span>
           </div>
         )}
-        {/* Catalog prices are VAT-inclusive, so this is the VAT already contained
-            in the total, not an amount added on top. Medusa computes it from the
-            18% Kosovo rate on the shipping-country tax region. */}
         <div className="flex justify-between">
           <span className="flex items-center gap-x-1">TVSH ({vatPct}%)</span>
-          <span data-testid="cart-taxes" data-value={tax_total || 0}>
-            {convertToLocale({ amount: tax_total ?? 0, currency_code })}
+          <span data-testid="cart-taxes" data-value={vatAmount}>
+            {convertToLocale({ amount: vatAmount, currency_code })}
           </span>
         </div>
       </div>
