@@ -13,7 +13,10 @@ type ItemProps = {
 
 const Item = ({ item, currencyCode }: ItemProps) => {
   return (
-    <Table.Row className="w-full" data-testid="product-row">
+    <Table.Row
+      className="w-full hover:bg-transparent"
+      data-testid="product-row"
+    >
       <Table.Cell className="w-24 p-4 pl-0!">
         <div className="flex w-16">
           <Thumbnail thumbnail={item.thumbnail} size="square" />
@@ -22,7 +25,7 @@ const Item = ({ item, currencyCode }: ItemProps) => {
 
       <Table.Cell className="text-left">
         <Text
-          className="text-small font-semibold text-text"
+          className="font-heading text-card-title font-semibold text-text"
           data-testid="product-name"
         >
           {item.product_title}
@@ -31,7 +34,7 @@ const Item = ({ item, currencyCode }: ItemProps) => {
       </Table.Cell>
 
       <Table.Cell className="pr-0!">
-        <span className="flex h-full flex-col items-end justify-center pr-0!">
+        <span className="flex h-full flex-col items-end justify-center gap-y-1 pr-0!">
           <span className="flex gap-x-1">
             <Text className="text-faint">
               <span data-testid="product-quantity">{item.quantity}</span>x{" "}

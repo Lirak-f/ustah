@@ -1,3 +1,5 @@
+"use client"
+
 import { login } from "@lib/data/customer"
 import { LOGIN_VIEW } from "@modules/account/templates/login-template"
 import ErrorMessage from "@modules/checkout/components/error-message"
@@ -13,36 +15,36 @@ const Login = ({ setCurrentView }: Props) => {
   const [message, formAction] = useActionState(login, null)
 
   return (
-    <div
-      className="flex w-full max-w-sm flex-col items-center"
-      data-testid="login-page"
-    >
-      <h1 className="mb-6 text-body font-semibold uppercase">Welcome back</h1>
-      <p className="mb-8 text-center text-small text-text">
-        Sign in to access an enhanced shopping experience.
+    <div className="flex w-full max-w-sm flex-col" data-testid="login-page">
+      <h1 className="font-heading text-page-title font-semibold uppercase">
+        Mirë se erdhe
+      </h1>
+      <p className="mt-2 text-small text-muted">
+        Hyr për një përvojë më të mirë blerjeje dhe porosi më të shpejta.
       </p>
       {message?.state === "verification_required" && (
         <div
-          className="mb-6 w-full border border-divider bg-surface p-4 text-center text-small text-text"
+          className="mt-6 border border-divider bg-surface p-4 text-small text-muted"
           data-testid="login-verification-message"
         >
-          We sent a verification link to <strong>{message.email}</strong>.
-          Please verify your email, then sign in.
+          Dërguam një lidhje verifikimi te{" "}
+          <strong className="font-semibold text-text">{message.email}</strong>.
+          Verifiko email-in, pastaj hyr.
         </div>
       )}
-      <form className="w-full" action={formAction}>
+      <form className="mt-8 w-full" action={formAction}>
         <div className="flex w-full flex-col gap-y-2">
           <Input
             label="Email"
             name="email"
             type="email"
-            title="Enter a valid email address."
+            title="Shkruaj një adresë email të vlefshme."
             autoComplete="email"
             required
             data-testid="email-input"
           />
           <Input
-            label="Password"
+            label="Fjalëkalimi"
             name="password"
             type="password"
             autoComplete="current-password"
@@ -55,19 +57,18 @@ const Login = ({ setCurrentView }: Props) => {
           data-testid="login-error-message"
         />
         <SubmitButton data-testid="sign-in-button" className="mt-6 w-full">
-          Sign in
+          Hyr
         </SubmitButton>
       </form>
-      <span className="mt-6 text-center text-xs text-text">
-        Not a member?{" "}
+      <span className="mt-6 text-small text-muted">
+        Nuk ke llogari?{" "}
         <button
           onClick={() => setCurrentView(LOGIN_VIEW.REGISTER)}
-          className="underline"
+          className="text-accent underline hover:text-accent-600"
           data-testid="register-button"
         >
-          Join us
+          Regjistrohu
         </button>
-        .
       </span>
     </div>
   )

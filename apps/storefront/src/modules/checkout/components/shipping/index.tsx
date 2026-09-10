@@ -201,7 +201,7 @@ const Shipping: React.FC<ShippingProps> = ({
             },
           )}
         >
-          Delivery
+          Dërgesa
           {!isOpen && (cart.shipping_methods?.length ?? 0) > 0 && (
             <IconCheckCircle />
           )}
@@ -216,7 +216,7 @@ const Shipping: React.FC<ShippingProps> = ({
                 className="text-accent hover:text-accent-600"
                 data-testid="edit-delivery-button"
               >
-                Edit
+                Ndrysho
               </button>
             </Text>
           )}
@@ -226,10 +226,10 @@ const Shipping: React.FC<ShippingProps> = ({
           <div className="grid">
             <div className="flex flex-col">
               <span className="font-heading text-card-title font-semibold text-text">
-                Shipping method
+                Mënyra e dërgesës
               </span>
               <span className="mb-4 text-small text-faint">
-                How would you like you order delivered
+                Si dëshiron ta pranosh porosinë
               </span>
             </div>
             <div data-testid="delivery-options-container">
@@ -262,7 +262,7 @@ const Shipping: React.FC<ShippingProps> = ({
                         <MedusaRadio
                           checked={showPickupOptions === PICKUP_OPTION_ON}
                         />
-                        <span className="text-small">Pick up your order</span>
+                        <span className="text-small">Merre porosinë vetë</span>
                       </div>
                       <span className="justify-self-end text-text">-</span>
                     </Radio>
@@ -332,10 +332,10 @@ const Shipping: React.FC<ShippingProps> = ({
             <div className="grid">
               <div className="flex flex-col">
                 <span className="font-heading text-card-title font-semibold text-text">
-                  Store
+                  Pika
                 </span>
                 <span className="mb-4 text-small text-faint">
-                  Choose a store near you
+                  Zgjidh një pikë pranë teje
                 </span>
               </div>
               <div data-testid="delivery-options-container">
@@ -415,7 +415,7 @@ const Shipping: React.FC<ShippingProps> = ({
               disabled={!cart.shipping_methods?.[0]}
               data-testid="submit-delivery-option-button"
             >
-              Continue to payment
+              Vazhdo te pagesa
             </Button>
           </div>
         </>
@@ -425,7 +425,7 @@ const Shipping: React.FC<ShippingProps> = ({
             {cart && (cart.shipping_methods?.length ?? 0) > 0 && (
               <div className="flex w-1/3 flex-col">
                 <Text className="mb-1 text-small font-semibold text-text">
-                  Method
+                  Mënyra
                 </Text>
                 <Text className="text-small text-muted">
                   {cart.shipping_methods!.at(-1)!.name}{" "}

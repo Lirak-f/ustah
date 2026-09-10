@@ -46,7 +46,7 @@ const Addresses = ({
           level="h2"
           className="flex flex-row items-baseline gap-x-2 text-page-title"
         >
-          Shipping Address
+          Adresa e dërgesës
           {!isOpen && <IconCheckCircle />}
         </Heading>
         {!isOpen && cart?.shipping_address && (
@@ -56,7 +56,7 @@ const Addresses = ({
               className="text-accent hover:text-accent-600"
               data-testid="edit-address-button"
             >
-              Edit
+              Ndrysho
             </button>
           </Text>
         )}
@@ -77,14 +77,14 @@ const Addresses = ({
                   level="h2"
                   className="gap-x-4 pt-8 pb-6 text-page-title"
                 >
-                  Billing address
+                  Adresa e faturimit
                 </Heading>
 
                 <BillingAddress cart={cart} />
               </div>
             )}
             <SubmitButton className="mt-6" data-testid="submit-address-button">
-              Continue to delivery
+              Vazhdo te dërgesa
             </SubmitButton>
             <ErrorMessage error={message} data-testid="address-error-message" />
           </div>
@@ -100,7 +100,7 @@ const Addresses = ({
                     data-testid="shipping-address-summary"
                   >
                     <Text className="mb-1 text-small font-semibold text-text">
-                      Shipping Address
+                      Adresa e dërgesës
                     </Text>
                     <Text className="text-small text-muted">
                       {cart.shipping_address.first_name}{" "}
@@ -124,7 +124,7 @@ const Addresses = ({
                     data-testid="shipping-contact-summary"
                   >
                     <Text className="mb-1 text-small font-semibold text-text">
-                      Contact
+                      Kontakti
                     </Text>
                     <Text className="text-small text-muted">
                       {cart.shipping_address.phone}
@@ -137,12 +137,12 @@ const Addresses = ({
                     data-testid="billing-address-summary"
                   >
                     <Text className="mb-1 text-small font-semibold text-text">
-                      Billing Address
+                      Adresa e faturimit
                     </Text>
 
                     {sameAsBilling ? (
                       <Text className="text-small text-muted">
-                        Billing and delivery address are the same.
+                        Adresa e faturimit dhe e dërgesës janë të njëjta.
                       </Text>
                     ) : (
                       <>

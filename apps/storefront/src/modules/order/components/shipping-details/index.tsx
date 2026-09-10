@@ -1,8 +1,6 @@
 import { convertToLocale } from "@lib/util/money"
 import { HttpTypes } from "@medusajs/types"
-import { Heading, Text } from "@modules/common/components/ui"
-
-import Divider from "@modules/common/components/divider"
+import { Text } from "@modules/common/components/ui"
 
 type ShippingDetailsProps = {
   order: HttpTypes.StoreOrder
@@ -10,17 +8,15 @@ type ShippingDetailsProps = {
 
 const ShippingDetails = ({ order }: ShippingDetailsProps) => {
   return (
-    <div>
-      <Heading level="h2" className="my-6 flex flex-row text-page-title">
-        Delivery
-      </Heading>
-      <div className="flex items-start gap-x-8">
+    <div className="p-6">
+      <h2 className="mb-4 font-heading text-page-title uppercase">Dërgesa</h2>
+      <div className="grid grid-cols-1 gap-6 small:grid-cols-3">
         <div
-          className="flex w-1/3 flex-col"
+          className="flex flex-col gap-y-1"
           data-testid="shipping-address-summary"
         >
-          <Text className="mb-1 text-small font-semibold text-text">
-            Shipping Address
+          <Text className="text-section-label font-semibold text-muted uppercase">
+            Adresa e dërgesës
           </Text>
           <Text className="text-small text-muted">
             {order.shipping_address?.first_name}{" "}
@@ -40,11 +36,11 @@ const ShippingDetails = ({ order }: ShippingDetailsProps) => {
         </div>
 
         <div
-          className="flex w-1/3 flex-col"
+          className="flex flex-col gap-y-1"
           data-testid="shipping-contact-summary"
         >
-          <Text className="mb-1 text-small font-semibold text-text">
-            Contact
+          <Text className="text-section-label font-semibold text-muted uppercase">
+            Kontakti
           </Text>
           <Text className="text-small text-muted">
             {order.shipping_address?.phone}
@@ -53,11 +49,11 @@ const ShippingDetails = ({ order }: ShippingDetailsProps) => {
         </div>
 
         <div
-          className="flex w-1/3 flex-col"
+          className="flex flex-col gap-y-1"
           data-testid="shipping-method-summary"
         >
-          <Text className="mb-1 text-small font-semibold text-text">
-            Method
+          <Text className="text-section-label font-semibold text-muted uppercase">
+            Mënyra
           </Text>
           <Text className="text-small text-muted">
             {(order.shipping_methods?.[0] as { name?: string })?.name} (
@@ -69,7 +65,6 @@ const ShippingDetails = ({ order }: ShippingDetailsProps) => {
           </Text>
         </div>
       </div>
-      <Divider className="mt-8" />
     </div>
   )
 }

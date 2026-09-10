@@ -34,34 +34,36 @@ const VerifyAccount = () => {
 
   return (
     <div
-      className="flex w-full max-w-sm flex-col items-center gap-y-4 text-center"
+      className="flex w-full max-w-sm flex-col gap-y-4"
       data-testid="verify-account-page"
     >
-      <h1 className="text-body font-semibold uppercase">Email verification</h1>
+      <h1 className="font-heading text-page-title font-semibold uppercase">
+        Verifikimi i email-it
+      </h1>
 
       {state === "verifying" && (
-        <p className="text-small text-text">Verifying your email...</p>
+        <p className="text-small text-muted">Duke verifikuar email-in…</p>
       )}
 
       {state === "success" && (
         <>
-          <p className="text-small text-text">
-            Your email is verified. You can now sign in to your account.
+          <p className="text-small text-muted">
+            Email-i yt u verifikua. Tani mund të hysh në llogarinë tënde.
           </p>
           <LocalizedClientLink href="/account">
-            <Button variant="primary">Go to sign in</Button>
+            <Button variant="primary">Shko te hyrja</Button>
           </LocalizedClientLink>
         </>
       )}
 
       {state === "error" && (
         <>
-          <p className="text-small text-text">
-            This verification link is invalid or has expired. Sign in to receive
-            a new verification email.
+          <p className="text-small text-muted">
+            Kjo lidhje verifikimi është e pavlefshme ose ka skaduar. Hyr për të
+            marrë një email të ri verifikimi.
           </p>
           <LocalizedClientLink href="/account">
-            <Button variant="secondary">Go to sign in</Button>
+            <Button variant="secondary">Shko te hyrja</Button>
           </LocalizedClientLink>
         </>
       )}

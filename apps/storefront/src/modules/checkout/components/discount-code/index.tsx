@@ -70,7 +70,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
               className="text-small text-accent hover:text-accent-600"
               data-testid="add-discount-button"
             >
-              Add Promotion Code(s)
+              Shto kod promocional
             </button>
 
             {/* <Tooltip content="You can add multiple promotion codes">
@@ -87,13 +87,14 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
                   name="code"
                   type="text"
                   autoFocus={false}
+                  placeholder="Kodi promocional"
                   data-testid="discount-input"
                 />
                 <SubmitButton
                   variant="secondary"
                   data-testid="discount-apply-button"
                 >
-                  Apply
+                  Apliko
                 </SubmitButton>
               </div>
 
@@ -108,9 +109,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
         {promotions.length > 0 && (
           <div className="flex w-full items-center">
             <div className="flex w-full flex-col">
-              <Heading className="mb-2 text-small">
-                Promotion(s) applied:
-              </Heading>
+              <Heading className="mb-2 text-small">Kodet e aplikuara:</Heading>
 
               {promotions.map((promotion) => {
                 return (
@@ -164,7 +163,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
                       >
                         <IconTrash size={14} />
                         <span className="sr-only">
-                          Remove discount code from order
+                          Hiq kodin e zbritjes nga porosia
                         </span>
                       </button>
                     )}

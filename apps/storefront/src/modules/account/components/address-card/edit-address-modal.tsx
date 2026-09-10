@@ -209,9 +209,7 @@ const EditAddress: React.FC<EditAddressProps> = ({
               />
             </div>
             {formState.error && (
-              <div className="py-2 text-xs text-rose-500">
-                {formState.error}
-              </div>
+              <div className="py-2 text-xs text-danger">{formState.error}</div>
             )}
           </Modal.Body>
           <Modal.Footer>

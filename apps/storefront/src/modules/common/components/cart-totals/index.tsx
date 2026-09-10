@@ -29,20 +29,20 @@ const CartTotals: React.FC<CartTotalsProps> = ({ totals }) => {
     <div>
       <div className="flex flex-col gap-y-2 text-small text-muted">
         <div className="flex items-center justify-between">
-          <span>Subtotal (excl. shipping and taxes)</span>
+          <span>Nëntotali (pa dërgesë dhe taksa)</span>
           <span data-testid="cart-subtotal" data-value={item_subtotal || 0}>
             {convertToLocale({ amount: item_subtotal ?? 0, currency_code })}
           </span>
         </div>
         <div className="flex items-center justify-between">
-          <span>Shipping</span>
+          <span>Dërgesa</span>
           <span data-testid="cart-shipping" data-value={shipping_subtotal || 0}>
             {convertToLocale({ amount: shipping_subtotal ?? 0, currency_code })}
           </span>
         </div>
         {!!discount_subtotal && (
           <div className="flex items-center justify-between">
-            <span>Discount</span>
+            <span>Zbritja</span>
             <span
               className="text-accent"
               data-testid="cart-discount"
@@ -57,15 +57,15 @@ const CartTotals: React.FC<CartTotalsProps> = ({ totals }) => {
           </div>
         )}
         <div className="flex justify-between">
-          <span className="flex items-center gap-x-1">Taxes</span>
+          <span className="flex items-center gap-x-1">Taksat</span>
           <span data-testid="cart-taxes" data-value={tax_total || 0}>
             {convertToLocale({ amount: tax_total ?? 0, currency_code })}
           </span>
         </div>
       </div>
-      <div className="my-4 h-px w-full border-b border-gray-200" />
+      <div className="my-4 h-px w-full border-b border-divider" />
       <div className="mb-2 flex items-center justify-between text-small text-text">
-        <span>Total</span>
+        <span>Totali</span>
         <span
           className="text-page-title font-semibold"
           data-testid="cart-total"
@@ -74,7 +74,6 @@ const CartTotals: React.FC<CartTotalsProps> = ({ totals }) => {
           {convertToLocale({ amount: total ?? 0, currency_code })}
         </span>
       </div>
-      <div className="mt-4 h-px w-full border-b border-gray-200" />
     </div>
   )
 }

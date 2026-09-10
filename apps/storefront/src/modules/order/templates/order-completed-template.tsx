@@ -1,4 +1,3 @@
-import { Heading } from "@modules/common/components/ui"
 import { cookies as nextCookies } from "next/headers"
 
 import CartTotals from "@modules/common/components/cart-totals"
@@ -22,26 +21,23 @@ export default async function OrderCompletedTemplate({
   const isOnboarding = cookies.get("_medusa_onboarding")?.value === "true"
 
   return (
-    <div className="min-h-[calc(100vh-64px)] py-6">
-      <div className="content-container flex size-full max-w-4xl flex-col items-center justify-center gap-y-10">
+    <div className="bg-page py-12">
+      <div className="content-container flex flex-col items-center gap-y-6 px-0">
         {isOnboarding && <OnboardingCta orderId={order.id} />}
         <div
-          className="flex size-full max-w-4xl flex-col gap-4 bg-white py-10"
+          className="flex w-full max-w-3xl flex-col divide-y divide-divider border border-border-strong bg-bg"
           data-testid="order-complete-container"
         >
-          <Heading
-            level="h1"
-            className="mb-4 flex flex-col gap-y-3 text-3xl text-text"
-          >
-            <span>Thank you!</span>
-            <span>Your order was placed successfully.</span>
-          </Heading>
-          <OrderDetails order={order} />
-          <Heading level="h2" className="flex flex-row text-page-title">
-            Summary
-          </Heading>
+          <div className="p-6">
+            <h1 className="mb-3 font-heading text-page-title font-semibold uppercase">
+              Faleminderit! Porosia u krye me sukses.
+            </h1>
+            <OrderDetails order={order} />
+          </div>
           <Items order={order} />
-          <CartTotals totals={order} />
+          <div className="p-6">
+            <CartTotals totals={order} />
+          </div>
           <ShippingDetails order={order} />
           <PaymentDetails order={order} />
           <Help />

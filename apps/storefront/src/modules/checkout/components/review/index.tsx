@@ -35,7 +35,7 @@ const Review = ({ cart }: { cart: HttpTypes.StoreCart }) => {
             },
           )}
         >
-          Review
+          Shqyrtimi
         </Heading>
       </div>
       {isOpen && previousStepsCompleted && (
@@ -43,10 +43,10 @@ const Review = ({ cart }: { cart: HttpTypes.StoreCart }) => {
           <div className="mb-6 flex w-full items-start gap-x-1">
             <div className="w-full">
               <Text className="mb-1 text-small font-semibold text-text">
-                By clicking the Place Order button, you confirm that you have
-                read, understand and accept our Terms of Use, Terms of Sale and
-                Returns Policy and acknowledge that you have read Medusa
-                Store&apos;s Privacy Policy.
+                Duke klikuar butonin Konfirmo porosinë, ti pranon se ke lexuar,
+                kupton dhe pranon Kushtet e Përdorimit, Kushtet e Shitjes dhe
+                Politikën e Kthimit, dhe konfirmon se ke lexuar Politikën tonë
+                të Privatësisë.
               </Text>
             </div>
           </div>

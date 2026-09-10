@@ -16,24 +16,38 @@ const AccountLayout: React.FC<AccountLayoutProps> = ({
 }) => {
   return (
     <div className="flex-1 small:py-12" data-testid="account-page">
-      <div className="content-container mx-auto flex h-full max-w-5xl flex-1 flex-col bg-white">
-        <div className="grid grid-cols-1 py-12 small:grid-cols-[240px_1fr]">
-          <div>{customer && <AccountNav customer={customer} />}</div>
+      <div
+        className={`content-container mx-auto flex h-full flex-1 flex-col bg-white ${
+          customer ? "max-w-5xl" : "max-w-xl"
+        }`}
+      >
+        <div
+          className={
+            customer
+              ? "grid grid-cols-1 py-12 small:grid-cols-[240px_1fr]"
+              : "py-12 small:py-16"
+          }
+        >
+          {customer && (
+            <div>
+              <AccountNav customer={customer} />
+            </div>
+          )}
           <div className="flex-1">{children}</div>
         </div>
-        <div className="flex flex-col items-end justify-between gap-8 border-gray-200 py-12 small:flex-row small:border-t">
+        <div className="flex flex-col items-start justify-between gap-4 border-t border-divider py-12 small:flex-row small:items-end small:gap-8">
           <div>
-            <h3 className="mb-4 text-page-title font-semibold">
-              Got questions?
+            <h3 className="mb-4 font-heading text-page-title font-semibold uppercase">
+              Ke pyetje?
             </h3>
-            <span className="text-small">
-              You can find frequently asked questions and answers on our
-              customer service page.
+            <span className="text-small text-muted">
+              Pyetjet e bëra shpesh dhe përgjigjet i gjen në faqen tonë të
+              shërbimit ndaj klientit.
             </span>
           </div>
           <div>
             <UnderlineLink href="/customer-service">
-              Customer Service
+              Shërbimi ndaj klientit
             </UnderlineLink>
           </div>
         </div>

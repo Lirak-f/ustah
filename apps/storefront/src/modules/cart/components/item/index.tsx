@@ -63,12 +63,14 @@ const Item = ({ item, type = "full", currencyCode }: ItemProps) => {
       </Table.Cell>
 
       <Table.Cell className="text-left">
-        <Text
-          className="text-small font-semibold text-text"
-          data-testid="product-title"
-        >
-          {item.product_title}
-        </Text>
+        <LocalizedClientLink href={`/products/${item.product_handle}`}>
+          <Text
+            className="font-heading text-card-title font-semibold text-text hover:text-accent"
+            data-testid="product-title"
+          >
+            {item.product_title}
+          </Text>
+        </LocalizedClientLink>
         <LineItemOptions variant={item.variant} data-testid="product-variant" />
       </Table.Cell>
 
