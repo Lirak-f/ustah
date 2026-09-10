@@ -1,9 +1,12 @@
 import { convertToLocale } from "@lib/util/money"
+import { commerce } from "@ustah/design-tokens"
 import { HttpTypes } from "@medusajs/types"
 
 type OrderSummaryProps = {
   order: HttpTypes.StoreOrder
 }
+
+const vatPct = Math.round(commerce.vatRate * 100)
 
 const OrderSummary = ({ order }: OrderSummaryProps) => {
   const getAmount = (amount?: number | null) => {
@@ -47,8 +50,10 @@ const OrderSummary = ({ order }: OrderSummaryProps) => {
           <span>Dërgesa</span>
           <span>{getAmount(order.shipping_total)}</span>
         </div>
+        {/* Catalog prices are VAT-inclusive: this is the VAT already contained in
+            the total, not an amount added on top. */}
         <div className="flex items-center justify-between">
-          <span>Taksat</span>
+          <span>TVSH ({vatPct}%)</span>
           <span>{getAmount(order.tax_total)}</span>
         </div>
       </div>

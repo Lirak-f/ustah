@@ -21,6 +21,7 @@ import {
   createTaxRegionsWorkflow,
   linkSalesChannelsToApiKeyWorkflow,
   linkSalesChannelsToStockLocationWorkflow,
+  updateRegionsWorkflow,
 } from "@medusajs/medusa/core-flows"
 import {
   categories as ustahCategories,
@@ -107,7 +108,7 @@ export default async function initial_data_seed({
   // any product is written.
   const { data: existingRegions } = await query.graph({
     entity: "region",
-    fields: ["id", "name"],
+    fields: ["id", "name", "payment_providers.id"],
   })
   const region =
     existingRegions.find((r) => r.name === "Europe") ??
@@ -125,6 +126,22 @@ export default async function initial_data_seed({
         },
       })
     ).result[0]
+
+  // payment_providers is only honoured on the create path above. When the
+  // region already exists (every re-run after the first), nothing links the
+  // cash-on-delivery provider to it, so /store/payment-providers returns []
+  // and checkout has no selectable payment method. Ensure the link on reuse.
+  const regionHasCod = (
+    (region as { payment_providers?: { id: string }[] }).payment_providers ?? []
+  ).some((p) => p.id === "pp_system_default")
+  if (!regionHasCod) {
+    await updateRegionsWorkflow(container).run({
+      input: {
+        selector: { id: region.id },
+        update: { payment_providers: ["pp_system_default"] },
+      },
+    })
+  }
   logger.info("Finished seeding regions.")
 
   logger.info("Seeding tax regions...")

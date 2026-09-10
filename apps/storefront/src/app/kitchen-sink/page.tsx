@@ -1,5 +1,3 @@
-import { commerce } from "@ustah/design-tokens"
-
 /**
  * Phase 0 verification surface.
  *
@@ -53,7 +51,6 @@ function eur(n: number) {
 
 export default function KitchenSink() {
   const price = 129.0
-  const exVat = price / (1 + commerce.vatRate)
 
   return (
     <div className="min-h-screen bg-page">
@@ -176,14 +173,11 @@ export default function KitchenSink() {
 
         <Section
           title="Çmimi / Price block"
-          note="Every price carries two figures: gross EUR (loud) and ex-VAT for trade buyers. EUR is the sole transacted currency."
+          note="One figure only: the gross, VAT-inclusive price (loud). EUR is the sole transacted currency."
         >
           <div className="flex gap-9">
             <div>
               <div className="font-heading text-price">{eur(price)}</div>
-              <div className="mt-0.5 text-xs text-muted-deep">
-                pa TVSH {eur(exVat)}
-              </div>
             </div>
             <div>
               <div className="inline-block bg-yellow px-1.5 py-0.5">
