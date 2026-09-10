@@ -13,7 +13,7 @@ const OrderOverview = ({ orders }: { orders: HttpTypes.StoreOrder[] }) => {
         {orders.map((o) => (
           <div
             key={o.id}
-            className="border-b border-gray-200 pb-6 last:border-none last:pb-0"
+            className="border-b border-divider pb-6 last:border-none last:pb-0"
           >
             <OrderCard order={o} />
           </div>
@@ -27,15 +27,15 @@ const OrderOverview = ({ orders }: { orders: HttpTypes.StoreOrder[] }) => {
       className="flex w-full flex-col items-center gap-y-4"
       data-testid="no-orders-container"
     >
-      <h2 className="text-body font-semibold">Nothing to see here</h2>
-      <p className="text-small">
-        You don&apos;t have any orders yet, let us change that {":)"}
+      <h2 className="font-heading text-card-title font-semibold uppercase">
+        Ende asnjë porosi
+      </h2>
+      <p className="text-small text-muted">
+        Nuk ke bërë ende asnjë porosi. Le ta ndryshojmë këtë.
       </p>
       <div className="mt-4">
         <LocalizedClientLink href="/" passHref>
-          <Button data-testid="continue-shopping-button">
-            Continue shopping
-          </Button>
+          <Button data-testid="continue-shopping-button">Vazhdo blerjet</Button>
         </LocalizedClientLink>
       </div>
     </div>

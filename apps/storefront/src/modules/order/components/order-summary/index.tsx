@@ -18,40 +18,46 @@ const OrderSummary = ({ order }: OrderSummaryProps) => {
   }
 
   return (
-    <div>
-      <h2 className="text-small font-semibold">Order Summary</h2>
-      <div className="my-2 text-xs text-text">
-        <div className="mb-2 flex items-center justify-between text-small text-text">
-          <span>Subtotal</span>
+    <div className="p-6">
+      <h2 className="mb-4 font-heading text-page-title uppercase">
+        Përmbledhja
+      </h2>
+      <div className="flex flex-col gap-y-2 text-small text-muted">
+        <div className="flex items-center justify-between">
+          <span>Nëntotali</span>
           <span>{getAmount(order.subtotal)}</span>
         </div>
-        <div className="flex flex-col gap-y-1">
-          {order.discount_total > 0 && (
-            <div className="flex items-center justify-between">
-              <span>Discount</span>
-              <span>- {getAmount(order.discount_total)}</span>
-            </div>
-          )}
-          {order.gift_card_total > 0 && (
-            <div className="flex items-center justify-between">
-              <span>Discount</span>
-              <span>- {getAmount(order.gift_card_total)}</span>
-            </div>
-          )}
+        {order.discount_total > 0 && (
           <div className="flex items-center justify-between">
-            <span>Shipping</span>
-            <span>{getAmount(order.shipping_total)}</span>
+            <span>Zbritja</span>
+            <span className="text-accent">
+              - {getAmount(order.discount_total)}
+            </span>
           </div>
+        )}
+        {order.gift_card_total > 0 && (
           <div className="flex items-center justify-between">
-            <span>Taxes</span>
-            <span>{getAmount(order.tax_total)}</span>
+            <span>Kartë dhuratë</span>
+            <span className="text-accent">
+              - {getAmount(order.gift_card_total)}
+            </span>
           </div>
+        )}
+        <div className="flex items-center justify-between">
+          <span>Dërgesa</span>
+          <span>{getAmount(order.shipping_total)}</span>
         </div>
-        <div className="my-4 h-px w-full border-b border-dashed border-gray-200" />
-        <div className="mb-2 flex items-center justify-between text-small text-text">
-          <span>Total</span>
-          <span>{getAmount(order.total)}</span>
+        <div className="flex items-center justify-between">
+          <span>Taksat</span>
+          <span>{getAmount(order.tax_total)}</span>
         </div>
+      </div>
+      <div className="my-4 h-px w-full border-b border-divider" />
+      <div className="flex items-center justify-between text-small text-text">
+        <span>Totali</span>
+        <span className="text-page-title font-semibold">
+          {getAmount(order.total)}
+        </span>
       </div>
     </div>
   )

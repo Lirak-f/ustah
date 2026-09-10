@@ -4,16 +4,17 @@ import { Suspense } from "react"
 import VerifyAccount from "@modules/account/components/verify-account"
 
 export const metadata: Metadata = {
-  title: "Verify your email",
-  description: "Verify your email address to complete your registration.",
+  title: "Verifiko email-in",
+  description:
+    "Verifiko adresën tënde të email-it për të përfunduar regjistrimin.",
 }
 
 export default function VerifyAccountPage() {
   return (
-    <div className="flex w-full justify-center px-8 py-12">
+    <div className="flex w-full justify-center px-6 py-9 small:py-12">
       <Suspense
         fallback={
-          <p className="text-small text-text">Verifying your email...</p>
+          <p className="text-small text-muted">Duke verifikuar email-in…</p>
         }
       >
         <VerifyAccount />

@@ -111,7 +111,7 @@ const Payment = ({
             },
           )}
         >
-          Payment
+          Pagesa
           {!isOpen && paymentReady && <IconCheckCircle />}
         </Heading>
         {!isOpen && paymentReady && (
@@ -121,7 +121,7 @@ const Payment = ({
               className="text-accent hover:text-accent-600"
               data-testid="edit-payment-button"
             >
-              Edit
+              Ndrysho
             </button>
           </Text>
         )}
@@ -150,13 +150,13 @@ const Payment = ({
           {paidByGiftcard && (
             <div className="flex w-1/3 flex-col">
               <Text className="mb-1 text-small font-semibold text-text">
-                Payment method
+                Mënyra e pagesës
               </Text>
               <Text
                 className="text-small text-muted"
                 data-testid="payment-method-summary"
               >
-                Gift card
+                Kartë dhuratë
               </Text>
             </div>
           )}
@@ -174,7 +174,7 @@ const Payment = ({
             disabled={!selectedPaymentMethod && !paidByGiftcard}
             data-testid="submit-payment-button"
           >
-            Continue to review
+            Vazhdo te shqyrtimi
           </Button>
         </div>
 
@@ -183,7 +183,7 @@ const Payment = ({
             <div className="flex w-full items-start gap-x-1">
               <div className="flex w-1/3 flex-col">
                 <Text className="mb-1 text-small font-semibold text-text">
-                  Payment method
+                  Mënyra e pagesës
                 </Text>
                 <Text
                   className="text-small text-muted"
@@ -195,7 +195,7 @@ const Payment = ({
               </div>
               <div className="flex w-1/3 flex-col">
                 <Text className="mb-1 text-small font-semibold text-text">
-                  Payment details
+                  Detajet e pagesës
                 </Text>
                 <div
                   className="flex items-center gap-2 text-small text-muted"
@@ -206,20 +206,20 @@ const Payment = ({
                       <IconCreditCard />
                     )}
                   </Container>
-                  <Text>Payable in cash on delivery</Text>
+                  <Text>Pagesa me para në dorë gjatë dorëzimit</Text>
                 </div>
               </div>
             </div>
           ) : paidByGiftcard ? (
             <div className="flex w-1/3 flex-col">
               <Text className="mb-1 text-small font-semibold text-text">
-                Payment method
+                Mënyra e pagesës
               </Text>
               <Text
                 className="text-small text-muted"
                 data-testid="payment-method-summary"
               >
-                Gift card
+                Kartë dhuratë
               </Text>
             </div>
           ) : null}

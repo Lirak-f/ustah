@@ -26,7 +26,7 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
   const paymentSession = cart.payment_collection?.payment_sessions?.[0]
 
   if (!isManual(paymentSession?.provider_id)) {
-    return <Button disabled>Select a payment method</Button>
+    return <Button disabled>Zgjidh një mënyrë pagese</Button>
   }
 
   return <CashOnDeliveryButton notReady={notReady} data-testid={dataTestId} />
@@ -67,7 +67,7 @@ const CashOnDeliveryButton = ({
         size="large"
         data-testid={dataTestId ?? "submit-order-button"}
       >
-        Place order
+        Konfirmo porosinë
       </Button>
       <ErrorMessage
         error={errorMessage}

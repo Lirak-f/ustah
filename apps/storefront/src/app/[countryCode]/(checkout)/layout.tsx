@@ -1,6 +1,6 @@
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import { IconChevronDown } from "@modules/common/icons"
-import MedusaCTA from "@modules/layout/components/medusa-cta"
+import { Text } from "@modules/common/components/ui"
 
 export default function CheckoutLayout({
   children,
@@ -9,7 +9,7 @@ export default function CheckoutLayout({
 }) {
   return (
     <div className="relative w-full bg-white small:min-h-screen">
-      <div className="h-16 border-b bg-white">
+      <div className="h-16 border-b border-divider bg-white">
         <nav className="content-container flex h-full items-center justify-between">
           <LocalizedClientLink
             href="/cart"
@@ -18,18 +18,21 @@ export default function CheckoutLayout({
           >
             <IconChevronDown className="rotate-90" size={16} />
             <span className="mt-px hidden text-small font-semibold text-muted hover:text-text small:block">
-              Back to shopping cart
+              Kthehu te shporta
             </span>
             <span className="mt-px block text-small font-semibold text-muted hover:text-text small:hidden">
-              Back
+              Kthehu
             </span>
           </LocalizedClientLink>
           <LocalizedClientLink
             href="/"
-            className="text-page-title text-muted uppercase hover:text-text"
+            className="flex items-end gap-1 text-text hover:opacity-80"
             data-testid="store-link"
           >
-            Medusa Store
+            <span className="font-heading text-[40px] leading-[0.85] font-bold tracking-wider">
+              USTAH
+            </span>
+            <span className="mb-1 block size-[11px] bg-yellow" aria-hidden />
           </LocalizedClientLink>
           <div className="flex-1 basis-0" />
         </nav>
@@ -37,8 +40,10 @@ export default function CheckoutLayout({
       <div className="relative" data-testid="checkout-container">
         {children}
       </div>
-      <div className="flex w-full items-center justify-center py-4">
-        <MedusaCTA />
+      <div className="flex w-full items-center justify-center border-t border-divider py-4">
+        <Text className="text-section-label text-muted">
+          © {new Date().getFullYear()} Ustah
+        </Text>
       </div>
     </div>
   )

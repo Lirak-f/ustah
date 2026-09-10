@@ -1,5 +1,5 @@
 import { IconChevronUpDown } from "@modules/common/icons"
-import { clx } from "@modules/common/components/ui"
+import { clx, Label } from "@modules/common/components/ui"
 import {
   SelectHTMLAttributes,
   forwardRef,
@@ -11,13 +11,23 @@ import {
 
 export type NativeSelectProps = {
   placeholder?: string
+  label?: string
   errors?: Record<string, unknown>
   touched?: Record<string, unknown>
 } & SelectHTMLAttributes<HTMLSelectElement>
 
 const NativeSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
   (
-    { placeholder = "Select...", defaultValue, className, children, ...props },
+    {
+      placeholder = "Select...",
+      label,
+      name,
+      required,
+      defaultValue,
+      className,
+      children,
+      ...props
+    },
     ref,
   ) => {
     const innerRef = useRef<HTMLSelectElement>(null)
@@ -37,12 +47,18 @@ const NativeSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
     }, [innerRef.current?.value])
 
     return (
-      <div>
+      <div className="flex w-full flex-col gap-2">
+        {label && (
+          <Label htmlFor={name} className="text-small text-muted">
+            {label}
+            {required && <span className="text-danger"> *</span>}
+          </Label>
+        )}
         <div
           onFocus={() => innerRef.current?.focus()}
           onBlur={() => innerRef.current?.blur()}
           className={clx(
-            "relative flex items-center text-small border border-divider bg-surface  hover:bg-surface-alt",
+            "relative flex h-11 items-center border border-divider bg-bg text-small focus-within:border-accent",
             className,
             {
               "text-faint": isPlaceholder,
@@ -50,10 +66,13 @@ const NativeSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
           )}
         >
           <select
+            id={name}
+            name={name}
+            required={required}
             ref={innerRef}
             defaultValue={defaultValue}
             {...props}
-            className="flex-1 appearance-none border-none bg-transparent px-4 py-2.5 outline-hidden transition-colors duration-150"
+            className="flex-1 appearance-none border-none bg-transparent px-4 outline-hidden transition-colors duration-150"
           >
             <option disabled value="">
               {placeholder}

@@ -38,7 +38,7 @@ const AddressSelect = ({
     <Listbox onChange={handleSelect} value={selectedAddress?.id}>
       <div className="relative">
         <Listbox.Button
-          className="relative flex w-full cursor-default items-center justify-between border bg-white px-4 py-[10px] text-left text-small focus:outline-hidden focus-visible:border-gray-300 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-300"
+          className="relative flex h-11 w-full cursor-default items-center justify-between border border-divider bg-bg px-4 text-left text-small focus:outline-hidden focus-visible:border-accent focus-visible:outline-2 focus-visible:outline-accent"
           data-testid="shipping-address-select"
         >
           {({ open }) => (
@@ -46,7 +46,7 @@ const AddressSelect = ({
               <span className="block truncate">
                 {selectedAddress
                   ? selectedAddress.address_1
-                  : "Choose an address"}
+                  : "Zgjidh një adresë"}
               </span>
               <IconChevronUpDown
                 className={clx("transition-rotate duration-200", {
@@ -63,7 +63,7 @@ const AddressSelect = ({
           leaveTo="opacity-0"
         >
           <Listbox.Options
-            className="absolute z-20 max-h-60 w-full overflow-auto border border-t-0 bg-white text-xs focus:outline-hidden sm:text-sm"
+            className="absolute z-20 max-h-60 w-full overflow-auto border border-t-0 border-divider bg-bg text-xs focus:outline-hidden sm:text-sm"
             data-testid="shipping-address-options"
           >
             {addresses.map((address) => {
@@ -71,7 +71,7 @@ const AddressSelect = ({
                 <Listbox.Option
                   key={address.id}
                   value={address.id}
-                  className="relative cursor-default py-4 pr-10 pl-6 select-none hover:bg-gray-50"
+                  className="relative cursor-default py-4 pr-10 pl-6 select-none hover:bg-surface"
                   data-testid="shipping-address-option"
                 >
                   <div className="flex items-start gap-x-4">
@@ -84,7 +84,7 @@ const AddressSelect = ({
                         {address.first_name} {address.last_name}
                       </span>
                       {address.company && (
-                        <span className="text-xs text-text">
+                        <span className="text-xs text-muted">
                           {address.company}
                         </span>
                       )}
