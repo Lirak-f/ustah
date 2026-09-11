@@ -33,6 +33,20 @@ const Addresses = ({
       : true,
   )
 
+  const savedBillingAddress = customer?.addresses?.find(
+    (a) => a.is_default_billing,
+  )
+  const hasSavedInfo = !!(
+    customer?.first_name &&
+    customer?.last_name &&
+    savedBillingAddress
+  )
+
+  const { state: useSavedInfo, toggle: toggleSavedInfo } =
+    useToggleState(hasSavedInfo)
+
+  const effectiveSameAsBilling = useSavedInfo || sameAsBilling
+
   const handleEdit = () => {
     router.push(pathname + "?step=address")
   }
@@ -69,9 +83,11 @@ const Addresses = ({
               checked={sameAsBilling}
               onChange={toggleSameAsBilling}
               cart={cart}
+              useSavedInfo={useSavedInfo}
+              onSavedInfoChange={toggleSavedInfo}
             />
 
-            {!sameAsBilling && (
+            {!effectiveSameAsBilling && (
               <div>
                 <Heading
                   level="h2"
@@ -80,7 +96,11 @@ const Addresses = ({
                   Adresa e faturimit
                 </Heading>
 
-                <BillingAddress cart={cart} />
+                <BillingAddress
+                  cart={cart}
+                  customer={customer}
+                  useSavedInfo={useSavedInfo}
+                />
               </div>
             )}
             <SubmitButton className="mt-6" data-testid="submit-address-button">
@@ -140,7 +160,7 @@ const Addresses = ({
                       Adresa e faturimit
                     </Text>
 
-                    {sameAsBilling ? (
+                    {effectiveSameAsBilling ? (
                       <Text className="text-small text-muted">
                         Adresa e faturimit dhe e dërgesës janë të njëjta.
                       </Text>

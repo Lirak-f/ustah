@@ -316,25 +316,6 @@ export const addCustomerAddress = async (
     })
 }
 
-export const deleteCustomerAddress = async (
-  addressId: string,
-): Promise<void> => {
-  const headers = {
-    ...(await getAuthHeaders()),
-  }
-
-  await sdk.store.customer
-    .deleteAddress(addressId, headers)
-    .then(async () => {
-      const customerCacheTag = await getCacheTag("customers")
-      revalidateTag(customerCacheTag)
-      return { success: true, error: null }
-    })
-    .catch((err) => {
-      return { success: false, error: err.toString() }
-    })
-}
-
 export const updateCustomerAddress = async (
   currentState: Record<string, unknown>,
   formData: FormData,
@@ -378,4 +359,26 @@ export const updateCustomerAddress = async (
     .catch((err) => {
       return { success: false, error: err.toString() }
     })
+}
+
+// Creates or updates a customer's default billing address depending on
+// whether an addressId is present in the submitted form, decided from
+// formData rather than from a value captured in a client closure - the
+// billing address may not exist yet on first render, and useActionState
+// binds its action argument once, so branching on component state there
+// silently keeps calling create on every later submit.
+export const upsertCustomerBillingAddress = async (
+  currentState: Record<string, unknown>,
+  formData: FormData,
+): Promise<{ success: boolean; error: string | null }> => {
+  const addressId = formData.get("addressId") as string
+
+  if (addressId) {
+    return updateCustomerAddress({ ...currentState, addressId }, formData)
+  }
+
+  return addCustomerAddress(
+    { ...currentState, isDefaultBilling: true, isDefaultShipping: false },
+    formData,
+  )
 }

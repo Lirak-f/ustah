@@ -9,8 +9,8 @@ import { listRegions } from "@lib/data/regions"
 import { retrieveCustomer } from "@lib/data/customer"
 
 export const metadata: Metadata = {
-  title: "Profile",
-  description: "View and edit your Medusa Store profile.",
+  title: "Profili",
+  description: "Shiko dhe ndrysho profilin tënd.",
 }
 
 export default async function Profile() {
@@ -24,11 +24,11 @@ export default async function Profile() {
   return (
     <div className="w-full" data-testid="profile-page-wrapper">
       <div className="mb-8 flex flex-col gap-y-4">
-        <h1 className="text-page-title font-semibold">Profile</h1>
+        <h1 className="text-page-title font-semibold">Profili</h1>
         <p className="text-small">
-          View and update your profile information, including your name, email,
-          and phone number. You can also update your billing address, or change
-          your password.
+          Shiko dhe përditëso të dhënat e profilit, përfshirë emrin, email-in
+          dhe numrin e telefonit. Mund të përditësosh edhe adresën e faturimit
+          ose të ndryshosh fjalëkalimin.
         </p>
       </div>
       <div className="flex w-full flex-col gap-y-8">

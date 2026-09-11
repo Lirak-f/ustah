@@ -17,9 +17,7 @@ const AccountLayout: React.FC<AccountLayoutProps> = ({
   return (
     <div className="flex-1 small:py-12" data-testid="account-page">
       <div
-        className={`content-container mx-auto flex h-full flex-1 flex-col bg-white ${
-          customer ? "max-w-5xl" : "max-w-xl"
-        }`}
+        className={`content-container mx-auto flex h-full flex-1 flex-col bg-white`}
       >
         <div
           className={

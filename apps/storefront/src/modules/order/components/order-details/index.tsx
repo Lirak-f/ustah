@@ -6,8 +6,32 @@ type OrderDetailsProps = {
   showStatus?: boolean
 }
 
+const statusLabels: Record<string, string> = {
+  not_fulfilled: "Pa përmbushur",
+  partially_fulfilled: "Pjesërisht e përmbushur",
+  fulfilled: "E përmbushur",
+  partially_shipped: "Pjesërisht e dërguar",
+  shipped: "E dërguar",
+  partially_delivered: "Pjesërisht e dorëzuar",
+  delivered: "E dorëzuar",
+  canceled: "E anuluar",
+  not_paid: "E papaguar",
+  awaiting: "Në pritje",
+  authorized: "E autorizuar",
+  partially_authorized: "Pjesërisht e autorizuar",
+  captured: "E paguar",
+  partially_captured: "Pjesërisht e paguar",
+  partially_refunded: "Pjesërisht e rimbursuar",
+  refunded: "E rimbursuar",
+  requires_action: "Kërkon veprim",
+}
+
 const OrderDetails = ({ order, showStatus }: OrderDetailsProps) => {
   const formatStatus = (str: string) => {
+    if (statusLabels[str]) {
+      return statusLabels[str]
+    }
+
     const formatted = str.split("_").join(" ")
 
     return formatted.slice(0, 1).toUpperCase() + formatted.slice(1)

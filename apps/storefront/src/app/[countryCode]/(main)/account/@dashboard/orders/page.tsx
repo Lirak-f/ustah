@@ -3,12 +3,10 @@ import { Metadata } from "next"
 import OrderOverview from "@modules/account/components/order-overview"
 import { notFound } from "next/navigation"
 import { listOrders } from "@lib/data/orders"
-import Divider from "@modules/common/components/divider"
-import TransferRequestForm from "@modules/account/components/transfer-request-form"
 
 export const metadata: Metadata = {
-  title: "Orders",
-  description: "Overview of your previous orders.",
+  title: "Porositë",
+  description: "Përmbledhje e porosive të tua të mëparshme.",
 }
 
 export default async function Orders() {
@@ -31,8 +29,6 @@ export default async function Orders() {
       </div>
       <div>
         <OrderOverview orders={orders} />
-        <Divider className="my-8" />
-        <TransferRequestForm />
       </div>
     </div>
   )

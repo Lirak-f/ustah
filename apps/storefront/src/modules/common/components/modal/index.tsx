@@ -1,4 +1,11 @@
-import { Dialog, Transition } from "@headlessui/react"
+import {
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+  DialogDescription,
+  Transition,
+  TransitionChild,
+} from "@headlessui/react"
 import { clx } from "@modules/common/components/ui"
 import React, { Fragment } from "react"
 
@@ -25,7 +32,7 @@ const Modal = ({
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-75" onClose={close}>
-        <Transition.Child
+        <TransitionChild
           as={Fragment}
           enter="ease-out duration-300"
           enterFrom="opacity-0"
@@ -35,7 +42,7 @@ const Modal = ({
           leaveTo="opacity-0"
         >
           <div className="fixed inset-0 h-screen bg-gray-700/75 backdrop-blur-md" />
-        </Transition.Child>
+        </TransitionChild>
 
         <div className="fixed inset-0 overflow-y-hidden">
           <div
@@ -47,7 +54,7 @@ const Modal = ({
               },
             )}
           >
-            <Transition.Child
+            <TransitionChild
               as={Fragment}
               enter="ease-out duration-300"
               enterFrom="opacity-0 scale-95"
@@ -56,7 +63,7 @@ const Modal = ({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel
+              <DialogPanel
                 data-testid={dataTestId}
                 className={clx(
                   "flex flex-col justify-start w-full transform p-5 text-left align-middle transition-all max-h-[75vh] h-fit",
@@ -70,8 +77,8 @@ const Modal = ({
                 )}
               >
                 <ModalProvider close={close}>{children}</ModalProvider>
-              </Dialog.Panel>
-            </Transition.Child>
+              </DialogPanel>
+            </TransitionChild>
           </div>
         </div>
       </Dialog>
@@ -83,22 +90,22 @@ const Title: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { close } = useModal()
 
   return (
-    <Dialog.Title className="flex items-center justify-between">
+    <DialogTitle className="flex items-center justify-between">
       <div className="text-body font-semibold">{children}</div>
       <div>
         <button onClick={close} data-testid="close-modal-button">
           <IconX size={20} />
         </button>
       </div>
-    </Dialog.Title>
+    </DialogTitle>
   )
 }
 
 const Description: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <Dialog.Description className="flex h-full items-center justify-center pt-2 pb-4 text-xs text-text">
+    <DialogDescription className="flex h-full items-center justify-center pt-2 pb-4 text-xs text-text">
       {children}
-    </Dialog.Description>
+    </DialogDescription>
   )
 }
 

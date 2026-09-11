@@ -35,7 +35,7 @@ const Login = ({ setCurrentView }: Props) => {
       <form className="mt-8 w-full" action={formAction}>
         <div className="flex w-full flex-col gap-y-2">
           <Input
-            label="Email"
+            label="Email-i"
             name="email"
             type="email"
             title="Shkruaj një adresë email të vlefshme."

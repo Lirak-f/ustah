@@ -1,6 +1,11 @@
 "use client"
 
-import { Popover, PopoverPanel, Transition } from "@headlessui/react"
+import {
+  Popover,
+  PopoverButton,
+  PopoverPanel,
+  Transition,
+} from "@headlessui/react"
 import useToggleState from "@lib/hooks/use-toggle-state"
 import { IconArrowRight, IconX } from "@modules/common/icons"
 import { HttpTypes } from "@medusajs/types"
@@ -35,12 +40,12 @@ const SideMenu = ({ regions, locales, currentLocale }: SideMenuProps) => {
           {({ open, close }) => (
             <>
               <div className="relative flex h-full">
-                <Popover.Button
+                <PopoverButton
                   data-testid="nav-menu-button"
                   className="relative flex h-full items-center transition-all duration-200 ease-out hover:text-text focus:outline-hidden"
                 >
                   Menu
-                </Popover.Button>
+                </PopoverButton>
               </div>
 
               {open && (

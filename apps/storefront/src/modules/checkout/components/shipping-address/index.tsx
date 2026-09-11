@@ -2,9 +2,9 @@ import { HttpTypes } from "@medusajs/types"
 import { Container } from "@modules/common/components/ui"
 import Checkbox from "@modules/common/components/checkbox"
 import Input from "@modules/common/components/input"
-import { mapKeys } from "lodash"
-import React, { useEffect, useMemo, useState } from "react"
-import AddressSelect from "../address-select"
+import Toggle from "@modules/common/components/toggle"
+import { cn } from "@lib/util/cn"
+import React, { useEffect, useMemo, useRef, useState } from "react"
 import CountrySelect from "../country-select"
 
 const ShippingAddress = ({
@@ -12,11 +12,15 @@ const ShippingAddress = ({
   cart,
   checked,
   onChange,
+  useSavedInfo,
+  onSavedInfoChange,
 }: {
   customer: HttpTypes.StoreCustomer | null
   cart: HttpTypes.StoreCart | null
   checked: boolean
   onChange: () => void
+  useSavedInfo: boolean
+  onSavedInfoChange: () => void
 }) => {
   const [formData, setFormData] = useState<Record<string, string>>({
     "shipping_address.first_name": cart?.shipping_address?.first_name || "",
@@ -31,19 +35,40 @@ const ShippingAddress = ({
     email: cart?.email || "",
   })
 
-  const countriesInRegion = useMemo(
-    () => cart?.region?.countries?.map((c) => c.iso_2),
-    [cart?.region],
+  const savedBillingAddress = useMemo(
+    () => customer?.addresses?.find((a) => a.is_default_billing),
+    [customer?.addresses],
   )
 
-  // check if customer has saved addresses that are in the current region
-  const addressesInRegion = useMemo(
-    () =>
-      customer?.addresses.filter(
-        (a) => a.country_code && countriesInRegion?.includes(a.country_code),
-      ),
-    [customer?.addresses, countriesInRegion],
+  const hasSavedInfo = !!(
+    customer?.first_name &&
+    customer?.last_name &&
+    savedBillingAddress
   )
+
+  const savedInfoFormData = useMemo(
+    () => ({
+      "shipping_address.first_name": customer?.first_name || "",
+      "shipping_address.last_name": customer?.last_name || "",
+      "shipping_address.address_1": savedBillingAddress?.address_1 || "",
+      "shipping_address.company": savedBillingAddress?.company || "",
+      "shipping_address.postal_code": savedBillingAddress?.postal_code || "",
+      "shipping_address.city": savedBillingAddress?.city || "",
+      "shipping_address.country_code": savedBillingAddress?.country_code || "",
+      "shipping_address.province": savedBillingAddress?.province || "",
+      "shipping_address.phone":
+        customer?.phone || savedBillingAddress?.phone || "",
+    }),
+    [customer, savedBillingAddress],
+  )
+
+  const prevUseSavedInfo = useRef(useSavedInfo)
+  useEffect(() => {
+    if (useSavedInfo && !prevUseSavedInfo.current) {
+      setFormData((prev) => ({ ...prev, ...savedInfoFormData }))
+    }
+    prevUseSavedInfo.current = useSavedInfo
+  }, [useSavedInfo, savedInfoFormData])
 
   const setFormAddress = (
     address?: HttpTypes.StoreCartAddress,
@@ -97,21 +122,21 @@ const ShippingAddress = ({
     })
   }
 
+  const lockedInputClassName = useSavedInfo
+    ? "bg-surface text-muted cursor-not-allowed"
+    : undefined
+
   return (
     <>
-      {customer && (addressesInRegion?.length || 0) > 0 && (
-        <Container className="mb-6 flex flex-col gap-y-4 p-5">
-          <p className="text-xs">
-            {`Përshëndetje ${customer.first_name}, dëshiron të përdorësh një nga adresat e ruajtura?`}
-          </p>
-          <AddressSelect
-            addresses={customer.addresses}
-            addressInput={
-              mapKeys(formData, (_, key) =>
-                key.replace("shipping_address.", ""),
-              ) as unknown as HttpTypes.StoreCartAddress
-            }
-            onSelect={setFormAddress}
+      {hasSavedInfo && (
+        <Container className="mb-6 p-5">
+          <Toggle
+            checked={useSavedInfo}
+            onChange={onSavedInfoChange}
+            label="Përdor informacionin tim të ruajtur"
+            description="Emri, telefoni dhe adresa e faturimit të ruajtura në profilin tënd"
+            name="use_saved_info"
+            data-testid="saved-info-toggle"
           />
         </Container>
       )}
@@ -122,6 +147,8 @@ const ShippingAddress = ({
           autoComplete="given-name"
           value={formData["shipping_address.first_name"]}
           onChange={handleChange}
+          readOnly={useSavedInfo}
+          className={lockedInputClassName}
           required
           data-testid="shipping-first-name-input"
         />
@@ -131,6 +158,8 @@ const ShippingAddress = ({
           autoComplete="family-name"
           value={formData["shipping_address.last_name"]}
           onChange={handleChange}
+          readOnly={useSavedInfo}
+          className={lockedInputClassName}
           required
           data-testid="shipping-last-name-input"
         />
@@ -141,6 +170,8 @@ const ShippingAddress = ({
             name="shipping_address.company"
             value={formData["shipping_address.company"]}
             onChange={handleChange}
+            readOnly={useSavedInfo}
+            className={lockedInputClassName}
             autoComplete="organization"
             data-testid="shipping-company-input"
           />
@@ -150,7 +181,11 @@ const ShippingAddress = ({
           autoComplete="country"
           region={cart?.region}
           value={formData["shipping_address.country_code"]}
-          onChange={handleChange}
+          onChange={useSavedInfo ? () => {} : handleChange}
+          className={cn(
+            useSavedInfo && "pointer-events-none opacity-60 select-none",
+          )}
+          tabIndex={useSavedInfo ? -1 : undefined}
           required
           data-testid="shipping-country-select"
         />
@@ -160,6 +195,8 @@ const ShippingAddress = ({
           autoComplete="address-level2"
           value={formData["shipping_address.city"]}
           onChange={handleChange}
+          readOnly={useSavedInfo}
+          className={lockedInputClassName}
           required
           data-testid="shipping-city-input"
         />
@@ -169,6 +206,8 @@ const ShippingAddress = ({
           autoComplete="address-level1"
           value={formData["shipping_address.province"]}
           onChange={handleChange}
+          readOnly={useSavedInfo}
+          className={lockedInputClassName}
           data-testid="shipping-province-input"
         />
         <Input
@@ -177,6 +216,8 @@ const ShippingAddress = ({
           autoComplete="address-line1"
           value={formData["shipping_address.address_1"]}
           onChange={handleChange}
+          readOnly={useSavedInfo}
+          className={lockedInputClassName}
           required
           data-testid="shipping-address-input"
         />
@@ -187,6 +228,7 @@ const ShippingAddress = ({
           name="same_as_billing"
           checked={checked}
           onChange={onChange}
+          locked={useSavedInfo}
           data-testid="billing-address-checkbox"
         />
       </div>
@@ -207,6 +249,8 @@ const ShippingAddress = ({
           autoComplete="tel"
           value={formData["shipping_address.phone"]}
           onChange={handleChange}
+          readOnly={useSavedInfo}
+          className={lockedInputClassName}
           required
           data-testid="shipping-phone-input"
         />
