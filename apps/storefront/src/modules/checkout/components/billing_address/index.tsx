@@ -1,9 +1,18 @@
 import { HttpTypes } from "@medusajs/types"
 import Input from "@modules/common/components/input"
-import React, { useState } from "react"
+import { cn } from "@lib/util/cn"
+import React, { useEffect, useMemo, useRef, useState } from "react"
 import CountrySelect from "../country-select"
 
-const BillingAddress = ({ cart }: { cart: HttpTypes.StoreCart | null }) => {
+const BillingAddress = ({
+  cart,
+  customer,
+  useSavedInfo,
+}: {
+  cart: HttpTypes.StoreCart | null
+  customer: HttpTypes.StoreCustomer | null
+  useSavedInfo: boolean
+}) => {
   const [formData, setFormData] = useState<Record<string, string>>({
     "billing_address.first_name": cart?.billing_address?.first_name || "",
     "billing_address.last_name": cart?.billing_address?.last_name || "",
@@ -16,6 +25,35 @@ const BillingAddress = ({ cart }: { cart: HttpTypes.StoreCart | null }) => {
     "billing_address.phone": cart?.billing_address?.phone || "",
   })
 
+  const savedBillingAddress = useMemo(
+    () => customer?.addresses?.find((a) => a.is_default_billing),
+    [customer?.addresses],
+  )
+
+  const savedInfoFormData = useMemo(
+    () => ({
+      "billing_address.first_name": customer?.first_name || "",
+      "billing_address.last_name": customer?.last_name || "",
+      "billing_address.address_1": savedBillingAddress?.address_1 || "",
+      "billing_address.company": savedBillingAddress?.company || "",
+      "billing_address.postal_code": savedBillingAddress?.postal_code || "",
+      "billing_address.city": savedBillingAddress?.city || "",
+      "billing_address.country_code": savedBillingAddress?.country_code || "",
+      "billing_address.province": savedBillingAddress?.province || "",
+      "billing_address.phone":
+        customer?.phone || savedBillingAddress?.phone || "",
+    }),
+    [customer, savedBillingAddress],
+  )
+
+  const prevUseSavedInfo = useRef(useSavedInfo)
+  useEffect(() => {
+    if (useSavedInfo && !prevUseSavedInfo.current) {
+      setFormData((prev) => ({ ...prev, ...savedInfoFormData }))
+    }
+    prevUseSavedInfo.current = useSavedInfo
+  }, [useSavedInfo, savedInfoFormData])
+
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLInputElement | HTMLSelectElement
@@ -27,6 +65,10 @@ const BillingAddress = ({ cart }: { cart: HttpTypes.StoreCart | null }) => {
     })
   }
 
+  const lockedInputClassName = useSavedInfo
+    ? "bg-surface text-muted cursor-not-allowed"
+    : undefined
+
   return (
     <>
       <div className="grid grid-cols-2 gap-x-5 gap-y-6">
@@ -36,6 +78,8 @@ const BillingAddress = ({ cart }: { cart: HttpTypes.StoreCart | null }) => {
           autoComplete="given-name"
           value={formData["billing_address.first_name"]}
           onChange={handleChange}
+          readOnly={useSavedInfo}
+          className={lockedInputClassName}
           required
           data-testid="billing-first-name-input"
         />
@@ -45,6 +89,8 @@ const BillingAddress = ({ cart }: { cart: HttpTypes.StoreCart | null }) => {
           autoComplete="family-name"
           value={formData["billing_address.last_name"]}
           onChange={handleChange}
+          readOnly={useSavedInfo}
+          className={lockedInputClassName}
           required
           data-testid="billing-last-name-input"
         />
@@ -55,6 +101,8 @@ const BillingAddress = ({ cart }: { cart: HttpTypes.StoreCart | null }) => {
             autoComplete="address-line1"
             value={formData["billing_address.address_1"]}
             onChange={handleChange}
+            readOnly={useSavedInfo}
+            className={lockedInputClassName}
             required
             data-testid="billing-address-input"
           />
@@ -65,6 +113,8 @@ const BillingAddress = ({ cart }: { cart: HttpTypes.StoreCart | null }) => {
             name="billing_address.company"
             value={formData["billing_address.company"]}
             onChange={handleChange}
+            readOnly={useSavedInfo}
+            className={lockedInputClassName}
             autoComplete="organization"
             data-testid="billing-company-input"
           />
@@ -75,6 +125,8 @@ const BillingAddress = ({ cart }: { cart: HttpTypes.StoreCart | null }) => {
           autoComplete="postal-code"
           value={formData["billing_address.postal_code"]}
           onChange={handleChange}
+          readOnly={useSavedInfo}
+          className={lockedInputClassName}
           required
           data-testid="billing-postal-input"
         />
@@ -84,6 +136,8 @@ const BillingAddress = ({ cart }: { cart: HttpTypes.StoreCart | null }) => {
           autoComplete="address-level2"
           value={formData["billing_address.city"]}
           onChange={handleChange}
+          readOnly={useSavedInfo}
+          className={lockedInputClassName}
         />
         <CountrySelect
           label="Shteti"
@@ -91,7 +145,11 @@ const BillingAddress = ({ cart }: { cart: HttpTypes.StoreCart | null }) => {
           autoComplete="country"
           region={cart?.region}
           value={formData["billing_address.country_code"]}
-          onChange={handleChange}
+          onChange={useSavedInfo ? () => {} : handleChange}
+          className={cn(
+            useSavedInfo && "pointer-events-none opacity-60 select-none",
+          )}
+          tabIndex={useSavedInfo ? -1 : undefined}
           required
           data-testid="billing-country-select"
         />
@@ -101,6 +159,8 @@ const BillingAddress = ({ cart }: { cart: HttpTypes.StoreCart | null }) => {
           autoComplete="address-level1"
           value={formData["billing_address.province"]}
           onChange={handleChange}
+          readOnly={useSavedInfo}
+          className={lockedInputClassName}
           data-testid="billing-province-input"
         />
         <div className="col-span-2">
@@ -110,6 +170,8 @@ const BillingAddress = ({ cart }: { cart: HttpTypes.StoreCart | null }) => {
             autoComplete="tel"
             value={formData["billing_address.phone"]}
             onChange={handleChange}
+            readOnly={useSavedInfo}
+            className={lockedInputClassName}
             data-testid="billing-phone-input"
           />
         </div>

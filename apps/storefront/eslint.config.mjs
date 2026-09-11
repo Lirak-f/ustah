@@ -147,6 +147,20 @@ export default defineConfig([
           message:
             "Hardcoded hex colour in a template literal. Use a design token instead.",
         },
+        {
+          /**
+           * Headlessui's own dot-notation subcomponents, deprecated in v2 in
+           * favour of flat exports (DisclosurePanel, MenuItem, …). RadioGroup
+           * is deliberately excluded: this codebase's own compound component
+           * at @modules/common/components/ui shares that name and does use
+           * `.Item`, which headlessui's RadioGroup never had — including it
+           * here would flag that unrelated component instead.
+           */
+          selector:
+            "JSXMemberExpression[object.name=/^(Disclosure|Dialog|Listbox|Menu|Popover|Combobox|Tab|Transition|Switch|Fieldset|Field)$/]",
+          message:
+            "Headlessui's dot-notation subcomponents (Disclosure.Panel, Menu.Item, …) are deprecated in v2. Import the flat component instead (DisclosurePanel, MenuItem, …) from @headlessui/react.",
+        },
       ],
     },
   },

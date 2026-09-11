@@ -14,6 +14,7 @@ type InputProps = Omit<
   touched?: Record<string, unknown>
   name: string
   topLabel?: string
+  "data-testid"?: string
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
@@ -27,6 +28,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       required,
       topLabel,
       className,
+      id,
       ...props
     },
     ref,
@@ -34,6 +36,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const inputRef = React.useRef<HTMLInputElement>(null)
     const [showPassword, setShowPassword] = useState(false)
     const [inputType, setInputType] = useState(type)
+    const inputId = id ?? props["data-testid"] ?? name
 
     useEffect(() => {
       if (type === "password" && showPassword) {
@@ -54,7 +57,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         )}
         <div className="relative flex w-full">
           <input
-            id={name}
+            id={inputId}
             type={inputType}
             name={name}
             placeholder=" "
@@ -68,7 +71,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             ref={inputRef}
           />
           <label
-            htmlFor={name}
+            htmlFor={inputId}
             className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 px-1 text-small text-muted transition-all duration-200 peer-not-placeholder-shown:top-0 peer-not-placeholder-shown:-translate-y-1/2 peer-not-placeholder-shown:bg-bg peer-not-placeholder-shown:text-xs peer-focus:top-0 peer-focus:-translate-y-1/2 peer-focus:bg-bg peer-focus:text-xs peer-focus:text-accent"
           >
             {label}

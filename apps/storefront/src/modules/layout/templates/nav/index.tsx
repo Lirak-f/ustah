@@ -10,12 +10,16 @@ import SideMenu from "@modules/layout/components/side-menu"
 import { listLocales } from "@lib/data/locales"
 import { getLocale } from "@lib/data/locale-actions"
 import { listRegions } from "@lib/data/regions"
-import { StoreRegion } from "@medusajs/types"
+import { HttpTypes, StoreRegion } from "@medusajs/types"
 
 /** The design highlights this link in yellow at the end of the category row. */
 const OFFERS_HANDLE = "ofertat-e-javes"
 
-export default async function Nav() {
+export default async function Nav({
+  customer,
+}: {
+  customer: HttpTypes.StoreCustomer | null
+}) {
   const [categories, regions, locales, currentLocale] = await Promise.all([
     listCategories({ limit: 8 }).catch(() => []),
     listRegions()
@@ -106,10 +110,22 @@ export default async function Nav() {
             className="hidden shrink-0 items-center gap-3 text-[13px] leading-[1.2] text-white hover:underline md:flex"
           >
             <IconUser className="size-[23px]" />
-            <span>
-              Hyr /<br />
-              Regjistrohu
-            </span>
+            {customer ? (
+              <span>
+                {customer.first_name ? (
+                  <>
+                    {customer.first_name}
+                    <br />
+                    {customer.last_name}
+                  </>
+                ) : null}
+              </span>
+            ) : (
+              <span>
+                Hyr /<br />
+                Regjistrohu
+              </span>
+            )}
           </LocalizedClientLink>
 
           <Suspense

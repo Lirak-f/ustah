@@ -8,7 +8,6 @@ import { signout } from "@lib/data/customer"
 import { HttpTypes } from "@medusajs/types"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import { IconChevronDown } from "@modules/common/icons"
-import { IconMapPin } from "@modules/common/icons"
 import { IconPackage } from "@modules/common/icons"
 import { IconUser } from "@modules/common/icons"
 
@@ -35,13 +34,13 @@ const AccountNav = ({
           >
             <>
               <IconChevronDown className="rotate-90 transform" />
-              <span>Account</span>
+              <span>Llogaria</span>
             </>
           </LocalizedClientLink>
         ) : (
           <>
             <div className="mb-4 px-8 text-page-title font-semibold">
-              Hello {customer?.first_name}
+              Përshëndetje {customer?.first_name}
             </div>
             <div className="text-small">
               <ul>
@@ -54,22 +53,7 @@ const AccountNav = ({
                     <>
                       <div className="flex items-center gap-x-2">
                         <IconUser size={20} />
-                        <span>Profile</span>
-                      </div>
-                      <IconChevronDown className="-rotate-90 transform" />
-                    </>
-                  </LocalizedClientLink>
-                </li>
-                <li>
-                  <LocalizedClientLink
-                    href="/account/addresses"
-                    className="flex items-center justify-between border-b border-gray-200 px-8 py-4"
-                    data-testid="addresses-link"
-                  >
-                    <>
-                      <div className="flex items-center gap-x-2">
-                        <IconMapPin size={20} />
-                        <span>Addresses</span>
+                        <span>Profili</span>
                       </div>
                       <IconChevronDown className="-rotate-90 transform" />
                     </>
@@ -83,7 +67,7 @@ const AccountNav = ({
                   >
                     <div className="flex items-center gap-x-2">
                       <IconPackage size={20} />
-                      <span>Orders</span>
+                      <span>Porositë</span>
                     </div>
                     <IconChevronDown className="-rotate-90 transform" />
                   </LocalizedClientLink>
@@ -97,7 +81,7 @@ const AccountNav = ({
                   >
                     <div className="flex items-center gap-x-2">
                       <IconSignOut />
-                      <span>Log out</span>
+                      <span>Dil</span>
                     </div>
                     <IconChevronDown className="-rotate-90 transform" />
                   </button>
@@ -110,7 +94,7 @@ const AccountNav = ({
       <div className="hidden small:block" data-testid="account-nav">
         <div>
           <div className="pb-4">
-            <h3 className="text-small font-semibold">Account</h3>
+            <h3 className="text-small font-semibold">Llogaria</h3>
           </div>
           <div className="text-small">
             <ul className="mb-0 flex flex-col items-start justify-start gap-y-4">
@@ -120,7 +104,7 @@ const AccountNav = ({
                   route={route!}
                   data-testid="overview-link"
                 >
-                  Overview
+                  Përmbledhje
                 </AccountNavLink>
               </li>
               <li>
@@ -129,16 +113,7 @@ const AccountNav = ({
                   route={route!}
                   data-testid="profile-link"
                 >
-                  Profile
-                </AccountNavLink>
-              </li>
-              <li>
-                <AccountNavLink
-                  href="/account/addresses"
-                  route={route!}
-                  data-testid="addresses-link"
-                >
-                  Addresses
+                  Profili
                 </AccountNavLink>
               </li>
               <li>
@@ -147,7 +122,7 @@ const AccountNav = ({
                   route={route!}
                   data-testid="orders-link"
                 >
-                  Orders
+                  Porositë
                 </AccountNavLink>
               </li>
               <li className="text-muted">
@@ -156,7 +131,7 @@ const AccountNav = ({
                   onClick={handleLogout}
                   data-testid="logout-button"
                 >
-                  Log out
+                  Dil
                 </button>
               </li>
             </ul>

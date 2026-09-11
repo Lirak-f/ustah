@@ -1,7 +1,12 @@
-import { Listbox, Transition } from "@headlessui/react"
+import {
+  Listbox,
+  ListboxButton,
+  ListboxOption,
+  ListboxOptions,
+} from "@headlessui/react"
 import { IconChevronUpDown } from "@modules/common/icons"
 import { clx } from "@modules/common/components/ui"
-import { Fragment, useMemo } from "react"
+import { useMemo } from "react"
 
 import compareAddresses from "@lib/util/compare-addresses"
 import { HttpTypes } from "@medusajs/types"
@@ -37,7 +42,7 @@ const AddressSelect = ({
   return (
     <Listbox onChange={handleSelect} value={selectedAddress?.id}>
       <div className="relative">
-        <Listbox.Button
+        <ListboxButton
           className="relative flex h-11 w-full cursor-default items-center justify-between border border-divider bg-bg px-4 text-left text-small focus:outline-hidden focus-visible:border-accent focus-visible:outline-2 focus-visible:outline-accent"
           data-testid="shipping-address-select"
         >
@@ -55,61 +60,55 @@ const AddressSelect = ({
               />
             </>
           )}
-        </Listbox.Button>
-        <Transition
-          as={Fragment}
-          leave="transition ease-in duration-100"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
+        </ListboxButton>
+        <ListboxOptions
+          transition
+          className="absolute z-20 max-h-60 w-full overflow-auto border border-t-0 border-divider bg-bg text-xs transition duration-100 ease-in focus:outline-hidden data-leave:data-closed:opacity-0 sm:text-sm"
+          data-testid="shipping-address-options"
         >
-          <Listbox.Options
-            className="absolute z-20 max-h-60 w-full overflow-auto border border-t-0 border-divider bg-bg text-xs focus:outline-hidden sm:text-sm"
-            data-testid="shipping-address-options"
-          >
-            {addresses.map((address) => {
-              return (
-                <Listbox.Option
-                  key={address.id}
-                  value={address.id}
-                  className="relative cursor-default py-4 pr-10 pl-6 select-none hover:bg-surface"
-                  data-testid="shipping-address-option"
-                >
-                  <div className="flex items-start gap-x-4">
-                    <Radio
-                      checked={selectedAddress?.id === address.id}
-                      data-testid="shipping-address-radio"
-                    />
-                    <div className="flex flex-col">
-                      <span className="text-left text-small font-semibold">
-                        {address.first_name} {address.last_name}
+          {addresses.map((address) => {
+            return (
+              <ListboxOption
+                key={address.id}
+                value={address.id}
+                className="relative cursor-default py-4 pr-10 pl-6 select-none hover:bg-surface"
+                data-testid="shipping-address-option"
+              >
+                <div className="flex items-start gap-x-4">
+                  <Radio
+                    checked={selectedAddress?.id === address.id}
+                    data-testid="shipping-address-radio"
+                  />
+                  <div className="flex flex-col">
+                    <span className="text-left text-small font-semibold">
+                      {address.first_name} {address.last_name}
+                    </span>
+                    {address.company && (
+                      <span className="text-xs text-muted">
+                        {address.company}
                       </span>
-                      {address.company && (
-                        <span className="text-xs text-muted">
-                          {address.company}
-                        </span>
-                      )}
-                      <div className="mt-2 flex flex-col text-left text-small">
-                        <span>
-                          {address.address_1}
-                          {address.address_2 && (
-                            <span>, {address.address_2}</span>
-                          )}
-                        </span>
-                        <span>
-                          {address.postal_code}, {address.city}
-                        </span>
-                        <span>
-                          {address.province && `${address.province}, `}
-                          {address.country_code?.toUpperCase()}
-                        </span>
-                      </div>
+                    )}
+                    <div className="mt-2 flex flex-col text-left text-small">
+                      <span>
+                        {address.address_1}
+                        {address.address_2 && (
+                          <span>, {address.address_2}</span>
+                        )}
+                      </span>
+                      <span>
+                        {address.postal_code}, {address.city}
+                      </span>
+                      <span>
+                        {address.province && `${address.province}, `}
+                        {address.country_code?.toUpperCase()}
+                      </span>
                     </div>
                   </div>
-                </Listbox.Option>
-              )
-            })}
-          </Listbox.Options>
-        </Transition>
+                </div>
+              </ListboxOption>
+            )
+          })}
+        </ListboxOptions>
       </div>
     </Listbox>
   )
