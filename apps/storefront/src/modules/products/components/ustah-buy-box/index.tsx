@@ -10,9 +10,9 @@ import {
 import { useEffect, useMemo, useState } from "react"
 
 import { addToCart } from "@lib/data/cart"
-import { formatEur, productMeta, discountPercent } from "@lib/util/ustah-price"
+import { formatEur, discountPercent } from "@lib/util/ustah-price"
 import { getStockState } from "@lib/util/ustah-stock"
-import { selectLeadVariant } from "@lib/util/ustah-variant"
+import { compareAtFor, selectLeadVariant } from "@lib/util/ustah-variant"
 import { HttpTypes } from "@medusajs/types"
 import { buttonVariants, StockLine } from "@modules/common/components/ustah"
 import { commerce } from "@ustah/design-tokens"
@@ -98,7 +98,12 @@ const UstahBuyBox = ({ product, disabled }: Props) => {
       | undefined
   )?.calculated_price?.calculated_amount
 
-  const { compareAt } = productMeta(selectedVariant?.metadata)
+  // Shared with the listing cards so both strike through the same figure —
+  // including the trader price list's list price, which is not in metadata.
+  const compareAt =
+    selectedVariant && typeof price === "number"
+      ? compareAtFor(selectedVariant, price)
+      : null
   const discount =
     typeof price === "number"
       ? discountPercent(price, compareAt ?? undefined)

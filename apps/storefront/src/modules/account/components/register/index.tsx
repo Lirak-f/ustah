@@ -1,6 +1,6 @@
 "use client"
 
-import { useActionState } from "react"
+import { useActionState, useState } from "react"
 import Input from "@modules/common/components/input"
 import { LOGIN_VIEW } from "@modules/account/templates/login-template"
 import ErrorMessage from "@modules/checkout/components/error-message"
@@ -14,6 +14,9 @@ type Props = {
 
 const Register = ({ setCurrentView }: Props) => {
   const [message, formAction] = useActionState(signup, null)
+  const [accountType, setAccountType] = useState<"standard" | "trader">(
+    "standard",
+  )
 
   return (
     <div className="flex w-full max-w-sm flex-col" data-testid="register-page">
@@ -61,6 +64,7 @@ const Register = ({ setCurrentView }: Props) => {
           <Input
             label="Telefoni"
             name="phone"
+            required
             type="tel"
             autoComplete="tel"
             data-testid="phone-input"
@@ -74,6 +78,62 @@ const Register = ({ setCurrentView }: Props) => {
             data-testid="password-input"
           />
         </div>
+
+        <fieldset className="mt-6 flex flex-col gap-3">
+          <legend className="mb-2 text-small font-semibold text-text">
+            Lloji i llogarisë
+          </legend>
+          {(
+            [
+              {
+                value: "standard",
+                label: "Llogari normale",
+              },
+              {
+                value: "trader",
+                label: "Llogari tregtari/instaluesi",
+              },
+            ] as const
+          ).map((option) => (
+            <label
+              key={option.value}
+              htmlFor={`account-type-${option.value}`}
+              className="flex cursor-pointer items-start gap-3 border border-divider p-4 has-checked:border-accent"
+            >
+              <input
+                id={`account-type-${option.value}`}
+                type="radio"
+                name="account_type"
+                value={option.value}
+                checked={accountType === option.value}
+                onChange={() => setAccountType(option.value)}
+                className="mt-1 accent-accent"
+                data-testid={`account-type-${option.value}`}
+              />
+              <span className="flex flex-col">
+                <span className="text-small font-semibold text-text">
+                  {option.label}
+                </span>
+              </span>
+            </label>
+          ))}
+        </fieldset>
+
+        {accountType === "trader" && (
+          <div className="mt-4 flex flex-col gap-2">
+            <Input
+              label="Numri i biznesit (NUIS)"
+              name="business_number"
+              required
+              autoComplete="off"
+              data-testid="business-number-input"
+            />
+            <p className="text-small text-muted">
+              Do të të kontaktojmë në numrin e telefonit për ta verifikuar
+              biznesin.
+            </p>
+          </div>
+        )}
         <ErrorMessage
           error={message?.state === "error" ? message.error : null}
           data-testid="register-error"

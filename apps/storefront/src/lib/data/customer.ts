@@ -89,11 +89,34 @@ export async function signup(
   formData: FormData,
 ): Promise<CustomerAuthState> {
   const password = formData.get("password") as string
+  const accountType =
+    formData.get("account_type") === "trader" ? "trader" : "standard"
+  const businessNumber = (
+    (formData.get("business_number") as string | null) ?? ""
+  ).trim()
+
   const customerForm = {
     email: formData.get("email") as string,
     first_name: formData.get("first_name") as string,
     last_name: formData.get("last_name") as string,
     phone: formData.get("phone") as string,
+    account_type: accountType as "standard" | "trader",
+    business_number: businessNumber || undefined,
+  }
+
+  if (!customerForm.phone?.trim()) {
+    return { state: "error", error: "Numri i telefonit është i detyrueshëm." }
+  }
+
+  // A trader account is only a request at this point — it is verified by phone
+  // and approved in the admin. Without the business number there is nothing to
+  // check, so it is required up front rather than chased later.
+  if (accountType === "trader" && !businessNumber) {
+    return {
+      state: "error",
+      error:
+        "Numri i biznesit (NUIS) është i detyrueshëm për llogari tregtari.",
+    }
   }
 
   try {
@@ -202,6 +225,19 @@ async function completeLogin(
           first_name: pending?.first_name,
           last_name: pending?.last_name,
           phone: pending?.phone,
+          // Recorded as a REQUEST only. Trader pricing comes from membership
+          // of the trader customer group, which only an admin can grant after
+          // verifying the business by phone — so nothing a shopper submits
+          // here can discount their own order.
+          ...(pending?.account_type === "trader"
+            ? {
+                metadata: {
+                  account_type: "trader",
+                  business_number: pending.business_number,
+                  trader_status: "pending",
+                },
+              }
+            : {}),
         },
         {},
         { authorization: `Bearer ${token}` },

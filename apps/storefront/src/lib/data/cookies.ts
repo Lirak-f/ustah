@@ -32,6 +32,12 @@ export const getAuthHeaders = async (): Promise<
  *
  * Catalog data qualifies because price varies by REGION, not by visitor, and
  * the region is already part of both the fetch URL and the `regions-<id>` tag.
+ *
+ * The trader discount does not change this: it is an automatic cart promotion
+ * applied at checkout, not a per-customer catalog price, so every shopper is
+ * still served the same catalog response. Were it ever moved back to a price
+ * list, these entries would have to be partitioned by pricing audience or
+ * traders' discounted prices would leak to everyone.
  */
 const GLOBAL_CACHE_TAGS = new Set([
   "products",
@@ -116,7 +122,9 @@ export type PendingCustomer = {
   email: string
   first_name?: string
   last_name?: string
-  phone?: string
+  phone: string
+  account_type?: "standard" | "trader"
+  business_number?: string
 }
 
 // During the email verification flow the customer record isn't created until

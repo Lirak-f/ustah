@@ -18,7 +18,22 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    /*
+     * The admin dashboard runs on React 18 (Medusa's requirement) while the
+     * storefront is on React 19, so BOTH @types/react versions exist in the
+     * workspace. Without this, TypeScript resolves the React 19 types hoisted
+     * at the repo root for these files and every @medusajs/ui component fails
+     * as "cannot be used as a JSX component" — the type-level echo of the
+     * runtime version split described in AGENTS.md.
+     */
+    "typeRoots": ["../../node_modules/@types"],
+    "paths": {
+      "react": ["../../node_modules/@types/react"],
+      "react-dom": ["../../node_modules/@types/react-dom"]
+    },
+    "baseUrl": "."
   },
   "include": [".", "../../.medusa/types/plugin-augmentations.d.ts"]
 }

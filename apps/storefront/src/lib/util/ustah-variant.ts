@@ -7,8 +7,30 @@ import { discountPercent, productMeta } from "./ustah-price"
  * is in scope. `calculated_amount` is optional on the upstream type, so it is
  * narrowed here once rather than at each call site.
  */
-type PricedVariant = HttpTypes.StoreProductVariant & {
+export type PricedVariant = HttpTypes.StoreProductVariant & {
   calculated_price?: { calculated_amount?: number }
+}
+
+/**
+ * The compare-at figure to strike through for a variant, or null when the
+ * variant is not genuinely discounted.
+ *
+ * Authored per product as `metadata.compare_at`, so it is the same for every
+ * shopper. The trader discount deliberately does NOT appear here: it is an
+ * automatic cart promotion, applied to line items at checkout rather than to
+ * catalog prices, so a trader browsing sees list prices and their 10% on the
+ * cart and order summary.
+ *
+ * Shared by the listing cards and the buy box so both strike through the same
+ * figure — they previously derived it separately.
+ */
+export const compareAtFor = (
+  variant: HttpTypes.StoreProductVariant,
+  amount: number,
+): number | null => {
+  const authored = productMeta(variant.metadata).compareAt
+
+  return typeof authored === "number" && authored > amount ? authored : null
 }
 
 export type LeadVariant = {
@@ -51,7 +73,7 @@ export const selectLeadVariant = (
   const lead = priced
     .map((variant) => {
       const amount = variant.calculated_price?.calculated_amount ?? 0
-      const was = productMeta(variant.metadata).compareAt
+      const was = compareAtFor(variant, amount)
       return {
         variant,
         amount,
@@ -64,7 +86,7 @@ export const selectLeadVariant = (
     return null
   }
 
-  const { compareAt } = productMeta(lead.variant.metadata)
+  const compareAt = compareAtFor(lead.variant, lead.amount)
 
   return {
     variant: lead.variant,

@@ -15,15 +15,15 @@ const AccountLayout: React.FC<AccountLayoutProps> = ({
   children,
 }) => {
   return (
-    <div className="flex-1 small:py-12" data-testid="account-page">
+    <div className="flex-1" data-testid="account-page">
       <div
         className={`content-container mx-auto flex h-full flex-1 flex-col bg-white`}
       >
         <div
           className={
             customer
-              ? "grid grid-cols-1 py-12 small:grid-cols-[240px_1fr]"
-              : "py-12 small:py-16"
+              ? "grid grid-cols-1 py-8 small:grid-cols-[240px_1fr]"
+              : "py-8"
           }
         >
           {customer && (
@@ -33,7 +33,7 @@ const AccountLayout: React.FC<AccountLayoutProps> = ({
           )}
           <div className="flex-1">{children}</div>
         </div>
-        <div className="flex flex-col items-start justify-between gap-4 border-t border-divider py-12 small:flex-row small:items-end small:gap-8">
+        <div className="flex flex-col items-start justify-between gap-4 border-t border-divider py-8 small:flex-row small:items-end small:gap-8">
           <div>
             <h3 className="mb-4 font-heading text-page-title font-semibold uppercase">
               Ke pyetje?
