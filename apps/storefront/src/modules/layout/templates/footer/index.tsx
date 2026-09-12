@@ -40,14 +40,24 @@ const columns = [
   },
 ]
 
-/** House brands carried in the seeded catalog. */
-const brands = [
-  "Kraftbau",
-  "Nordvekt",
-  "Termoplast",
-  "Voltik",
-  "Fixpro",
-  "Gurëz",
+/**
+ * Manufacturer brands carried, one per category the nav sells.
+ *
+ * `logo` is a path under `public/brands/` (PNG or JPEG). The strip shows the
+ * marks alone, with no name beside them, so the logo is the brand's only label
+ * and carries its `alt`. The files are wordmarks of very different proportions
+ * — roughly 1:1 (Viola) to 3.8:1 (Tiemme) — so each is fitted into the tile
+ * with `object-contain` and capped by height, never cropped. A brand with no
+ * file yet falls back to its name set as type, which keeps the strip whole;
+ * these are third-party trademarks, added deliberately.
+ */
+const brands: { name: string; logo?: string }[] = [
+  { name: "Bosch", logo: "/brands/bosch.png" }, // vegla elektrike
+  { name: "Tiemme", logo: "/brands/tiemme.png" }, // hidraulikë
+  { name: "Knauf", logo: "/brands/knauf.png" }, // suva & pllaka gipsi
+  { name: "Viola", logo: "/brands/viola.jpg" },
+  { name: "Schneider Electric", logo: "/brands/schneider.jpg" }, // elektrike
+  { name: "Fischer", logo: "/brands/fischer.png" }, // vida & ankera
 ]
 
 export default async function Footer() {
@@ -61,10 +71,30 @@ export default async function Footer() {
         <div className="grid grid-cols-3 gap-px border border-divider bg-divider sm:grid-cols-6">
           {brands.map((brand) => (
             <div
-              key={brand}
-              className="grid h-[64px] place-items-center bg-bg font-heading text-[16px] font-semibold tracking-[0.06em] uppercase"
+              key={brand.name}
+              className="flex h-[64px] items-center justify-center bg-bg px-5"
             >
-              {brand}
+              {brand.logo ? (
+                /* The mark carries the name, so it is the accessible label
+                   rather than decoration. Images are `unoptimized`, so
+                   next/image would add nothing; `mix-blend-multiply` drops the
+                   white box the JPEG marks carry against the white tile and is
+                   a no-op on the transparent PNGs. */
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={brand.logo}
+                  alt={brand.name}
+                  width={116}
+                  height={32}
+                  loading="lazy"
+                  decoding="async"
+                  className="max-h-8 w-full object-contain mix-blend-multiply"
+                />
+              ) : (
+                <span className="font-heading text-[15px] font-semibold tracking-[0.06em] uppercase">
+                  {brand.name}
+                </span>
+              )}
             </div>
           ))}
         </div>

@@ -101,11 +101,11 @@ const UstahFilters = ({ groups }: { groups: FilterGroup[] }) => {
       )}
 
       {groups.map((group) => (
-        <fieldset key={group.id} className="border-b border-divider px-6 py-5">
-          <legend className="mb-4 font-heading text-section-label font-semibold uppercase">
+        <fieldset key={group.id} className="mt-4 border-b border-divider py-5">
+          <legend className="float-left mb-4 w-full px-6 font-heading text-section-label font-semibold uppercase">
             {group.title}
           </legend>
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3 px-6">
             {group.values.map((value: { id: string; value: string }) => (
               <label
                 key={value.id}
